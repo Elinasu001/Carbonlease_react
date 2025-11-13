@@ -7,9 +7,11 @@ export const HeaderWrap = styled.header`
     --background-color: rgba(255, 255, 255, 0);
     color: var(--default-color);
     background-color: var(--background-color);
-    padding: 15px 0;
+    padding: 0 0 15px 0;
     transition: all 0.5s;
     z-index: 997;
+    display: flex;
+    flex-direction: column;
 
     .logo {
         text-decoration: none;
@@ -40,6 +42,7 @@ export const Topbar = styled.div`
     padding: 0;
     font-size: 14px;
     transition: all 0.5s;
+    width: 100%;
 
     .contact-info {
         i {

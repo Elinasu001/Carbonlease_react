@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Nav from "../Nav/Nav";
-import { HeaderWrap } from "./Header.styled";
+import { HeaderWrap, Topbar } from "./Header.styled";
 
 const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -32,7 +32,18 @@ const Header = () => {
     };
 
     return (
-        <HeaderWrap id="header" className={`header d-flex align-items-center fixed-top ${isScrolled ? 'scrolled' : ''}`}>
+        <HeaderWrap id="header" className={`header d-flex align-items-center  fixed-top ${isScrolled ? 'scrolled' : ''}`}>
+            {/* Topbar */}
+            <Topbar className="topbar d-flex align-items-center dark-background">
+                <div className="container d-flex justify-content-center justify-content-md-between">
+                    <div className="contact-info d-flex align-items-center">
+                        <i className="bi bi-megaphone d-flex align-items-center">
+                            <a href="#notices">공지사항영역</a>
+                        </i>
+                    </div>
+                </div>
+            </Topbar>
+
             <div className="container position-relative d-flex align-items-center justify-content-between">
                 
                 {/* Logo */}
