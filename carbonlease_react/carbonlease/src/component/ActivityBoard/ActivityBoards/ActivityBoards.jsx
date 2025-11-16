@@ -1,8 +1,87 @@
+import { useState } from 'react';
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import PageContent from '../../Common/PageContent/PageContent';
+import BoardItem from './components/BoardItem';
+import OutlineWriterButton from '../../Common/UI/Button/OutlineWriterButton';
+import SearchFilterDropdowns from './components/SearchFilterDropdowns';
 
 const ActivityBoards = () => {
 
+    const [ filter, setFilter ] = useState('title'); // 검색 필터 상태
+    /* 데이터 연동시 활성화
+    const [ boardList, setboardList ] = useState([]);
+
+    useEffect(() => {
+        fetch('/api/activity-boards')
+        .then(res => res.json())
+        .then(data => setboardList(data));   
+    }, []);
+    */
+    const handleSelectFilter = (value) => {
+        setFilter(value);
+    };
+    const dummyList = [ // 더미 데이터
+        {
+            id: 12,
+            title: "텀블러 사용 인증합니다",
+            content: "오늘 카페에서 일회용 컵 대신 텀블러 사용했어요!",
+            regDate: "2025.11.12",
+            viewCnt: 32,
+            commentCnt: 4,
+            nickname: "초록발자국",
+            thumbnail: "/upload/sample01.jpg"
+        },
+        {
+            id: 11,
+            title: "장바구니 사용 인증!",
+            content: "마트 갈 때 비닐 대신 장바구니 사용했어요 :)",
+            regDate: "2025.11.11",
+            viewCnt: 41,
+            commentCnt: 5,
+            nickname: "에코사랑",
+            thumbnail: "/upload/sample02.jpg"
+        },
+        {
+            id: 10,
+            title: "분리수거 확실히 했습니다!",
+            content: "플라스틱 라벨 제거하고 깨끗하게 씻어서 배출 완료!",
+            regDate: "2025.11.10",
+            viewCnt: 21,
+            commentCnt: 3,
+            nickname: "지구지킴이",
+            thumbnail: null
+        },
+        {
+            id: 12,
+            title: "텀블러 사용 인증합니다",
+            content: "오늘 카페에서 일회용 컵 대신 텀블러 사용했어요!",
+            regDate: "2025.11.12",
+            viewCnt: 32,
+            commentCnt: 4,
+            nickname: "초록발자국",
+            thumbnail: "/upload/sample01.jpg"
+        },
+        {
+            id: 11,
+            title: "장바구니 사용 인증!",
+            content: "마트 갈 때 비닐 대신 장바구니 사용했어요 :)",
+            regDate: "2025.11.11",
+            viewCnt: 41,
+            commentCnt: 5,
+            nickname: "에코사랑",
+            thumbnail: "/upload/sample02.jpg"
+        },
+        {
+            id: 10,
+            title: "분리수거 확실히 했습니다!",
+            content: "플라스틱 라벨 제거하고 깨끗하게 씻어서 배출 완료!",
+            regDate: "2025.11.10",
+            viewCnt: 21,
+            commentCnt: 3,
+            nickname: "지구지킴이",
+            thumbnail: null
+        }
+        ];
 
     return (
         <>
@@ -14,7 +93,15 @@ const ActivityBoards = () => {
                 ]} 
             />
             <PageContent>
-                
+                <div style={{width: "1200px auto", margin: "0 auto", padding: "40px 0"}}>
+                   { dummyList.map((d, idx) => (
+                        <BoardItem key={ idx } item={ d } />
+                   )) } 
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
+                <OutlineWriterButton />
+                <SearchFilterDropdowns onSelectFilter={handleSelectFilter} />
+                </div>
                 
 
             </PageContent>
