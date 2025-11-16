@@ -109,12 +109,12 @@ const CampaignDetail = () => {
         return (
             <>
                 <PageTitle
-                    title="캠페인 상세"
+                    title="캠페인 상세보기"
                     breadcrumbs={[
                         { label: 'Home', path: '/' },
                         { label: '캠페인', path: '/campaigns' },
                         { label: '상세보기', current: true }
-                    ]} 
+                    ]}
                 />
                 <PageContent>
                     <Loading message="캠페인 정보를 불러오는 중..." />
@@ -126,13 +126,13 @@ const CampaignDetail = () => {
     if (error || !campaign) {
         return (
             <>
-                <PageTitle 
-                    title="캠페인 상세" 
+                <PageTitle
+                    title="캠페인 상세보기"
                     breadcrumbs={[
                         { label: 'Home', path: '/' },
                         { label: '캠페인', path: '/campaigns' },
                         { label: '상세보기', current: true }
-                    ]} 
+                    ]}
                 />
                 <PageContent>
                     <ErrorContainer>
@@ -150,13 +150,13 @@ const CampaignDetail = () => {
 
     return(
         <>
-            <PageTitle 
-                title={campaign.title} 
+            <PageTitle
+                title="캠페인 상세보기"
                 breadcrumbs={[
                     { label: 'Home', path: '/' },
                     { label: '캠페인', path: '/campaigns' },
                     { label: '상세보기', current: true }
-                ]} 
+                ]}
             />
             <PageContent>
                 <CampaignDetailContainer>
@@ -193,7 +193,7 @@ const CampaignDetail = () => {
                             <i className="bi bi-list-ul"></i>
                             목록보기
                         </BackButton>
-                        <LikeButton 
+                        <LikeButton
                             $liked={campaign.isLiked}
                             onClick={handleLikeToggle}
                         >

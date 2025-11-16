@@ -46,8 +46,8 @@ const ComponentGuide = () => {
     };
 
     const handleConfirm = () => {
-        const message = confirmVariant === 'danger' 
-            ? '삭제되었습니다!' 
+        const message = confirmVariant === 'danger'
+            ? '삭제되었습니다!'
             : confirmVariant === 'warning'
             ? '작업이 완료되었습니다!'
             : '확인 버튼을 눌렀습니다!';

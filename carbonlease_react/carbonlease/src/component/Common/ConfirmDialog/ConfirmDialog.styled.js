@@ -6,19 +6,19 @@ const variantColors = {
         icon: '#dc3545',
         button: '#dc3545',
         buttonHover: '#c82333',
-        headerBg: '#f8d7da'
+        headerBg: '#e9ecef'
     },
     warning: {
         icon: '#ffc107',
         button: '#ffc107',
         buttonHover: '#e0a800',
-        headerBg: '#fff3cd'
+        headerBg: '#e9ecef'
     },
     info: {
         icon: '#17a2b8',
         button: '#17a2b8',
         buttonHover: '#138496',
-        headerBg: '#d1ecf1'
+        headerBg: '#e9ecef'
     }
 };
 
@@ -34,7 +34,7 @@ export const StyledModal = styled(Modal)`
 export const ConfirmHeader = styled(Modal.Header)`
     background-color: ${props => variantColors[props.$variant]?.headerBg || variantColors.danger.headerBg};
     border-bottom: none;
-    padding: 24px 30px 20px;
+    padding: 16px;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -62,7 +62,7 @@ export const ConfirmBody = styled(Modal.Body)`
 
 export const ConfirmFooter = styled(Modal.Footer)`
     border-top: none;
-    padding: 0 30px 30px;
+    padding: 0 16px 16px;
     justify-content: center;
 `;
 

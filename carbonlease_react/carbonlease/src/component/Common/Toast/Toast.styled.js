@@ -58,7 +58,7 @@ export const StyledToast = styled(Toast)`
     }
 
     .toast-body {
-        padding: 16px 20px;
+        padding: 16px;
         display: flex;
         align-items: center;
         gap: 12px;
@@ -73,7 +73,7 @@ export const StyledToast = styled(Toast)`
 `;
 
 export const ToastIcon = styled.i`
-    font-size: 24px;
+    font-size: 20px;
     color: ${props => variantColors[props.$variant]?.icon || variantColors.success.icon};
     flex-shrink: 0;
 `;

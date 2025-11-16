@@ -14,6 +14,7 @@ const Toast = ({ message, isVisible, onClose, variant = 'success' }) => {
     }, [isVisible, onClose]);
 
     const getIcon = () => {
+
         switch (variant) {
             case 'success':
                 return 'bi-check-circle-fill';
