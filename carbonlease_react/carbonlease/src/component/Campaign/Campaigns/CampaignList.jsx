@@ -24,6 +24,7 @@ function CampaignList({ onShowToast }) {
     const [campaigns, setCampaigns] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [pageNumbers, setPageNumbers] = useState([1, 2, 3, 4, 5]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -87,8 +88,52 @@ function CampaignList({ onShowToast }) {
         navigate(`/campaigns/detail/${campaignId}`);
     };
 
-    const handlePageChange = (page) => {
+    const updatePageNumbers = (page, total) => {
+        const maxVisible = 5;
+        const blockNumber = Math.ceil(page / maxVisible);
+        const start = (blockNumber - 1) * maxVisible + 1;
+        const end = Math.min(blockNumber * maxVisible, total);
+        
+        const numbers = [];
+        for (let i = start; i <= end; i++) {
+            numbers.push(i);
+        }
+        setPageNumbers(numbers);
+    };
+
+    const handleFirstPage = () => {
+        setCurrentPage(1);
+        updatePageNumbers(1, totalPages);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const handlePrevPage = () => {
+        if (currentPage > 1) {
+            const newPage = currentPage - 1;
+            setCurrentPage(newPage);
+            updatePageNumbers(newPage, totalPages);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
+
+    const handlePageClick = (page) => {
         setCurrentPage(page);
+        updatePageNumbers(page, totalPages);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            const newPage = currentPage + 1;
+            setCurrentPage(newPage);
+            updatePageNumbers(newPage, totalPages);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
+
+    const handleLastPage = () => {
+        setCurrentPage(totalPages);
+        updatePageNumbers(totalPages, totalPages);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -150,7 +195,12 @@ function CampaignList({ onShowToast }) {
             <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
-                onPageChange={handlePageChange}
+                pageNumbers={pageNumbers}
+                onFirstPage={handleFirstPage}
+                onPrevPage={handlePrevPage}
+                onPageClick={handlePageClick}
+                onNextPage={handleNextPage}
+                onLastPage={handleLastPage}
             />
         </CampaignListContainer>
     );

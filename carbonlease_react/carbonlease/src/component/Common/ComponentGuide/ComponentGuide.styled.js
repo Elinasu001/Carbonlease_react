@@ -5,6 +5,35 @@ export const GuideContainer = styled.div`
     margin: 0 auto;
 `;
 
+export const TabContainer = styled.div`
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #e5e7eb;
+`;
+
+export const TabButton = styled.button`
+    padding: 1rem 2rem;
+    border: none;
+    background: ${props => props.$active ? '#fff' : 'transparent'};
+    color: ${props => props.$active ? '#0ea5e9' : '#6b7280'};
+    font-size: 1rem;
+    font-weight: ${props => props.$active ? '600' : '500'};
+    cursor: pointer;
+    transition: all 0.2s;
+    border-bottom: 3px solid ${props => props.$active ? '#0ea5e9' : 'transparent'};
+    margin-bottom: -2px;
+
+    &:hover {
+        color: #0ea5e9;
+        background: #f8f9fa;
+    }
+`;
+
+export const TabContent = styled.div`
+    display: ${props => props.$active ? 'block' : 'none'};
+`;
+
 export const ComponentSection = styled.section`
     background: #fff;
     border-radius: 12px;

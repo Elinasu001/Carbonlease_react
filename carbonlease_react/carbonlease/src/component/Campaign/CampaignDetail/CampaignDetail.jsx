@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getCampaignDetail, toggleCampaignLike } from '../../../api/campaign/campaignApi';
+import { toggleCampaignLike } from '../../../api/campaign/campaignApi';
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import Loading from '../../Common/Loading/Loading';
 import PageContent from '../../Common/PageContent/PageContent';
@@ -37,17 +37,51 @@ const CampaignDetail = () => {
     const fetchCampaignDetail = () => {
         setLoading(true);
         setError(false);
-        getCampaignDetail(id)
-            .then(data => {
-                setCampaign(data);
-            })
-            .catch(error => {
-                console.error('캠페인 상세 조회 실패:', error);
-                setError(true);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        
+        // TODO: 추후 Spring Boot API 연동
+        // 임시 더미 데이터
+        setTimeout(() => {
+            const dummyData = {
+                id: id,
+                title: '친환경 캠페인 - 지구를 지키는 작은 실천',
+                category: '환경보호',
+                content: `
+                    <h3>캠페인 소개</h3>
+                    <p>우리의 작은 실천이 지구를 살립니다. 일회용품 사용을 줄이고, 재활용을 생활화하며, 에너지 절약을 실천해보세요.</p>
+                    
+                    <h3>참여 방법</h3>
+                    <ul>
+                        <li>텀블러 사용하기</li>
+                        <li>장바구니 챙기기</li>
+                        <li>분리수거 철저히 하기</li>
+                        <li>불필요한 전등 끄기</li>
+                    </ul>
+                    
+                    <h3>기대 효과</h3>
+                    <p>여러분의 참여로 연간 약 1,000톤의 탄소 배출을 줄일 수 있습니다.</p>
+                `,
+                startDate: '2024-01-15',
+                endDate: '2024-12-31',
+                participantCount: 1234,
+                isLiked: false,
+                detailImageUrl: 'https://via.placeholder.com/800x400?text=Campaign+Detail+Image'
+            };
+            
+            setCampaign(dummyData);
+            setLoading(false);
+        }, 500);
+        
+        // getCampaignDetail(id)
+        //     .then(data => {
+        //         setCampaign(data);
+        //     })
+        //     .catch(error => {
+        //         console.error('캠페인 상세 조회 실패:', error);
+        //         setError(true);
+        //     })
+        //     .finally(() => {
+        //         setLoading(false);
+        //     });
     };
 
     const handleLikeToggle = () => {
@@ -68,7 +102,7 @@ const CampaignDetail = () => {
         if (!prevLikeStatus) {
             showToastMessage('이 캠페인에 공감해주셨어요!', 'success');
         } else {
-            showToastMessage('참여를 취소했어요. 언제든 다시 함께해주세요!', 'info');
+            showToastMessage('참여를 취소했어요. 언제든 다시 함께해주세요!', 'success');
         }
 
         // API 호출

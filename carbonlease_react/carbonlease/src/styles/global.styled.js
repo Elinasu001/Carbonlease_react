@@ -13,6 +13,7 @@ export const GlobalCommonStyles = createGlobalStyle`
 
     a{
         color: #333333;
+        text-decoration: none;
     }
 
     /* Container responsive adjustments */

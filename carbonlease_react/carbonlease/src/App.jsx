@@ -22,6 +22,8 @@ import AdminActivityBoards from './component/Admin/ActivityBoard/AdminActivityBo
 import AdminHome from './component/Admin/AdminHome';
 import AdminBoards from './component/Admin/Board/AdminBoards';
 import AdminCampaigns from './component/Admin/Campaign/AdminCampaigns';
+import InsertForm from './component/Admin/Campaign/InsertForm';
+import UpdateForm from './component/Admin/Campaign/UpdateForm';
 import AdminLayout from './component/Admin/Layout/AdminLayout';
 import AdminLogin from './component/Admin/Login/AdminLogin';
 import AdminNotices from './component/Admin/Notice/AdminNotices';
@@ -58,11 +60,13 @@ function App() {
 
 			{/* Admin Routes - without user Layout */}
 			<Route path="/admin/login" element={<AdminLogin />} />
-			<Route path="/admin/*" element={<AdminLayout />}>
+			<Route path="admin/*" element={<AdminLayout />}>
 				<Route path="home" element={<AdminHome />} />
 				<Route path="users" element={<AdminUsers />} />
 				<Route path="notices" element={<AdminNotices />} />
 				<Route path="campaigns" element={<AdminCampaigns />} />
+				<Route path="campaigns/insert" element={<InsertForm />} />
+				<Route path="campaigns/update/:id" element={<UpdateForm />} />
 				<Route path="boards" element={<AdminBoards />} />
 				<Route path="activityBoards" element={<AdminActivityBoards />} />
 			</Route>

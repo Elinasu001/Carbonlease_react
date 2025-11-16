@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { Outlet, NavLink } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import {
+    Footer,
     LayoutSidenav,
-    SidenavContent,
-    SidenavMenu,
-    SidenavFooter,
     MainContent,
-    Topnav,
     PageContent,
-    Footer
+    SidenavContent,
+    SidenavFooter,
+    SidenavMenu,
+    Topnav
 } from './AdminLayout.styled';
 
 const AdminLayout = () => {
@@ -77,9 +77,6 @@ const AdminLayout = () => {
             <MainContent>
                 {/* Top Navigation */}
                 <Topnav>
-                    <button className="sidebar-toggle" onClick={toggleSidebar}>
-                        <i className="fas fa-bars"></i>
-                    </button>
                     <NavLink className="navbar-brand" to="/admin/home">Carbonlease Admin</NavLink>
                     <ul className="navbar-nav">
                         <li className="nav-item">

@@ -1,0 +1,116 @@
+import {
+    DatePickerWrapper,
+    FieldError,
+    FieldGroup,
+    FieldInput,
+    FieldLabel,
+    FieldSelect,
+    FieldTextarea,
+    FileInputLabel,
+    FileInputWrapper,
+    HiddenFileInput
+} from './FormField.styled';
+
+const FormField = ({
+    label,
+    type = 'text',
+    name,
+    value,
+    onChange,
+    error,
+    required = false,
+    placeholder = '',
+    options = [],
+    rows = 5,
+    accept = '',
+    fileName = ''
+}) => {
+    const renderInput = () => {
+        switch (type) {
+            case 'textarea':
+                return (
+                    <FieldTextarea
+                        name={name}
+                        value={value}
+                        onChange={onChange}
+                        placeholder={placeholder}
+                        rows={rows}
+                        $error={!!error}
+                    />
+                );
+            
+            case 'select':
+                return (
+                    <FieldSelect
+                        name={name}
+                        value={value}
+                        onChange={onChange}
+                        $error={!!error}
+                    >
+                        <option value="">선택하세요</option>
+                        {options.map((option, index) => (
+                            <option key={index} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))}
+                    </FieldSelect>
+                );
+            
+            case 'file':
+                return (
+                    <FileInputWrapper>
+                        <HiddenFileInput
+                            type="file"
+                            id={name}
+                            name={name}
+                            onChange={onChange}
+                            accept={accept}
+                        />
+                        <FileInputLabel htmlFor={name} $error={!!error}>
+                            <i className="fas fa-upload"></i>
+                            {fileName || '파일 선택'}
+                        </FileInputLabel>
+                    </FileInputWrapper>
+                );
+            
+            case 'date':
+                return (
+                    <DatePickerWrapper>
+                        <FieldInput
+                            type="date"
+                            name={name}
+                            value={value}
+                            onChange={onChange}
+                            placeholder={placeholder}
+                            $error={!!error}
+                        />
+                    </DatePickerWrapper>
+                );
+            
+            default:
+                return (
+                    <FieldInput
+                        type={type}
+                        name={name}
+                        value={value}
+                        onChange={onChange}
+                        placeholder={placeholder}
+                        $error={!!error}
+                    />
+                );
+        }
+    };
+
+    return (
+        <FieldGroup>
+            <FieldLabel>
+                {label}
+                {required && <span style={{ color: '#dc3545', marginLeft: '0.25rem' }}>*</span>}
+            </FieldLabel>
+            {renderInput()}
+            {error && <FieldError>{error}</FieldError>}
+        </FieldGroup>
+    );
+};
+
+export default FormField;

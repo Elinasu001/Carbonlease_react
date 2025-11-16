@@ -98,9 +98,9 @@ export const LikeButton = styled.button`
     align-items: center;
     gap: 10px;
     padding: 14px 32px;
-    background: ${props => props.$liked ? '#ff4757' : 'white'};
+    background: ${props => props.$liked ? '#00a34a' : 'white'};
     color: ${props => props.$liked ? 'white' : '#333'};
-    border: 2px solid ${props => props.$liked ? '#ff4757' : '#ddd'};
+    border: 2px solid ${props => props.$liked ? '#00a34a' : '#ddd'};
     border-radius: 30px;
     font-size: 16px;
     font-weight: 600;
@@ -111,15 +111,9 @@ export const LikeButton = styled.button`
         font-size: 20px;
     }
 
-    &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        background: ${props => props.$liked ? '#ff3447' : '#f8f9fa'};
-        border-color: ${props => props.$liked ? '#ff3447' : '#bbb'};
-    }
-
     &:active {
         transform: translateY(0);
+        border: 2px solid ${props => props.$liked ? '##00a34a' : '#ddd'};
     }
 `;
 

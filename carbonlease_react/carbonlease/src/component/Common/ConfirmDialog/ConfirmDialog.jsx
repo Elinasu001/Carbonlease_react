@@ -26,18 +26,18 @@ const ConfirmDialog = ({
         onClose();
     };
 
-    // const getIcon = () => {
-    //     switch (variant) {
-    //         case 'danger':
-    //             return 'bi-trash-fill';
-    //         case 'warning':
-    //             return 'bi-exclamation-triangle-fill';
-    //         case 'info':
-    //             return 'bi-question-circle-fill';
-    //         default:
-    //             return 'bi-trash-fill';
-    //     }
-    // };
+    const getIcon = () => {
+        switch (variant) {
+            case 'danger':
+                return 'bi-trash-fill';
+            case 'warning':
+                return 'bi-exclamation-triangle-fill';
+            case 'info':
+                return 'bi-question-circle-fill';
+            default:
+                return 'bi-trash-fill';
+        }
+    };
 
     return (
         <StyledModal show={show} onHide={onClose} centered $variant={variant}>

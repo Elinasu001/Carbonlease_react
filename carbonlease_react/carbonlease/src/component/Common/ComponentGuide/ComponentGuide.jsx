@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import Alert from '../Alert/Alert';
 import ConfirmDialog from '../ConfirmDialog/ConfirmDialog';
+import DataTable from '../DataTable/DataTable';
+import FormField from '../Form/FormField';
 import PageTitle from '../Layout/PageTitle/PageTitle';
 import Loading from '../Loading/Loading';
 import PageContent from '../PageContent/PageContent';
@@ -15,10 +17,16 @@ import {
     PropsTable,
     SectionTitle,
     SubTitle,
+    TabButton,
+    TabContainer,
+    TabContent,
     VariantButtons
 } from './ComponentGuide.styled';
 
 const ComponentGuide = () => {
+    // Tab 상태
+    const [activeTab, setActiveTab] = useState('dialogs');
+
     // Alert 상태
     const [showAlert, setShowAlert] = useState(false);
     const [alertVariant, setAlertVariant] = useState('info');
@@ -34,12 +42,81 @@ const ComponentGuide = () => {
         variant: 'success'
     });
 
-    // Pagination 상태
+    // Pagination 상태 (더미 데이터)
     const [currentPage, setCurrentPage] = useState(1);
     const totalPages = 10;
+    const [pageNumbers, setPageNumbers] = useState([1, 2, 3, 4, 5]);
+
+    const updatePageNumbers = (page, total) => {
+        const maxVisible = 5;
+        const blockNumber = Math.ceil(page / maxVisible);
+        const start = (blockNumber - 1) * maxVisible + 1;
+        const end = Math.min(blockNumber * maxVisible, total);
+        
+        const numbers = [];
+        for (let i = start; i <= end; i++) {
+            numbers.push(i);
+        }
+        setPageNumbers(numbers);
+    };
+
+    const handleFirstPage = () => {
+        setCurrentPage(1);
+        updatePageNumbers(1, totalPages);
+    };
+    
+    const handlePrevPage = () => {
+        if (currentPage > 1) {
+            const newPage = currentPage - 1;
+            setCurrentPage(newPage);
+            updatePageNumbers(newPage, totalPages);
+        }
+    };
+    
+    const handlePageClick = (page) => {
+        setCurrentPage(page);
+        updatePageNumbers(page, totalPages);
+    };
+    
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            const newPage = currentPage + 1;
+            setCurrentPage(newPage);
+            updatePageNumbers(newPage, totalPages);
+        }
+    };
+    
+    const handleLastPage = () => {
+        setCurrentPage(totalPages);
+        updatePageNumbers(totalPages, totalPages);
+    };
 
     // Loading 상태
     const [showLoading, setShowLoading] = useState(false);
+
+    // Form 상태
+    const [formData, setFormData] = useState({
+        name: '',
+        category: '',
+        message: '',
+        file: null,
+        date: ''
+    });
+    const [fileName, setFileName] = useState('');
+
+    // Table 더미 데이터
+    const tableData = [
+        { id: 1, name: '홍길동', email: 'hong@example.com', role: '관리자' },
+        { id: 2, name: '김철수', email: 'kim@example.com', role: '사용자' },
+        { id: 3, name: '이영희', email: 'lee@example.com', role: '사용자' }
+    ];
+
+    const tableColumns = [
+        { header: 'ID', field: 'id' },
+        { header: '이름', field: 'name' },
+        { header: '이메일', field: 'email' },
+        { header: '역할', field: 'role' }
+    ];
 
     const showToastMessage = (message, variant = 'success') => {
         setToast({ message, isVisible: true, variant });
@@ -63,6 +140,19 @@ const ComponentGuide = () => {
         }, 3000);
     };
 
+    const handleFormChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleFileChange = (e) => {
+        const { files } = e.target;
+        if (files && files[0]) {
+            setFormData(prev => ({ ...prev, file: files[0] }));
+            setFileName(files[0].name);
+        }
+    };
+
     return (
         <>
             <PageTitle
@@ -74,6 +164,29 @@ const ComponentGuide = () => {
             />
             <PageContent>
                 <GuideContainer>
+                    <TabContainer>
+                        <TabButton 
+                            $active={activeTab === 'dialogs'} 
+                            onClick={() => setActiveTab('dialogs')}
+                        >
+                            Dialog & Alert
+                        </TabButton>
+                        <TabButton 
+                            $active={activeTab === 'form'} 
+                            onClick={() => setActiveTab('form')}
+                        >
+                            Form
+                        </TabButton>
+                        <TabButton 
+                            $active={activeTab === 'table'} 
+                            onClick={() => setActiveTab('table')}
+                        >
+                            Table
+                        </TabButton>
+                    </TabContainer>
+
+                    {/* Dialog & Alert Tab */}
+                    <TabContent $active={activeTab === 'dialogs'}>
                     {/* Toast */}
                     <ComponentSection>
                         <SectionTitle>Toast</SectionTitle>
@@ -505,7 +618,12 @@ const fetchData = () => {
                             <Pagination
                                 currentPage={currentPage}
                                 totalPages={totalPages}
-                                onPageChange={setCurrentPage}
+                                pageNumbers={pageNumbers}
+                                onFirstPage={handleFirstPage}
+                                onPrevPage={handlePrevPage}
+                                onPageClick={handlePageClick}
+                                onNextPage={handleNextPage}
+                                onLastPage={handleLastPage}
                             />
                             <p style={{ marginTop: '20px', textAlign: 'center', color: '#666' }}>
                                 현재 페이지: {currentPage} / {totalPages}
@@ -532,14 +650,44 @@ const fetchData = () => {
                                 <tr>
                                     <td>totalPages</td>
                                     <td>number</td>
-                                    <td>-</td>
+                                    <td>1</td>
                                     <td>전체 페이지 수</td>
                                 </tr>
                                 <tr>
-                                    <td>onPageChange</td>
+                                    <td>pageNumbers</td>
+                                    <td>array</td>
+                                    <td>[]</td>
+                                    <td>표시할 페이지 번호 배열 (Spring Boot에서 계산)</td>
+                                </tr>
+                                <tr>
+                                    <td>onFirstPage</td>
                                     <td>function</td>
                                     <td>-</td>
-                                    <td>페이지 변경 이벤트 핸들러</td>
+                                    <td>첫 페이지 이동 핸들러</td>
+                                </tr>
+                                <tr>
+                                    <td>onPrevPage</td>
+                                    <td>function</td>
+                                    <td>-</td>
+                                    <td>이전 페이지 이동 핸들러</td>
+                                </tr>
+                                <tr>
+                                    <td>onPageClick</td>
+                                    <td>function</td>
+                                    <td>-</td>
+                                    <td>페이지 클릭 핸들러</td>
+                                </tr>
+                                <tr>
+                                    <td>onNextPage</td>
+                                    <td>function</td>
+                                    <td>-</td>
+                                    <td>다음 페이지 이동 핸들러</td>
+                                </tr>
+                                <tr>
+                                    <td>onLastPage</td>
+                                    <td>function</td>
+                                    <td>-</td>
+                                    <td>마지막 페이지 이동 핸들러</td>
                                 </tr>
                             </tbody>
                         </PropsTable>
@@ -550,22 +698,397 @@ const fetchData = () => {
 import Pagination from './Pagination';
 
 const [currentPage, setCurrentPage] = useState(1);
-const totalPages = 10;
+const [pageNumbers, setPageNumbers] = useState([]);
+const [totalPages, setTotalPages] = useState(1);
 
-const handlePageChange = (page) => {
-    setCurrentPage(page);
-    // 페이지 변경 시 데이터 새로 불러오기
-    fetchData(page);
+// Spring Boot API 응답 예시:
+// { content: [...], totalPages: 10, currentPage: 1, pageNumbers: [1,2,3,4,5] }
+
+const fetchData = async (page) => {
+    const response = await api.get('/campaigns?page=' + page);
+    setCurrentPage(response.currentPage);
+    setTotalPages(response.totalPages);
+    setPageNumbers(response.pageNumbers);
 };
+
+const handleFirstPage = () => fetchData(1);
+const handlePrevPage = () => fetchData(currentPage - 1);
+const handlePageClick = (page) => fetchData(page);
+const handleNextPage = () => fetchData(currentPage + 1);
+const handleLastPage = () => fetchData(totalPages);
 
 // JSX
 <Pagination
     currentPage={currentPage}
     totalPages={totalPages}
-    onPageChange={handlePageChange}
+    pageNumbers={pageNumbers}
+    onFirstPage={handleFirstPage}
+    onPrevPage={handlePrevPage}
+    onPageClick={handlePageClick}
+    onNextPage={handleNextPage}
+    onLastPage={handleLastPage}
 />`}
                         </CodeBlock>
                     </ComponentSection>
+                    </TabContent>
+
+                    {/* Form Tab */}
+                    <TabContent $active={activeTab === 'form'}>
+                        <ComponentSection>
+                            <SectionTitle>FormField</SectionTitle>
+                            <p>다양한 타입의 입력 폼을 제공하는 재사용 가능한 컴포넌트입니다. text, textarea, select, file, date 타입을 지원합니다.</p>
+
+                            <SubTitle>사용 예시</SubTitle>
+                            <DemoContainer style={{ maxWidth: '600px' }}>
+                                <FormField
+                                    label="이름"
+                                    type="text"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleFormChange}
+                                    placeholder="이름을 입력하세요"
+                                    required
+                                />
+                                <FormField
+                                    label="카테고리"
+                                    type="select"
+                                    name="category"
+                                    value={formData.category}
+                                    onChange={handleFormChange}
+                                    options={[
+                                        { value: '환경', label: '환경' },
+                                        { value: '기술', label: '기술' },
+                                        { value: '사회', label: '사회' }
+                                    ]}
+                                    required
+                                />
+                                <FormField
+                                    label="메시지"
+                                    type="textarea"
+                                    name="message"
+                                    value={formData.message}
+                                    onChange={handleFormChange}
+                                    placeholder="메시지를 입력하세요"
+                                    rows={4}
+                                />
+                                <FormField
+                                    label="파일 첨부"
+                                    type="file"
+                                    name="file"
+                                    onChange={handleFileChange}
+                                    accept="image/*"
+                                    fileName={fileName}
+                                />
+                                <FormField
+                                    label="날짜"
+                                    type="date"
+                                    name="date"
+                                    value={formData.date}
+                                    onChange={handleFormChange}
+                                />
+                            </DemoContainer>
+
+                            <SubTitle>Props</SubTitle>
+                            <PropsTable>
+                                <thead>
+                                    <tr>
+                                        <th>Props</th>
+                                        <th>타입</th>
+                                        <th>기본값</th>
+                                        <th>설명</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>label</td>
+                                        <td>string</td>
+                                        <td>-</td>
+                                        <td>필드 레이블</td>
+                                    </tr>
+                                    <tr>
+                                        <td>type</td>
+                                        <td>string</td>
+                                        <td>'text'</td>
+                                        <td>입력 타입 (text, textarea, select, file, date)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>name</td>
+                                        <td>string</td>
+                                        <td>-</td>
+                                        <td>필드 이름</td>
+                                    </tr>
+                                    <tr>
+                                        <td>value</td>
+                                        <td>string</td>
+                                        <td>-</td>
+                                        <td>필드 값</td>
+                                    </tr>
+                                    <tr>
+                                        <td>onChange</td>
+                                        <td>function</td>
+                                        <td>-</td>
+                                        <td>값 변경 핸들러</td>
+                                    </tr>
+                                    <tr>
+                                        <td>error</td>
+                                        <td>string</td>
+                                        <td>-</td>
+                                        <td>에러 메시지</td>
+                                    </tr>
+                                    <tr>
+                                        <td>required</td>
+                                        <td>boolean</td>
+                                        <td>false</td>
+                                        <td>필수 입력 여부 (빨간 * 표시)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>placeholder</td>
+                                        <td>string</td>
+                                        <td>''</td>
+                                        <td>placeholder 텍스트</td>
+                                    </tr>
+                                    <tr>
+                                        <td>options</td>
+                                        <td>array</td>
+                                        <td>[]</td>
+                                        <td>select 타입의 옵션 배열 ({"{ value, label }"})</td>
+                                    </tr>
+                                    <tr>
+                                        <td>rows</td>
+                                        <td>number</td>
+                                        <td>5</td>
+                                        <td>textarea의 행 수</td>
+                                    </tr>
+                                    <tr>
+                                        <td>accept</td>
+                                        <td>string</td>
+                                        <td>''</td>
+                                        <td>file 타입의 허용 파일 형식</td>
+                                    </tr>
+                                    <tr>
+                                        <td>fileName</td>
+                                        <td>string</td>
+                                        <td>''</td>
+                                        <td>file 타입에서 선택된 파일명 표시</td>
+                                    </tr>
+                                </tbody>
+                            </PropsTable>
+
+                            <SubTitle>코드 예시</SubTitle>
+                            <CodeBlock>
+{`import { useState } from 'react';
+import FormField from '../Common/Form/FormField';
+
+const [formData, setFormData] = useState({
+    campaignTitle: '',
+    categoryNo: '',
+    campaignContent: '',
+    thumbnailFile: null,
+    startDate: '',
+    endDate: ''
+});
+const [fileName, setFileName] = useState('');
+const [errors, setErrors] = useState({});
+
+const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+};
+
+const handleFileChange = (e) => {
+    const { name, files } = e.target;
+    if (files && files[0]) {
+        setFormData(prev => ({ ...prev, [name]: files[0] }));
+        setFileName(files[0].name);
+    }
+};
+
+// JSX
+<FormField
+    label="제목"
+    type="text"
+    name="title"
+    value={formData.title}
+    onChange={handleChange}
+    error={errors.title}
+    required
+    placeholder="제목을 입력하세요"
+/>
+
+<FormField
+    label="카테고리"
+    type="select"
+    name="category"
+    value={formData.category}
+    onChange={handleChange}
+    error={errors.category}
+    required
+    options={[
+        { value: '환경', label: '환경' },
+        { value: '기술', label: '기술' }
+    ]}
+/>
+
+<FormField
+    label="내용"
+    type="textarea"
+    name="content"
+    value={formData.content}
+    onChange={handleChange}
+    placeholder="내용을 입력하세요"
+    rows={8}
+/>
+
+<FormField
+    label="첨부파일"
+    type="file"
+    name="file"
+    onChange={handleFileChange}
+    accept="image/*"
+    fileName={fileName}
+/>
+
+<FormField
+    label="시작일"
+    type="date"
+    name="startDate"
+    value={formData.startDate}
+    onChange={handleChange}
+    required
+/>`}
+                            </CodeBlock>
+                        </ComponentSection>
+                    </TabContent>
+
+                    {/* Table Tab */}
+                    <TabContent $active={activeTab === 'table'}>
+                        <ComponentSection>
+                            <SectionTitle>DataTable</SectionTitle>
+                            <p>Simple DataTables 라이브러리를 사용한 테이블 컴포넌트입니다. 검색, 정렬 기능을 제공합니다.</p>
+
+                            <SubTitle>사용 예시</SubTitle>
+                            <DemoContainer>
+                                <DataTable
+                                    title="사용자 목록"
+                                    columns={tableColumns}
+                                    data={tableData}
+                                    icon="fas fa-users"
+                                />
+                            </DemoContainer>
+
+                            <SubTitle>Props</SubTitle>
+                            <PropsTable>
+                                <thead>
+                                    <tr>
+                                        <th>Props</th>
+                                        <th>타입</th>
+                                        <th>기본값</th>
+                                        <th>설명</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>title</td>
+                                        <td>string</td>
+                                        <td>-</td>
+                                        <td>테이블 제목</td>
+                                    </tr>
+                                    <tr>
+                                        <td>columns</td>
+                                        <td>array</td>
+                                        <td>-</td>
+                                        <td>컬럼 정의 배열 ({"{ header, field, render }"})</td>
+                                    </tr>
+                                    <tr>
+                                        <td>data</td>
+                                        <td>array</td>
+                                        <td>-</td>
+                                        <td>표시할 데이터 배열</td>
+                                    </tr>
+                                    <tr>
+                                        <td>icon</td>
+                                        <td>string</td>
+                                        <td>-</td>
+                                        <td>제목 옆 아이콘 클래스</td>
+                                    </tr>
+                                </tbody>
+                            </PropsTable>
+
+                            <SubTitle>코드 예시</SubTitle>
+                            <CodeBlock>
+{`import DataTable from '../Common/DataTable/DataTable';
+import { 
+    EditButton, 
+    DeleteButton,
+    CategoryBadge,
+    StatusBadge
+} from '../Common/DataTable/DataTable.styled';
+
+const columns = [
+    {
+        header: 'ID',
+        field: 'campaignNo'
+    },
+    {
+        header: '캠페인명',
+        field: 'campaignTitle',
+        render: (value) => <strong>{value}</strong>
+    },
+    {
+        header: '카테고리',
+        field: 'categoryNo',
+        render: (value) => (
+            <CategoryBadge>{value}</CategoryBadge>
+        )
+    },
+    {
+        header: '상태',
+        field: 'status',
+        render: (value) => (
+            <StatusBadge $status={value}>{value}</StatusBadge>
+        )
+    },
+    {
+        header: '관리',
+        field: 'campaignNo',
+        render: (value) => (
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <EditButton onClick={() => handleEdit(value)}>
+                    수정
+                </EditButton>
+                <DeleteButton onClick={() => handleDelete(value)}>
+                    삭제
+                </DeleteButton>
+            </div>
+        )
+    }
+];
+
+const data = [
+    { 
+        campaignNo: 1, 
+        campaignTitle: '친환경 캠페인',
+        categoryNo: '환경',
+        status: '진행중' 
+    },
+    { 
+        campaignNo: 2, 
+        campaignTitle: '탄소중립 실천',
+        categoryNo: '기술',
+        status: '종료' 
+    }
+];
+
+// JSX
+<DataTable
+    title="캠페인 목록"
+    columns={columns}
+    data={data}
+    icon="fas fa-leaf"
+/>`}
+                            </CodeBlock>
+                        </ComponentSection>
+                    </TabContent>
                 </GuideContainer>
             </PageContent>
 

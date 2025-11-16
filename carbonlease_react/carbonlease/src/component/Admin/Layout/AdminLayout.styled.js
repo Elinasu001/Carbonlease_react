@@ -99,22 +99,29 @@ export const Topnav = styled.nav`
 
     .navbar-nav {
         display: flex;
+        flex-direction: row;
         align-items: center;
         margin-left: auto;
         list-style: none;
         padding: 0;
         margin-bottom: 0;
+        gap: 1.5rem;
     }
 
     .nav-item {
-        margin-left: 1rem;
-
         a {
             color: rgba(255, 255, 255, 0.5);
             text-decoration: none;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
 
             &:hover {
                 color: #fff;
+            }
+
+            i {
+                font-size: 1.25rem;
             }
         }
     }
