@@ -46,8 +46,8 @@ function App() {
 				<Route path="/boards/:id" element={<BoardDetail />} />
 				<Route path="/activityBoards" element={<ActivityBoards />} />
 				<Route path="/activityBoards/:id" element={<ActivityBoardDetail />} />
-				<Route path="/activityBoard/insertForm" element={<ActivityBoardInsertForm />} />
-				<Route path="/activityBoard/updateForm/:id" element={<ActivityBoardUpdateForm />} />
+				<Route path="/activityBoards/insertForm" element={<ActivityBoardInsertForm />} />
+				<Route path="/activityBoards/updateForm/:id" element={<ActivityBoardUpdateForm />} />
 				<Route path="/notices" element={<Notices />} />
 				<Route path="/notices/:id" element={<NoticeDetail />} />
 				<Route path="/campaigns" element={<Campaigns />} />
