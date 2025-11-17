@@ -13,7 +13,6 @@ import {
     CampaignInfo,
     CampaignListContainer,
     CampaignTitle,
-    EmptyContainer,
     LikeButton,
     ParticipantCount
 } from './CampaignList.styled';
@@ -24,8 +23,9 @@ function CampaignList({ onShowToast }) {
     const [campaigns, setCampaigns] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [pageNumbers, setPageNumbers] = useState([1, 2, 3, 4, 5]);
+    const [pageNumbers, setPageNumbers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(true); // 실제 로그인 로직에 맞게 수정
 
     useEffect(() => {
         fetchCampaigns(currentPage);
@@ -35,8 +35,17 @@ function CampaignList({ onShowToast }) {
         setLoading(true);
         getCampaignList(page, 6)
             .then(response => {
-                setCampaigns(response.campaigns);
-                setTotalPages(response.totalPages);
+                const { campaigns, pageInfo } = response.data;
+                    console.log('[캠페인 리스트]', campaigns);
+                    console.log('[캠페인 개수]', campaigns.length);
+                setCampaigns(campaigns);
+                setTotalPages(pageInfo.maxPage);
+                // pageNumbers는 백엔드에서 받은 startPage~endPage로만 생성
+                const pageNumbers = [];
+                for (let i = pageInfo.startPage; i <= pageInfo.endPage; i++) {
+                    pageNumbers.push(i);
+                }
+                setPageNumbers(pageNumbers);
             })
             .catch(error => {
                 console.error('캠페인 목록을 불러오는데 실패했습니다:', error);
@@ -47,40 +56,29 @@ function CampaignList({ onShowToast }) {
     };
 
     const handleLikeToggle = (e, campaignId, currentLikeStatus) => {
-        e.stopPropagation(); // 카드 클릭 이벤트 방지
-        
-        // 즉시 UI 업데이트 (Optimistic Update)
-        setCampaigns(prevCampaigns =>
-            prevCampaigns.map(campaign =>
-                campaign.id === campaignId
-                    ? { ...campaign, isLiked: !campaign.isLiked }
-                    : campaign
-            )
-        );
-
-        // 토스트 메시지 즉시 표시
-        if (!currentLikeStatus) {
-            onShowToast('이 캠페인에 공감해주셨어요!');
-        } else {
-            onShowToast('참여를 취소했어요. 언제든 다시 함께해주세요!');
-        }
-
-        // 백그라운드에서 API 호출
+        e.stopPropagation();
         toggleCampaignLike(campaignId)
             .then(() => {
-                // 성공 시 추가 작업 (필요시)
-            })
-            .catch(error => {
-                console.error('좋아요 처리에 실패했습니다:', error);
-                // 실패 시 원래 상태로 되돌림
                 setCampaigns(prevCampaigns =>
                     prevCampaigns.map(campaign =>
-                        campaign.id === campaignId
-                            ? { ...campaign, isLiked: currentLikeStatus }
+                        campaign.campaignNo === campaignId
+                            ? { ...campaign, isLiked: !campaign.isLiked }
                             : campaign
                     )
                 );
-                onShowToast('좋아요 처리에 실패했습니다.', 'error');
+                if (!currentLikeStatus) {
+                    onShowToast('이 캠페인에 공감해주셨어요!');
+                } else {
+                    onShowToast('참여를 취소했어요. 언제든 다시 함께해주세요!');
+                }
+            })
+            .catch(error => {
+                console.error('좋아요 처리에 실패했습니다:', error);
+                if (error.response?.status === 401) {
+                    onShowToast('로그인이 필요합니다.', 'error');
+                } else {
+                    onShowToast('좋아요 처리에 실패했습니다.', 'error');
+                }
             });
     };
 
@@ -88,55 +86,31 @@ function CampaignList({ onShowToast }) {
         navigate(`/campaigns/detail/${campaignId}`);
     };
 
-    const updatePageNumbers = (page, total) => {
-        const maxVisible = 5;
-        const blockNumber = Math.ceil(page / maxVisible);
-        const start = (blockNumber - 1) * maxVisible + 1;
-        const end = Math.min(blockNumber * maxVisible, total);
-        
-        const numbers = [];
-        for (let i = start; i <= end; i++) {
-            numbers.push(i);
-        }
-        setPageNumbers(numbers);
-    };
-
     const handleFirstPage = () => {
         setCurrentPage(1);
-        updatePageNumbers(1, totalPages);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
-
     const handlePrevPage = () => {
         if (currentPage > 1) {
-            const newPage = currentPage - 1;
-            setCurrentPage(newPage);
-            updatePageNumbers(newPage, totalPages);
+            setCurrentPage(currentPage - 1);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
-
     const handlePageClick = (page) => {
         setCurrentPage(page);
-        updatePageNumbers(page, totalPages);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
-
     const handleNextPage = () => {
         if (currentPage < totalPages) {
-            const newPage = currentPage + 1;
-            setCurrentPage(newPage);
-            updatePageNumbers(newPage, totalPages);
+            setCurrentPage(currentPage + 1);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     };
-
     const handleLastPage = () => {
         setCurrentPage(totalPages);
-        updatePageNumbers(totalPages, totalPages);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
-
+    
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return `${date.getMonth() + 1}.${date.getDate()}`;
@@ -149,38 +123,33 @@ function CampaignList({ onShowToast }) {
             </CampaignListContainer>
         );
     }
-
-    if (campaigns.length === 0) {
-        return (
-            <EmptyContainer>
-                <i className="bi bi-inbox"></i>
-                <p>등록된 캠페인이 없습니다.</p>
-            </EmptyContainer>
-        );
+    if (!campaigns || campaigns.length === 0) {
+        return null;
     }
-
     return (
         <CampaignListContainer>
             <CampaignGrid>
                 {campaigns.map((campaign) => (
-                    <CampaignCard key={campaign.id} onClick={() => handleCardClick(campaign.id)}>
+                    <CampaignCard key={campaign.campaignNo} onClick={() => handleCardClick(campaign.campaignNo)}>
                         <CampaignImage>
-                            <img src={campaign.imageUrl} alt={campaign.title} />
-                            <LikeButton
-                                $liked={campaign.isLiked}
-                                onClick={(e) => handleLikeToggle(e, campaign.id, campaign.isLiked)}
-                            >
-                                <i className={campaign.isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'}></i>
-                            </LikeButton>
+                            <img src={campaign.imageUrl} alt={campaign.campaignTitle} />
+                            {isLoggedIn && (
+                                <LikeButton
+                                    $liked={campaign.isLiked}
+                                    onClick={(e) => handleLikeToggle(e, campaign.campaignNo, campaign.isLiked)}
+                                >
+                                    <i className={campaign.isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'}></i>
+                                </LikeButton>
+                            )}
                         </CampaignImage>
                         <CampaignContent>
-                            <CampaignCategory>{campaign.category}</CampaignCategory>
-                            <CampaignTitle>{campaign.title}</CampaignTitle>
-                            <CampaignDescription>{campaign.description}</CampaignDescription>
+                            <CampaignCategory>{campaign.category?.categoryName || '카테고리 없음'}</CampaignCategory>
+                            <CampaignTitle>{campaign.campaignTitle}</CampaignTitle>
+                            <CampaignDescription>{campaign.campaignContent}</CampaignDescription>
                             <CampaignInfo>
                                 <ParticipantCount>
                                     <i className="bi bi-people-fill"></i>
-                                    <span>{campaign.participantCount.toLocaleString()}명 참여</span>
+                                    <span>{(campaign.viewCount || 0).toLocaleString()}명 참여</span>
                                 </ParticipantCount>
                                 <CampaignDate>
                                     <i className="bi bi-calendar-check"></i>
@@ -191,17 +160,18 @@ function CampaignList({ onShowToast }) {
                     </CampaignCard>
                 ))}
             </CampaignGrid>
-
-            <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                pageNumbers={pageNumbers}
-                onFirstPage={handleFirstPage}
-                onPrevPage={handlePrevPage}
-                onPageClick={handlePageClick}
-                onNextPage={handleNextPage}
-                onLastPage={handleLastPage}
-            />
+            {campaigns.length > 0 && (
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    pageNumbers={pageNumbers}
+                    onFirstPage={handleFirstPage}
+                    onPrevPage={handlePrevPage}
+                    onPageClick={handlePageClick}
+                    onNextPage={handleNextPage}
+                    onLastPage={handleLastPage}
+                />
+            )}
         </CampaignListContainer>
     );
 }
