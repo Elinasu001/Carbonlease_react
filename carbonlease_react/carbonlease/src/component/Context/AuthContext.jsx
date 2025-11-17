@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import axios from "axios";
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
@@ -15,6 +16,37 @@ export const AuthProvider = ({ children }) => {
         role : null,
         isAuthenticated : false,
     });
+
+    useEffect(() => {
+        const memberId = localStorage.getItem("memberId");
+        const nickName = localStorage.getItem("nickName");
+        const accessToken = localStorage.getItem("accessToken");
+        const refreshToken = localStorage.getItem("refreshToken");
+        const role = localStorage.getItem("role");
+
+        console.log(refreshToken);
+
+        {
+            accessToken !== "" ? 
+
+        axios.post("http://localhost/auth/refresh", {
+            refreshToken : refreshToken,
+        }, {
+            headers : {
+                Authorization : `Bearer ${accessToken}`,
+            }
+        }
+        ).then(result => {
+
+
+        }).catch(error => {
+
+        })
+        :
+        <></>
+    }
+
+    },[]);
 
     const login = (memberId, nickName, accessToken, refreshToken, role) => {
         setAuth({
