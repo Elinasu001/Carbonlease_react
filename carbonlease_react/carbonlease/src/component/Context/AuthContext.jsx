@@ -31,12 +31,7 @@ export const AuthProvider = ({ children }) => {
 
         axios.post("http://localhost/auth/refresh", {
             refreshToken : refreshToken,
-        }, {
-            headers : {
-                Authorization : `Bearer ${accessToken}`,
-            }
-        }
-        ).then(result => {
+        }).then(result => {
             setAuth({
                 memberId,
                 nickName,
@@ -46,7 +41,7 @@ export const AuthProvider = ({ children }) => {
                 isAuthenticated : true
             });
         }).catch(error => {
-            console.log("자동 로그인 실패");
+            console.log(error.response.data["error-message"]);
             localStorage.removeItem("memberId");
             localStorage.removeItem("nickName");
             localStorage.removeItem("accessToken");
