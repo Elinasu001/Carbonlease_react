@@ -32,14 +32,22 @@ export const AuthProvider = ({ children }) => {
         axios.post("http://localhost/auth/refresh", {
             refreshToken : refreshToken,
         }).then(result => {
+            console.log(result.data);
+            const newAccessToken = result.data["accessToken"];
+            const newRefreshToken = result.data["refreshToken"];
+            localStorage.setItem("accessToken",newAccessToken);
+            localStorage.setItem("refreshToken",newRefreshToken);
+            console.log(newAccessToken);
             setAuth({
                 memberId,
                 nickName,
-                accessToken,
-                refreshToken,
+                newAccessToken,
+                newRefreshToken,
                 role,
-                isAuthenticated : true
+                isAuthenticated : true,
             });
+
+
         }).catch(error => {
             console.log(error.response.data["error-message"]);
             localStorage.removeItem("memberId");
