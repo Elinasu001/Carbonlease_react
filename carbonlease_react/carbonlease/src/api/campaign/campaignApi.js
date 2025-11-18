@@ -14,26 +14,32 @@ const campaignApi = axios.create({
 });
 
 // 캠페인 리스트 조회
-export const getCampaignList = (page = 1, size = 12) => {
+export const selectCampaignList  = (page = 1, size = 12) => {
     return campaignApi.get('', {
         params: { page, size }
     });
 };
 
+
 // 캠페인 좋아요 토글
-export const toggleCampaignLike = (campaignId) => {
-    const token = localStorage.getItem('token');
-    if (!token) {
+export const toggleLike = (campaignNo) => {
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (!accessToken) {
         return Promise.reject(new Error('No token found'));
     }
-    return campaignApi.post(`/${campaignId}/like`, {}, {
+    
+    return campaignApi.post(`/${campaignNo}/like`, {}, {
         headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${accessToken}`
         }
     });
 };
 
 // 캠페인 상세 조회
-export const getCampaignDetail = (campaignId) => {
-    return campaignApi.get(`/${campaignId}`);
+export const selectByCampaignNo = (campaignNo) => {
+    return campaignApi.get(`/detail/${campaignNo}`);
 };
+
+
+
