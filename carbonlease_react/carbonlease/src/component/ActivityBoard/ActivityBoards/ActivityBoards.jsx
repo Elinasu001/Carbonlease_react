@@ -13,7 +13,8 @@ const ActivityBoards = () => {
 
     const navigate = useNavigate();
     const [ boards, setBoards ] = useState([]);
-    const [ page, setPage] = useState(0);
+    const [ page, setPage] = useState(1);
+    const [ pageInfo, setPageInfo ] = useState(null);
 
     const [ filter, setFilter ] = useState('title'); // 검색 필터 상태
     const [ keyword, setKeyword ] = useState(''); // 검색어 상태
@@ -24,7 +25,8 @@ const ActivityBoards = () => {
                 `http://localhost/activityBoards?page=${page}&filter=${filter}&keyword=${keyword}`
             );
             console.log("API RESULT:", res.data);
-            setBoards(res.data);
+            setBoards(res.data.list);
+            setPageInfo(res.data.pageInfo);
         } catch (err) {
             console.error("게시글 조회 실패:", err);
         }
@@ -78,14 +80,21 @@ const ActivityBoards = () => {
                 </div>
 
                 <div style={{ display: "flex", justifyContent: "center", marginTop:"20px" }}>
+                    {pageInfo && (
                     <Pagination
-                        currentPage={page + 1}
-                        totalPages={5} 
-                        pageNumbers={[1, 2, 3, 4, 5]}
-                        onPrevPage={() => page > 0 && setPage(page - 1)}
-                        onPageClick={(num) => setPage(num - 1)}
-                        onNextPage={() => setPage(page + 1)}
-                    />
+  currentPage={pageInfo?.currentPage}
+  totalPages={pageInfo?.maxPage}
+  pageNumbers={Array.from(
+     { length: pageInfo.endPage - pageInfo?.startPage + 1},
+     (_, i) => pageInfo.startPage + i
+  )}
+  onFirstPage={() => setPage(1)}
+  onPrevPage={() => setPage(pageInfo.currentPage - 1)}
+  onPageClick={(num) => setPage(num)}
+  onNextPage={() => setPage(pageInfo.currentPage + 1)}
+  onLastPage={() => setPage(pageInfo.maxPage)}
+/>
+                )}
                 </div>
                 
 
