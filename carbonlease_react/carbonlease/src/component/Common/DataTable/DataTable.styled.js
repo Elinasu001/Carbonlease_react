@@ -15,6 +15,11 @@ export const PageHeader = styled.div`
     }
 `;
 
+export const ButtonGroup = styled.div`
+    display: flex;  
+    gap: 0.5rem;
+`;   
+
 export const CreateButton = styled.button`
     padding: 0.5rem 1.5rem;
     font-size: 1rem;
@@ -140,8 +145,19 @@ export const TableCardBody = styled.div`
             }
         }
 
-        tbody tr:hover {
-            background-color: #f8f9fa;
+        tbody tr {
+            &.clickable {
+                cursor: pointer;
+                transition: background-color 0.2s ease;
+                
+                &:hover {
+                    background-color: #f8f9fa !important;
+                }
+            }
+            
+            &:hover {
+                background-color: #f8f9fa;
+            }
         }
 
         tfoot th {

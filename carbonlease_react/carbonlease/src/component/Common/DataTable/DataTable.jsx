@@ -7,7 +7,9 @@ const DataTable = ({
     data = [],
     showIcon = true,
     icon = 'fas fa-table',
+    onRowClick,
 }) => {
+
     const tableRef = useRef(null);
 
     // useEffect(() => {
@@ -62,7 +64,11 @@ const DataTable = ({
                         </thead>
                         <tbody>
                             {data.map((row, rowIndex) => (
-                                <tr key={rowIndex}>
+                                <tr 
+                                    key={rowIndex}
+                                    onClick={() => onRowClick && onRowClick(row, rowIndex)}
+                                    style={{ cursor: onRowClick ? 'pointer' : 'default' }}
+                                >
                                     {columns.map((column, colIndex) => (
                                         <td key={colIndex}>
                                             {column.render
