@@ -3,49 +3,36 @@ import Pagination from '../../Common/Pagination/Pagination';
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import PaginationTest from '../../Common/Pagination/PaginationTest';
 
 function NoticesList() {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [notice, setNotice] = useState([]);
     const [pageInfo, setPageInfo] = useState({
-        startPage:"",
-        endPage:"",
-        totalPage:""
+        startPage: 1,
+        endPage: 1,
+        totalPage: 1
     });
 
     useEffect (()=>{
-
-        getNoticeList(currentPage);
-        getPageInfo();
-
+        getNotices(currentPage);
     }, [currentPage])
 
-    const getNoticeList = (page) =>{
+    const getNotices = (page) => {
         axios
-            .get(`http://localhost/notices?pageNo=${currentPage}`)
+            .get(`http://localhost/notices?pageNo=${page}`)
             .then((result) => {
-                //console.log(result) //data Array OK
-                const response = result.data
-                //console.log(response);
-                setNotice([...response]);
+                //console.log(result); // OK
+                const responseNotice = result.data.notices;
+                const responsePageInfo = result.data.pageInfo;
+                setNotice([...responseNotice]);
+                setPageInfo({
+                    startPage: responsePageInfo.startPage,
+                    endPage: responsePageInfo.endPage,
+                    totalPage: responsePageInfo.maxPage
+                })
             })
     }
-
-    const getPageInfo = (() =>{
-        axios
-            .get(`http://localhost/notices/count?pageNo=${currentPage}`)
-            .then((result) => {
-                const response = result.data
-                setPageInfo({
-                    startPage: response.startPage,
-                    endPage: response.endPage,
-                    totalPage: response.maxPage
-                })
-                console.log(pageInfo);
-            })
-    })
 
     const columns = [
         {
@@ -80,7 +67,7 @@ function NoticesList() {
             icon="fas fa-leaf" 
         />
 
-        <PaginationTest
+        <Pagination
             currentPage={currentPage} 
             setCurrentPage={setCurrentPage}
             pageInfo={pageInfo}
