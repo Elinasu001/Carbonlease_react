@@ -15,28 +15,18 @@ import FormField from '../../Common/Form/FormField';
 const NoticeInsertForm = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        campaignTitle: '',
-        categoryNo: '',
-        campaignContent: '',
-        thumbnailFile: null,
-        detailImageFile: null,
-        startDate: '',
-        endDate: ''
+        noticeTitle: '',
+        noticeContent: '',
+        file: null,
+        enrollDate: '',
+        fix:''
     });
 
     const [fileNames, setFileNames] = useState({
-        thumbnail: '',
-        detailImage: ''
+        file: '',
     });
 
     const [errors, setErrors] = useState({});
-
-    const categoryOptions = [
-        { value: '환경', label: '환경' },
-        { value: '기술', label: '기술' },
-        { value: '사회', label: '사회' },
-        { value: '기타', label: '기타' }
-    ];
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -45,7 +35,7 @@ const NoticeInsertForm = () => {
             [name]: value
         }));
         
-        // Clear error when user starts typing
+        // Clear error when user enrolls typing
         if (errors[name]) {
             setErrors(prev => ({
                 ...prev,
@@ -61,13 +51,6 @@ const NoticeInsertForm = () => {
                 ...prev,
                 [name]: files[0]
             }));
-            
-            // Update file name display
-            const fileType = name === 'thumbnailFile' ? 'thumbnail' : 'detailImage';
-            setFileNames(prev => ({
-                ...prev,
-                [fileType]: files[0].name
-            }));
 
             // Clear error
             if (errors[name]) {
@@ -82,36 +65,20 @@ const NoticeInsertForm = () => {
     const validate = () => {
         const newErrors = {};
 
-        if (!formData.campaignTitle.trim()) {
-            newErrors.campaignTitle = '제목을 입력해주세요.';
+        if (!formData.noticeTitle.trim()) {
+            newErrors.noticeTitle = '제목을 입력해주세요.';
         }
 
-        if (!formData.categoryNo) {
-            newErrors.categoryNo = '카테고리를 선택해주세요.';
+        if (!formData.noticeContent.trim()) {
+            newErrors.noticeContent = '내용을 입력해주세요.';
         }
 
-        if (!formData.campaignContent.trim()) {
-            newErrors.campaignContent = '내용을 입력해주세요.';
+        if (!formData.file) {
+            newErrors.file = '첨부파일을 선택해주세요.';
         }
 
-        if (!formData.thumbnailFile) {
-            newErrors.thumbnailFile = '썸네일 이미지를 선택해주세요.';
-        }
-
-        if (!formData.detailImageFile) {
-            newErrors.detailImageFile = '상세 이미지를 선택해주세요.';
-        }
-
-        if (!formData.startDate) {
-            newErrors.startDate = '시작일을 선택해주세요.';
-        }
-
-        if (!formData.endDate) {
-            newErrors.endDate = '종료일을 선택해주세요.';
-        }
-
-        if (formData.startDate && formData.endDate && formData.startDate > formData.endDate) {
-            newErrors.endDate = '종료일은 시작일 이후여야 합니다.';
+        if (!formData.fix) {
+            newErrors.fix = '고정여부 선택.';
         }
 
         setErrors(newErrors);
@@ -129,99 +96,69 @@ const NoticeInsertForm = () => {
         console.log('Form submitted:', formData);
         
         // 임시: 목록 페이지로 이동
-        // navigate('/admin/campaigns');
+        // navigate('/admin/notices');
     };
 
     const handleCancel = () => {
-        navigate('/admin/campaigns');
+        navigate('/admin/notices');
     };
 
     return (
         <FormContainer>
             <PageHeader>
-                <h1>캠페인 등록</h1>
+                <h1>공지사항 등록</h1>
             </PageHeader>
 
             <FormCard>
                 <FormCardHeader>
-                    <h5>캠페인 정보</h5>
+                    <h5>공지사항 정보</h5>
                 </FormCardHeader>
+
                 <FormCardBody>
                     <form onSubmit={handleSubmit}>
                         <FormField
                             label="제목"
                             type="text"
-                            name="campaignTitle"
-                            value={formData.campaignTitle}
+                            name="noticeTitle"
+                            value={formData.noticeTitle}
                             onChange={handleChange}
-                            error={errors.campaignTitle}
+                            error={errors.noticeTitle}
                             required
-                            placeholder="캠페인 제목을 입력하세요"
+                            placeholder="공지사항 제목을 입력하세요"
                         />
 
                         <FormField
-                            label="카테고리"
-                            type="select"
-                            name="categoryNo"
-                            value={formData.categoryNo}
+                            label="사용 여부"
+                            type="toggle-switch"
+                            name="isActive"
+                            value={formData.isActive}
                             onChange={handleChange}
-                            error={errors.categoryNo}
-                            required
-                            options={categoryOptions}
                         />
+
+
+
 
                         <FormField
                             label="내용"
                             type="textarea"
-                            name="campaignContent"
-                            value={formData.campaignContent}
+                            name="noticeContent"
+                            value={formData.noticeContent}
                             onChange={handleChange}
-                            error={errors.campaignContent}
+                            error={errors.noticeContent}
                             required
-                            placeholder="캠페인 내용을 입력하세요"
+                            placeholder="공지사항 내용을 입력하세요"
                             rows={8}
                         />
 
                         <FormField
-                            label="썸네일 이미지"
+                            label="첨부파일"
                             type="file"
-                            name="thumbnailFile"
+                            name="file"
                             onChange={handleFileChange}
-                            error={errors.thumbnailFile}
+                            error={errors.file}
                             required
                             accept="image/*"
-                            fileName={fileNames.thumbnail}
-                        />
-
-                        <FormField
-                            label="상세 이미지"
-                            type="file"
-                            name="detailImageFile"
-                            onChange={handleFileChange}
-                            error={errors.detailImageFile}
-                            required
-                            accept="image/*"
-                            fileName={fileNames.detailImage}
-                        />
-
-                        <FormField
-                            label="시작일"
-                            type="date"
-                            name="startDate"
-                            value={formData.startDate}
-                            onChange={handleChange}
-                            error={errors.startDate}
-                            required
-                        />
-
-                        <FormField
-                            label="종료일"
-                            type="date"
-                            name="endDate"
-                            value={formData.endDate}
-                            onChange={handleChange}
-                            error={errors.endDate}
-                            required
+                            fileName={fileNames.file}
                         />
 
                         <FormButtonGroup>
