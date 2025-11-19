@@ -10,12 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@fullcalendar/core": "^6.1.19",
-=======
     "@fullcalendar/daygrid": "^6.1.19",
     "@fullcalendar/react": "^6.1.19",
->>>>>>> f8b261c7ccae74c7b14e15102fb44430cf109139
     "@srexi/purecounterjs": "^1.5.0",
     "aos": "^2.3.4",
     "axios": "^1.13.2",

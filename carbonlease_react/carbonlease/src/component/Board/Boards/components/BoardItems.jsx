@@ -10,7 +10,7 @@ const BoardItems = ({ item }) => {
         <div className="title">{ item.boardTitle}</div>
         <div className="content">{ item.boardContent }</div>
         <div className="meta">
-          { item.enrollDate } · 조회 { item.viewCount } · 댓글 { }· 닉네임 { item.nickname }
+        작성일 : { item.enrollDate } · 조회 : { item.viewCount } · 댓글 : { item.replyCount } · 닉네임 : { item.nickname }
         </div>
       </BoardInfo>
     </BoardItemWrapper>
