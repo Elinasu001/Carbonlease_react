@@ -5,11 +5,10 @@ import React, { useEffect, useState } from 'react';
 import Pagination from '../../Common/Pagination/Pagination'
 // useEffect를 사용하여 컴포넌트가 마운트될 때 데이터를 가져오고 상태를 업데이트합니다.
 // useState를 사용하여 상태 변수를 선언합니다.
-import BoardItems from './components/BoardItems';
 
  const Boards = () => {
   
-    const [pageNumbers, setPageNumbers] = useState([]);
+    const [pageNumbers, setPageNumbers] = useState([1, 2, 3, 4, 5]);
     const [boardList, setBoardList] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
@@ -100,19 +99,28 @@ import BoardItems from './components/BoardItems';
                 ]} 
             />
             <PageContent>
-            {/* 전체 건수 : {totalPages} */}
+              <div>
+              전체 건수 : {currentPage} / {totalPages}
+              <table>
+                <tr>
+                  <td>번호</td>
+                  <td>제목</td>
+                  <td>작성자</td>
+                  <td>작성일자</td>
+                  <td>조회수</td>
+                </tr>
               {boardList.map((item) => (
                 // 각 리스트 아이템은 고유한 'key' prop을 가져야 합니다.
-                // <tr key={item.boardNo}>
-                //   <td>{item.boardSeq}</td>
-                //   <td>{item.boardTitle}</td>
-                //   <td>{item.nickname}</td>
-                //   <td>{item.enrollDate}</td>
-                //   <td>{item.viewCount}</td>
-                // </tr>
-                // 각 리스트 아이템은 고유한 'key' prop을 가져야 합니다.
-                <BoardItems key={item.boardNo} item={item}/>
+                <tr key={item.boardNo}>
+                  <td>{item.boardSeq}</td>
+                  <td>{item.boardTitle}</td>
+                  <td>{item.nickname}</td>
+                  <td>{item.enrollDate}</td>
+                  <td>{item.viewCount}</td>
+                </tr>
               ))}
+              </table>
+            </div>
             
           <Pagination
                 currentPage={currentPage}
