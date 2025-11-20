@@ -28,6 +28,8 @@ const CampaignList = ({ onShowToast }) => {
         console.log('currentPage:', currentPage);
         console.log('pageInfo:', pageInfo);
         console.log('campaigns:', campaigns);
+        console.log('캠페인 총 개수(전체):', pageInfo.listCount);
+        console.log('캠페인 총 개수(현재 페이지):', campaigns.length);
         
         // 캠페인 카드 클릭 핸들러
         const handleCardClick = (campaign) => {
@@ -65,6 +67,8 @@ const CampaignList = ({ onShowToast }) => {
                     currentPage={currentPage} 
                     setCurrentPage={setCurrentPage}
                     pageInfo={pageInfo}
+                    totalPage={pageInfo.totalPage}
+                    campaignsLength={campaigns.length}
                 />
             </CampaignListContainer>
         );

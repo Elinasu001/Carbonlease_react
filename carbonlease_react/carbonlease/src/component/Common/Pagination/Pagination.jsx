@@ -7,7 +7,6 @@ const Pagination = ({
         startPage:"",
         endPage:"",
         totalPage:"",
-        size:""
     },
     campaignsLength = 0
 }) => {
