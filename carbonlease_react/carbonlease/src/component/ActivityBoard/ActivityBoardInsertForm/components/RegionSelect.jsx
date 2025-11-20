@@ -19,6 +19,7 @@ const REGIONS = [
 ];
 
 export default function RegionSelect({ value, onChange }) {
+  
   return (
     <select
       className="form-select"
