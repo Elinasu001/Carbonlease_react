@@ -21,6 +21,7 @@ const BoardItems = ({ item }) => {
         <div className="meta" onClick={() => onClickBoardDetail(item)}>
         작성일 : { item.enrollDate } · 조회 : { item.viewCount } · 댓글 : { item.replyCount } · 닉네임 : { item.nickname }
         </div>
+
       </BoardInfo>
     </BoardItemWrapper>
   );
