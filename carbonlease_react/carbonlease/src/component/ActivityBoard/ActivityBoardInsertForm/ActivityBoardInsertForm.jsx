@@ -44,6 +44,8 @@ const ActivityBoardInsertForm = () => {
       formData.append("files", files);
     }
 
+    console.log("Token:", token);
+
     try {
         const res = await axios.post(
           "http://localhost:80/activityBoards/insertForm",
@@ -55,7 +57,6 @@ const ActivityBoardInsertForm = () => {
             },
           } 
         );
-        console.log("Token:", token);
         alert("등록 완료!");
       } catch (err) {
         console.error("등록 실패:", err);
