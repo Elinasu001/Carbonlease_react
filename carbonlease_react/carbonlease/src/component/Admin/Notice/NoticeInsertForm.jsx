@@ -19,7 +19,7 @@ const NoticeInsertForm = () => {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [fix, setFix] = useState("");
-    //const [file, setFile] = useState(null);
+    const [file, setFile] = useState(null);
     const { auth } = useContext(AuthContext);
     const navi = useNavigate();
 
@@ -34,34 +34,49 @@ const NoticeInsertForm = () => {
 
     // 제출 handler
     const handleSubmit = (e) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    if (!title.trim() || !content.trim()) {
-        alert("제목과 내용은 필수입니다.");
-        return;
-    }
+        if (!title.trim() || !content.trim()) {
+            alert("제목과 내용은 필수입니다.");
+            return;
+        }
 
-    const formData = new FormData();
-    formData.append("noticeTitle", title);
-    formData.append("noticeContent", content);
-    formData.append("fix", fix ? "Y" : "N");   // ★ boolean → 문자열 변환
+        const formData = new FormData();
+        formData.append("noticeTitle", title);
+        formData.append("noticeContent", content);
+        formData.append("fix", fix ? "Y" : "N"); 
+        formData.append("file", file)
 
-    axios.post("http://localhost/admin/notices", formData, {
-        headers: {
-            Authorization: `Bearer ${auth.accessToken}`
-        },
-    })
-    .then((res) => {
-        console.log(res);
-        alert("등록 완료!");
-        navi("/admin/notices");
-    })
-    .catch((err) => {
-        console.error(err);
-        alert("등록 실패");
-        console.log(auth.accessToken);
-    });
-};
+        axios.post("http://localhost/admin/notices/insert", formData, {
+            headers: {
+                Authorization: `Bearer ${auth.accessToken}`,
+                "Content-Type": "multipart/form-data",
+            },
+        })
+        .then((res) => {
+            console.log(res);
+            alert("등록 완료!");
+            navi("/admin/notices");
+        })
+        .catch((err) => {
+            console.error(err);
+            alert("등록 실패");
+            console.log(auth.accessToken);
+        });
+    };
+
+    const handleFileChange = (e) => {
+            const selectedFile = e.target.files[0];
+            console.log(selectedFile);
+            const maxSize = 1024 * 1024 * 10;
+
+            if (selectedFile && selectedFile.size > maxSize) {
+            alert("너무 용량이 커요 힘듭니다 서버가");
+            return;
+            }
+
+            setFile(selectedFile);
+        };
 
     // 취소버튼 handler
     const handleCancel = () => {
@@ -99,8 +114,6 @@ const NoticeInsertForm = () => {
                             onChange={(e) => setFix(e.target.value)}   // e.target.value → boolean
                         />
 
-
-
                         <FormField
                             label="내용"
                             type="textarea"
@@ -110,6 +123,14 @@ const NoticeInsertForm = () => {
                             required
                             placeholder="공지사항 내용을 입력하세요"
                             rows={8}
+                        />
+
+                        <FormField
+                            label="첨부파일"
+                            type="file"
+                            name="file"
+                            onChange={handleFileChange}
+
                         />
 
                         <FormButtonGroup>

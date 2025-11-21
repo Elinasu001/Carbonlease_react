@@ -122,76 +122,76 @@
 //     };
 
 //     return (
-        <FormContainer>
-            <PageHeader>
-                <h1>공지사항 등록</h1>
-            </PageHeader>
+//         <FormContainer>
+//             <PageHeader>
+//                 <h1>공지사항 등록</h1>
+//             </PageHeader>
 
-            <FormCard>
-                <FormCardHeader>
-                    <h5>공지사항 정보</h5>
-                </FormCardHeader>
+//             <FormCard>
+//                 <FormCardHeader>
+//                     <h5>공지사항 정보</h5>
+//                 </FormCardHeader>
 
-                <FormCardBody>
-                    <form onSubmit={handleSubmit}>
-                        <FormField
-                            label="제목"
-                            type="text"
-                            name="noticeTitle"
-                            value={formData.noticeTitle}
-                            onChange={handleChange}
-                            error={errors.noticeTitle}
-                            required
-                            placeholder="공지사항 제목을 입력하세요"
-                        />
+//                 <FormCardBody>
+//                     <form onSubmit={handleSubmit}>
+//                         <FormField
+//                             label="제목"
+//                             type="text"
+//                             name="noticeTitle"
+//                             value={formData.noticeTitle}
+//                             onChange={handleChange}
+//                             error={errors.noticeTitle}
+//                             required
+//                             placeholder="공지사항 제목을 입력하세요"
+//                         />
 
-                        <FormField
-                            label="고정 여부"
-                            type="toggle-switch"
-                            name="fix"
-                            checked={formData.fix}
-                            onChange={(e) =>
-                                setFormData({ ...formData, fix: e.target.checked })
-                            }
-                        />
+//                         <FormField
+//                             label="고정 여부"
+//                             type="toggle-switch"
+//                             name="fix"
+//                             checked={formData.fix}
+//                             onChange={(e) =>
+//                                 setFormData({ ...formData, fix: e.target.checked })
+//                             }
+//                         />
 
 
-                        <FormField
-                            label="내용"
-                            type="textarea"
-                            name="noticeContent"
-                            value={formData.noticeContent}
-                            onChange={handleChange}
-                            error={errors.noticeContent}
-                            required
-                            placeholder="공지사항 내용을 입력하세요"
-                            rows={8}
-                        />
+//                         <FormField
+//                             label="내용"
+//                             type="textarea"
+//                             name="noticeContent"
+//                             value={formData.noticeContent}
+//                             onChange={handleChange}
+//                             error={errors.noticeContent}
+//                             required
+//                             placeholder="공지사항 내용을 입력하세요"
+//                             rows={8}
+//                         />
 
-                        <FormField
-                            label="첨부파일"
-                            type="file"
-                            name="file"
-                            onChange={handleFileChange}
-                            error={errors.file}
-                            accept="image/*"
-                            fileName={fileNames.file}
-                        />
+//                         <FormField
+//                             label="첨부파일"
+//                             type="file"
+//                             name="file"
+//                             onChange={handleFileChange}
+//                             error={errors.file}
+//                             accept="image/*"
+//                             fileName={fileNames.file}
+//                         />
 
-                        <FormButtonGroup>
-                            <CancelButton type="button" onClick={handleCancel}>
-                                <i className="fas fa-times"></i>
-                                취소
-                            </CancelButton>
-                            <SubmitButton type="submit">
-                                <i className="fas fa-check"></i>
-                                등록
-                            </SubmitButton>
-                        </FormButtonGroup>
-                    </form>
-                </FormCardBody>
-            </FormCard>
-        </FormContainer>
+//                         <FormButtonGroup>
+//                             <CancelButton type="button" onClick={handleCancel}>
+//                                 <i className="fas fa-times"></i>
+//                                 취소
+//                             </CancelButton>
+//                             <SubmitButton type="submit">
+//                                 <i className="fas fa-check"></i>
+//                                 등록
+//                             </SubmitButton>
+//                         </FormButtonGroup>
+//                     </form>
+//                 </FormCardBody>
+//             </FormCard>
+//         </FormContainer>
 //     );
 // };
 

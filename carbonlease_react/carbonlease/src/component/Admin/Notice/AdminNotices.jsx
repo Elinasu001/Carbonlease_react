@@ -33,20 +33,18 @@ const AdminNotices = () => {
     });
 
     useEffect (()=>{
-        console.log(auth.accessToken);
         getNotices(currentPage);
-        console.log(auth);
-
+        //console.log(auth)
     }, [currentPage, auth])
 
     const getNotices = (page) => {
-        if(auth.newAccessToken){
-            console.log('너안감?');
-            console.log(auth.accessToken);
+        if(auth.accessToken){
+            // console.log('너안감?');
+            // console.log(auth.accessToken); 이제 감
             axios
                 .get(`http://localhost/admin/notices?pageNo=${page}`, {
                     headers: {
-                        Authorization: `Bearer ${auth.newAccessToken}`
+                        Authorization: `Bearer ${auth.accessToken}`
                     },
                 })
                 .then((result) => {
