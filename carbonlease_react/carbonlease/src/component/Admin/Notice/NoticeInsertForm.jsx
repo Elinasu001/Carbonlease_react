@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
     CancelButton,
     FormButtonGroup,
@@ -11,94 +9,65 @@ import {
     SubmitButton
 } from '../../Common/DataTable/DataTable.styled';
 import FormField from '../../Common/Form/FormField';
+import { AuthContext } from '../../Context/AuthContext'
+
+import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const NoticeInsertForm = () => {
-    const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        noticeTitle: '',
-        noticeContent: '',
-        file: null,
-        enrollDate: '',
-        fix:''
-    });
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [fix, setFix] = useState("");
+    //const [file, setFile] = useState(null);
+    const { auth } = useContext(AuthContext);
+    const navi = useNavigate();
 
-    const [fileNames, setFileNames] = useState({
-        file: '',
-    });
-
-    const [errors, setErrors] = useState({});
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-        
-        // Clear error when user enrolls typing
-        if (errors[name]) {
-            setErrors(prev => ({
-                ...prev,
-                [name]: ''
-            }));
+    // 1. 로그인 안되있으면 빠꾸
+    useEffect(() => {
+        if (!auth.isAuthenticated) {
+        alert("로그인 해주세요");
+        navi("/login");
         }
-    };
+        console.log(auth.accessToken)
+    }, [auth.isAuthenticated]);
 
-    const handleFileChange = (e) => {
-        const { name, files } = e.target;
-        if (files && files[0]) {
-            setFormData(prev => ({
-                ...prev,
-                [name]: files[0]
-            }));
-
-            // Clear error
-            if (errors[name]) {
-                setErrors(prev => ({
-                    ...prev,
-                    [name]: ''
-                }));
-            }
-        }
-    };
-
-    const validate = () => {
-        const newErrors = {};
-
-        if (!formData.noticeTitle.trim()) {
-            newErrors.noticeTitle = '제목을 입력해주세요.';
-        }
-
-        if (!formData.noticeContent.trim()) {
-            newErrors.noticeContent = '내용을 입력해주세요.';
-        }
-
-        if (!formData.fix) {
-            newErrors.fix = '고정여부 선택.';
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
+    // 제출 handler
     const handleSubmit = (e) => {
-        e.preventDefault();
+    e.preventDefault();
 
-        if (!validate()) {
-            return;
-        }
+    if (!title.trim() || !content.trim()) {
+        alert("제목과 내용은 필수입니다.");
+        return;
+    }
 
-        // TODO: API 호출 로직
-        console.log('Form submitted:', formData);
-        
-        // 임시: 목록 페이지로 이동
-        // navigate('/admin/notices');
-    };
+    const formData = new FormData();
+    formData.append("noticeTitle", title);
+    formData.append("noticeContent", content);
+    formData.append("fix", fix ? "Y" : "N");   // ★ boolean → 문자열 변환
 
+    axios.post("http://localhost/admin/notices", formData, {
+        headers: {
+            Authorization: `Bearer ${auth.accessToken}`
+        },
+    })
+    .then((res) => {
+        console.log(res);
+        alert("등록 완료!");
+        navi("/admin/notices");
+    })
+    .catch((err) => {
+        console.error(err);
+        alert("등록 실패");
+        console.log(auth.accessToken);
+    });
+};
+
+    // 취소버튼 handler
     const handleCancel = () => {
         navigate('/admin/notices');
     };
-
+    
     return (
         <FormContainer>
             <PageHeader>
@@ -115,10 +84,9 @@ const NoticeInsertForm = () => {
                         <FormField
                             label="제목"
                             type="text"
-                            name="noticeTitle"
-                            value={formData.noticeTitle}
-                            onChange={handleChange}
-                            error={errors.noticeTitle}
+                            name="title"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
                             required
                             placeholder="공지사항 제목을 입력하세요"
                         />
@@ -126,34 +94,22 @@ const NoticeInsertForm = () => {
                         <FormField
                             label="고정 여부"
                             type="toggle-switch"
-                            name="isActive"
-                            value={formData.isActive}
-                            onChange={handleChange}
+                            name="fix"
+                            value={fix}
+                            onChange={(e) => setFix(e.target.value)}   // e.target.value → boolean
                         />
-
 
 
 
                         <FormField
                             label="내용"
                             type="textarea"
-                            name="noticeContent"
-                            value={formData.noticeContent}
-                            onChange={handleChange}
-                            error={errors.noticeContent}
+                            name="content"
+                            value={content}
+                            onChange={(e) => setContent(e.target.value)}
                             required
                             placeholder="공지사항 내용을 입력하세요"
                             rows={8}
-                        />
-
-                        <FormField
-                            label="첨부파일"
-                            type="file"
-                            name="file"
-                            onChange={handleFileChange}
-                            error={errors.file}
-                            accept="image/*"
-                            fileName={fileNames.file}
                         />
 
                         <FormButtonGroup>
@@ -170,7 +126,7 @@ const NoticeInsertForm = () => {
                 </FormCardBody>
             </FormCard>
         </FormContainer>
-    );
-};
+    )
+}
 
 export default NoticeInsertForm;
