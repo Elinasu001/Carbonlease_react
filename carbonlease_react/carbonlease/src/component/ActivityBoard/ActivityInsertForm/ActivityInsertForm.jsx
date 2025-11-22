@@ -25,8 +25,23 @@ const ActivityInsertForm = () => {
 
   const [file, setFile] = useState(null);
 
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+
+    if(!token){
+      alert("로그인 후 이용해주세요!");
+      navigate("/login");
+    }
+  }, [navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!accessToken) {
+      alert("로그인이 필요한 서비스입니다!");
+      navigate("/login");
+      return;
+    }
 
     if(!title) return alert("제목을 입력해주세요!");
     if(!content) return alert("내용을 입력해주세요!");

@@ -30,3 +30,13 @@ export const activityInsertForm = (activity, file, accessToken) => {
     }
   });
 };
+
+export const fetchActivityBoards = (pageNo, filter, keyword) => {
+  return activityAPI.get("", {
+    params: {
+      pageNo,
+      filter,
+      keyword
+    }
+  });
+};

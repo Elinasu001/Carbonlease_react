@@ -60,6 +60,7 @@ export const ActivityForm = styled.form`
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #fff;
   }
 
   button[type='submit'] {

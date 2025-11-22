@@ -1,4 +1,4 @@
-import { BoardInfo, BoardItemWrapper, BoardNo } from "../../../ActivityBoard/ActivityBoards/components/BoardItem.styles";
+import { BoardInfo, BoardItemWrapper, BoardNo } from "./BoardItem.styles";
 
 const BoardItems = ({ item }) => {
   return (
