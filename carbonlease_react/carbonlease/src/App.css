@@ -82,3 +82,17 @@ h6 {
   color: var(--heading-color);
   font-family: var(--heading-font);
 }
+
+#signUpContainer { 
+    margin:auto;
+}
+
+.regInvalidMsg {
+  font-size: 14px;
+  color: red;
+}
+
+.regValidMsg {
+  font-size: 14px;
+  color: rgb(7, 165, 7);
+}

@@ -3,8 +3,11 @@ import Pagination from '../../Common/Pagination/Pagination';
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function NoticesList() {
+
+    const navigate = useNavigate();
 
     const [currentPage, setCurrentPage] = useState(1);
     const [notice, setNotice] = useState([]);
@@ -22,7 +25,7 @@ function NoticesList() {
         axios
             .get(`http://localhost/notices?pageNo=${page}`)
             .then((result) => {
-                //console.log(result); // OK
+                console.log(result); // OK
                 const responseNotice = result.data.notices;
                 const responsePageInfo = result.data.pageInfo;
                 setNotice([...responseNotice]);
@@ -31,6 +34,7 @@ function NoticesList() {
                     endPage: responsePageInfo.endPage,
                     totalPage: responsePageInfo.maxPage
                 })
+                
             })
     }
 
@@ -58,6 +62,11 @@ function NoticesList() {
        
     ];
 
+    const handleRowClick = (row) => {
+        //console.log("hi");
+        navigate(`/notices/${row.noticeNo}`)
+    }
+
     return (
         <>
         <DataTable
@@ -65,6 +74,7 @@ function NoticesList() {
             columns={columns}
             data={notice}
             icon="fas fa-leaf" 
+            onRowClick={handleRowClick}
         />
 
         <Pagination

@@ -8,7 +8,10 @@ import {
     FieldTextarea,
     FileInputLabel,
     FileInputWrapper,
-    HiddenFileInput
+    HiddenFileInput,
+    SwitchWrapper,
+    SwitchInput,
+    SwitchLabel
 } from './FormField.styled';
 
 const FormField = ({
@@ -87,6 +90,30 @@ const FormField = ({
                     </DatePickerWrapper>
                 );
             
+           case 'toggle-switch':
+                return (
+                    <SwitchWrapper>
+                        <SwitchInput
+                            type="checkbox"
+                            id={name}
+                            name={name}
+                            checked={!!value}
+                            onChange={(e) =>
+                                onChange({
+                                    target: {
+                                        name,
+                                        value: e.target.checked   // boolean
+                                    }
+                                })
+                            }
+                        />
+
+                        <SwitchLabel htmlFor={name} $checked={!!value} />
+                    </SwitchWrapper>
+                );
+
+
+
             default:
                 return (
                     <FieldInput
