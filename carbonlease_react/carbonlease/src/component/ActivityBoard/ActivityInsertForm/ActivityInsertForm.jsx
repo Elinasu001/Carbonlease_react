@@ -36,6 +36,9 @@ const ActivityInsertForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    const accessToken = localStorage.getItem("accessToken");
+
 
     if (!accessToken) {
       alert("로그인이 필요한 서비스입니다!");
@@ -48,7 +51,6 @@ const ActivityInsertForm = () => {
     if(!address || !lat || !lng) return alert("주소를 입력해주세요!");
     if(!regionNo || !category) return alert("지역 or 탄소절감 카테고리를 선택해주세요!");
 
-    const accessToken = localStorage.getItem("accessToken");
 
     const activity = {
       title,
