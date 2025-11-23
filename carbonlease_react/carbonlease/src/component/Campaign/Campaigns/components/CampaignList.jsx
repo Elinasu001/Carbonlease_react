@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Pagination from '../../../Common/Pagination/Pagination';
 import { AuthContext } from '../../../Context/AuthContext';
-import { useCampaignList } from '../useCampaignList';
+import useCampaignList from '../useCampaignList';
 import { CampaignGrid, CampaignListContainer } from './CampaignList.styled';
 import CampaignListItem from './CampaignListItem';
 import CampaignSkeleton from './CampaignSkeleton';

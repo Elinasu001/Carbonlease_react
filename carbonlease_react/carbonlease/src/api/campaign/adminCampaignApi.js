@@ -2,13 +2,13 @@
 import axios from 'axios';
 
 // Spring Boot API Base URL
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:80';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Axios 인스턴스 생성
 const adminCampaignApi = axios.create({
     baseURL: `${API_BASE_URL}/admin/campaigns`,
     timeout: 10000,
-    withCredentials: true, // 쿠키(세션) 전송을 위해 추가
+    //withCredentials: true, // 쿠키(세션) 전송을 위해 추가
     headers: {
         'Content-Type': 'application/json',
     }
