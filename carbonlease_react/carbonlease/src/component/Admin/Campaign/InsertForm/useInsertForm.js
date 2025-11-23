@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fetchCategoryOptions, save } from '../../../../api/campaign/adminCampaignApi';
+import { getCategories, save } from '../../../../api/campaign/adminCampaignApi';
 
 const useInsertForm = (onShowToast, auth) => {
 	const navigate = useNavigate();
@@ -28,16 +28,16 @@ const useInsertForm = (onShowToast, auth) => {
 
     // 카테고리 옵션 불러오기
 	useEffect(() => {
-		const accessToken = localStorage.getItem('accessToken');
-		fetchCategoryOptions(accessToken)
-			.then(ressult => {
-				const options = ressult.data.map(cat => ({ value: cat.categoryNo, label: cat.categoryName }));
-				setCategoryOptions(options);
-			})
-			.catch(() => {
-				setCategoryOptions([]);
-			});
-	}, []);
+    getCategories()
+        .then(ressult => {
+			 console.log('카테고리 API 응답:', ressult.data);
+            const options = ressult.data.map(c => ({ value: c.categoryNo, label: c.categoryName }));
+            setCategoryOptions(options);
+        })
+        .catch(() => {
+            setCategoryOptions([]);
+        });
+}, []);
 
     //  폼 필드 변경 처리
 	const handleChange = (e) => {
@@ -139,9 +139,12 @@ const useInsertForm = (onShowToast, auth) => {
 					onShowToast && onShowToast('등록에 실패했습니다.', 'error');
 				}
 			})
-			.catch(() => {
-				onShowToast && onShowToast('등록에 실패했습니다.', 'error');
-			});
+			.catch((error) => {
+                onShowToast && onShowToast(
+                    error?.response?.data?.["error-message"] || '등록에 실패했습니다.',
+                    'error'
+                );
+            });
 	};
 
     //  취소 처리

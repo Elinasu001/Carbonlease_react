@@ -12,6 +12,7 @@ const adminCampaignApi = axios.create({
 
 // 인터셉터 설정: 모든 요청에 토큰 자동 주입
 adminCampaignApi.interceptors.request.use(
+    
     (config) => {
         // 저장소에서 토큰을 꺼냅니다 (localStorage 예시)
         const accessToken = localStorage.getItem('accessToken');
@@ -48,14 +49,12 @@ export const save = (campaign, files) => {
         formData.append("detailImage", files[1]);
     }
 
-    // 중요: headers의 'Content-Type' 설정을 지우세요.
-    // Axios가 FormData를 감지하면 자동으로 boundary를 포함한 multipart 설정을 해줍니다.
     return adminCampaignApi.post('/insert', formData);
 };
 
 
 // 카테고리 목록 조회
-export const fetchCategoryOptions = () => {
+export const getCategories = () => {
     return adminCampaignApi.get('/categories');
 };
 

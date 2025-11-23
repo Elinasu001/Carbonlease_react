@@ -12,7 +12,6 @@ const CampaignListItem = ({ campaign, auth, onLikeToggle, onCardClick }) => {
     
     // 목록에서 썸네일 이미지
     const thumbnail = campaign.attachments?.find(att => att.fileLevel === 0);
-    console.log('[캠페인 이미지 filePath]', campaign.filePath);
 
     return (
         <CampaignCard key={campaign.campaignNo} onClick={() => onCardClick(campaign)}>

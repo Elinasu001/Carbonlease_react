@@ -37,13 +37,16 @@ const useCampaignDetail = (id, onShowToast, auth) => {
                 } else {
                     setError(true);
                     setLoading(false);
-                    onShowToast('캠페인 정보를 불러오지 못했습니다.', 'error');
+                    onShowToast && onShowToast("알 수 없는 오류가 발생했습니다.", "error");
                 }
             })
-            .catch(() => {
+            .catch((error) => {
                 setError(true);
                 setLoading(false);
-                onShowToast('캠페인 정보를 불러오지 못했습니다.', 'error');
+                onShowToast && onShowToast(
+                    error?.response?.data?.["error-message"] || "캠페인 정보를 불러오지 못했습니다.",
+                    "error"
+                );
             });
     };
 
@@ -52,7 +55,7 @@ const useCampaignDetail = (id, onShowToast, auth) => {
         e.stopPropagation();
 
         if (!auth.isAuthenticated) {
-            onShowToast('로그인이 필요합니다.', 'error');
+            onShowToast && onShowToast('로그인이 필요합니다.', 'error');
             return;
         }
 
@@ -65,16 +68,19 @@ const useCampaignDetail = (id, onShowToast, auth) => {
                         prevCampaign ? { ...prevCampaign, isLiked: newLikeStatus } : prevCampaign
                     );
                     if (!currentLikeStatus) {
-                        onShowToast('이 캠페인에 공감해주셨어요!');
+                        onShowToast && onShowToast('이 캠페인에 공감해주셨어요!');
                     } else {
-                        onShowToast('참여를 취소했어요. 언제든 다시 함께해주세요!');
+                        onShowToast && onShowToast('참여를 취소했어요. 언제든 다시 함께해주세요!');
                     }
                 } else {
-                    onShowToast('좋아요 처리에 실패했습니다.', 'error');
+                    onShowToast && onShowToast('좋아요 처리에 실패했습니다.', 'error');
                 }
             })
-            .catch(() => {
-                onShowToast('좋아요 처리에 실패했습니다.', 'error');
+            .catch((error) => {
+                onShowToast && onShowToast(
+                    error?.response?.data?.["error-message"] || '좋아요 처리에 실패했습니다.',
+                    'error'
+                );
             });
     };
 

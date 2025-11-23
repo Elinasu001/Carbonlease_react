@@ -1,9 +1,9 @@
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/ActivityBoardDetail";
-import ActivityInsertForm from "./component/ActivityBoard/ActivityInsertForm/ActivityInsertForm";
 import ActivityBoards from "./component/ActivityBoard/ActivityBoards/ActivityBoards";
 import ActivityBoardUpdateForm from "./component/ActivityBoard/ActivityBoardUpdateForm/ActivityBoardUpdateForm";
+import ActivityInsertForm from "./component/ActivityBoard/ActivityInsertForm/ActivityInsertForm";
 import BoardDetail from "./component/Board/BoardDetail/BoardDetail";
 import Boards from "./component/Board/Boards/Boards";
 import CampaignDetail from './component/Campaign/CampaignDetail/CampaignDetail';
@@ -18,10 +18,11 @@ import Notices from './component/Notice/Notices/Notices';
 import { GlobalCommonStyles } from './styles/global.styled';
 
 // Admin Components
+import { useContext } from 'react';
 import AdminActivityBoards from './component/Admin/ActivityBoard/AdminActivityBoards';
 import AdminHome from './component/Admin/AdminHome';
 import AdminBoards from './component/Admin/Board/AdminBoards';
-import AdminCampaigns from './component/Admin/Campaign/AdminCampaigns';
+import AdminCampaigns from './component/Admin/Campaign/AdminCampaigns/AdminCampaigns';
 import InsertForm from './component/Admin/Campaign/InsertForm/InsertForm';
 import UpdateForm from './component/Admin/Campaign/UpdateForm';
 import AdminLayout from './component/Admin/Layout/AdminLayout';
@@ -30,11 +31,10 @@ import AdminNotices from './component/Admin/Notice/AdminNotices';
 import NoticeInsertForm from './component/Admin/Notice/NoticeInsertForm';
 import NoticeUpdateForm from './component/Admin/Notice/NoticeUpdateForm';
 import AdminUsers from './component/Admin/User/AdminUsers';
-import SamplePage from "./component/Sample/SamplePage";
+import { AuthContext } from './component/Context/AuthContext';
 import MyPage from './component/Member/MyPage/MyPage';
 import MemberUpdateForm from './component/Member/UpdateForm/MemberUpdateForm';
-import { useContext } from 'react';
-import { AuthContext } from './component/Context/AuthContext';
+import SamplePage from "./component/Sample/SamplePage";
 
 
 function App() {

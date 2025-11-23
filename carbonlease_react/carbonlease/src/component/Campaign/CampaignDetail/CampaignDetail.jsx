@@ -120,9 +120,11 @@ const CampaignDetail = () => {
             />
             <PageContent>
                 <CampaignDetailContainer>
-                    {campaignComponents.map((Component, idx) => (
-                        <Component key={idx} campaign={campaign} />
-                    ))}
+                    {campaignComponents.map((Component, idx) =>
+                        Component === CampaignMeta
+                            ? <Component key={idx} campaign={campaign} auth={auth} />
+                            : <Component key={idx} campaign={campaign} />
+                    )}
                     <CampaignActions
                         campaign={campaign}
                         auth={auth}

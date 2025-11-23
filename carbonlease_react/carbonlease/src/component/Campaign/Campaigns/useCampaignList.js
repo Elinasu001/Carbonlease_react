@@ -26,6 +26,7 @@ const useCampaignList = (onShowToast, auth) => {
         findAll(page)
             .then((result) => {
                 if (result && result.status === 200) {
+                    
                     // 캠페인 목록 및 페이지 정보 설정
                     const Campaigns = result.data.campaigns;
                     const PageInfo = result.data.pageInfo;
@@ -48,11 +49,14 @@ const useCampaignList = (onShowToast, auth) => {
                         totalPage: PageInfo.maxPage
                     });
                 } else {
-                    onShowToast('캠페인 목록을 불러오지 못했습니다.', 'error');
+                    onShowToast && onShowToast('캠페인 목록을 불러오지 못했습니다.', 'error');
                 }
             })
-            .catch(() => {
-                onShowToast('캠페인 목록을 불러오지 못했습니다.', 'error');
+            .catch((error) => {
+                onShowToast && onShowToast(
+                    error?.response?.data?.["error-message"] || '캠페인 목록을 불러오지 못했습니다.',
+                    'error'
+                );
             })
             .finally(() => {
                 setLoading(false);
@@ -66,7 +70,7 @@ const useCampaignList = (onShowToast, auth) => {
 
         // 인증 여부 확인
         if (!auth.isAuthenticated) {
-            onShowToast('로그인이 필요합니다.', 'error');
+            onShowToast && onShowToast('로그인이 필요합니다.', 'error');
             return;
         }
         
@@ -88,16 +92,19 @@ const useCampaignList = (onShowToast, auth) => {
                     );
                     // 토스트 메시지 표시
                     if (!currentLikeStatus) {
-                        onShowToast('이 캠페인에 공감해주셨어요!');
+                        onShowToast && onShowToast('이 캠페인에 공감해주셨어요!');
                     } else {
-                        onShowToast('참여를 취소했어요. 언제든 다시 함께해주세요!');
+                        onShowToast && onShowToast('참여를 취소했어요. 언제든 다시 함께해주세요!');
                     }
                 } else {
-                    onShowToast('좋아요 처리에 실패했습니다.', 'error');
+                    onShowToast && onShowToast('좋아요 처리에 실패했습니다.', 'error');
                 }
             })
-            .catch(() => {
-                onShowToast('좋아요 처리에 실패했습니다.', 'error');
+            .catch((error) => {
+                onShowToast && onShowToast(
+                    error?.response?.data?.["error-message"] || '좋아요 처리에 실패했습니다.',
+                    'error'
+                );
             });
     };
     
