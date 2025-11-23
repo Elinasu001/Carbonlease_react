@@ -7,38 +7,50 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 // Axios 인스턴스 생성
 const adminCampaignApi = axios.create({
     baseURL: `${API_BASE_URL}/admin/campaigns`,
-    timeout: 10000,
-    //withCredentials: true, // 쿠키(세션) 전송을 위해 추가
-    headers: {
-        'Content-Type': 'application/json',
-    }
+    timeout: 10000
 });
+
+// 인터셉터 설정: 모든 요청에 토큰 자동 주입
+adminCampaignApi.interceptors.request.use(
+    (config) => {
+        // 저장소에서 토큰을 꺼냅니다 (localStorage 예시)
+        const accessToken = localStorage.getItem('accessToken');
+        
+        if (accessToken) {
+            config.headers['Authorization'] = `Bearer ${accessToken}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+
+);
 
 // 캠페인 리스트 조회
 export const findAll = (page) => {
-    return campaignApi.get('', {
+    return adminCampaignApi.get('', {
         params: { pageNo : page }
     });
 };
 
 // 캠페인 게시글 등록
-export const save = (campaign, files, accessToken) => {
+export const save = (campaign, files) => {
     const formData = new FormData();
 
     Object.entries(campaign).forEach(([key, value]) => {
         formData.append(key, value);
     });
 
-    // 서버가 요구하는 이름으로 추가
-    formData.append("thumbnail", files[0]);
-    formData.append("detailImage", files[1]);
+    // 파일 추가
+    if (files && files.length > 0) {
+        formData.append("thumbnail", files[0]);
+        formData.append("detailImage", files[1]);
+    }
 
-    return adminCampaignApi.post('/insert', formData, {
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'multipart/form-data'
-        }
-    });
+    // 중요: headers의 'Content-Type' 설정을 지우세요.
+    // Axios가 FormData를 감지하면 자동으로 boundary를 포함한 multipart 설정을 해줍니다.
+    return adminCampaignApi.post('/insert', formData);
 };
 
 
@@ -46,7 +58,6 @@ export const save = (campaign, files, accessToken) => {
 export const fetchCategoryOptions = () => {
     return adminCampaignApi.get('/categories');
 };
-
 
 
 
