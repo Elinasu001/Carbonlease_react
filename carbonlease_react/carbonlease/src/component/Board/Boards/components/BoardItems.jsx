@@ -1,4 +1,4 @@
-
+import { useNavigate } from 'react-router-dom';
 import { BoardInfo, BoardItemWrapper, BoardNo } from "./BoardItem.styles";
 
 const BoardItems = ({ item }) => {
@@ -14,7 +14,7 @@ const BoardItems = ({ item }) => {
 
       <BoardNo>{ item.boardSeq } </BoardNo>
 
-      <BoardInfo>
+      <BoardInfo key={item.replyNo}>
         <div className="title" onClick={() => onClickBoardDetail(item)}>{ item.boardTitle}</div>
         <div className="content" onClick={() => onClickBoardDetail(item)} >{ item.boardContent }</div>
         <div className="meta" onClick={() => onClickBoardDetail(item)}>

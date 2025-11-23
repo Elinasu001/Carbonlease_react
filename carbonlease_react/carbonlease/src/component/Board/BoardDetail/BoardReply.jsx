@@ -8,6 +8,7 @@ const BoardReply = ({ data = [] }) => {
         <>
         
         { data.length === 0 ? (
+            
             <Section>
                 <div style={{ padding:"10px", textAlign:"center", color:"#777" }}>
                   아직 댓글이 없습니다. 첫 댓글을 남겨보세요! 💬

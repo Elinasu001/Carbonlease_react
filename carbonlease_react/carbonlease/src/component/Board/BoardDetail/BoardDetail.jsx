@@ -8,13 +8,17 @@ import BoardItems from '../Boards/components/BoardItems';
 import { ButtonArea, ButtonGroup, LikeCard, ProfileAndLike, ReplyButton, ReplyWriteArea } from '../../ActivityBoard/ActivityBoardDetail/ActivityBoardDetail.styles';
 import OutlineSuccessButton from "../../Common/UI/Button/OutlineWriterButton.jsx";
 import OutlineDangerButton from '../../Common/UI/Button/OutlineDangerButton';
-import { FormCard } from '../../../component/ActivityBoard/ActivityInsertForm/ActivityInsertForm.styles.js';
 import { Button, Form, Modal } from 'react-bootstrap';
 import BoardReply from './BoardReply.jsx';
 import RegionSelect from '../../../component/ActivityBoard/ActivityInsertForm/components/RegionSelect.jsx';
 import ReplyPagination from '../../Common/UI/ReplyPagination.jsx';
+import { FormArea } from './BoardDetailStyles.js';
+import { AuthContext } from "../../Context/AuthContext";
+import { useContext } from "react";
+import { useRef } from "react";
 
 const BoardDetail = () => {
+    const accessToken = localStorage.getItem("accessToken");
     const navigate = useNavigate();
     const {id} = useParams();
     const [board, setBoard] = useState([]);
@@ -22,6 +26,7 @@ const BoardDetail = () => {
     const [reply, setReply] = useState([]);
     const [regionNo, setRegionNo] = useState("");
     const [showAlert, setShowAlert] = useState(false);
+    const { auth } = useContext(AuthContext);
 
     const handleUpdate = () => {
         navigate(`/boards/updateForm/${post.id}`);
@@ -53,6 +58,8 @@ const BoardDetail = () => {
                     viewCount: response.boardDetail.viewCount,
                     regionNo: response.boardDetail.regionNo,
                     regionName: response.boardDetail.regionName,
+                    replyCount: response.replyCount.endPage,
+                    boardNo: response.boardDetail.boardNo,
                 });
                 console.log("댓글데이터 : ", response.replyList.length);
                 setReply([
@@ -61,6 +68,41 @@ const BoardDetail = () => {
 
     }, [id])
     
+    const replyBt = () => {
+      //alert("댓글 등록!!");
+      console.log("login " ,auth);
+
+      if (!accessToken) {
+        alert("로그인이 필요한 서비스입니다!");
+        navigate("/login");
+        return;
+      }
+
+      insertReplay();
+    }
+    const replyTextarea = useRef(null);
+    const insertReplay = async  () =>{
+      console.log( "댓글 내용 : ",  replyTextarea.current.value);
+      
+      if (replyTextarea.current.value == "") {
+        alert("댓글 내용을 입력하세요");
+        return;
+      }
+
+      const ReplyInsertVO = {
+         memberNo : 999999
+        ,boardNo : board.boardNo
+        ,replyContent : replyTextarea.current.value
+      }
+      await axios
+            .post(`http://localhost/boards/detail/replyInsert`, ReplyInsertVO)
+            .then((result) => {
+                const response = result.data;
+                console.log("상세보기 데이터:", response);
+              
+            })
+    }
+        
     return(
         <>
            
@@ -74,7 +116,7 @@ const BoardDetail = () => {
             />
 
             <PageContent>
-                <FormCard style={{ padding: '50px' }}>
+                <FormArea style={{ padding: '50px' }}>
                 <Form.Label /><strong>No : {id}</strong>
                     <div> 
                       조회수 : {board.viewCount} </div> <br />
@@ -103,18 +145,19 @@ const BoardDetail = () => {
 
               {/* {댓글 리스트} */}
             <BoardReply data={reply}/>
-            <ReplyPagination currentPage={1} totalPages={5} />  
+            <ReplyPagination currentPage={1} totalPages={board.replyCount} />  
              <ProfileAndLike>
               
               {/* {댓글 등록} */}
             <Form.Label><strong>댓글</strong></Form.Label>
               <Form.Control
+                ref={replyTextarea}
                 as="textarea"
                 placeholder="댓글을 입력해주세요."
                 maxLength={1000}
                 style={{ height: '100px', width: "600px" }}
               />
-                <ReplyButton variant="outline-success">
+                <ReplyButton variant="outline-success" onClick={replyBt}>
                     댓글 등록
                     <Modal onClick={(showAlert) => setShowAlert(true)}
                         show={showAlert}
@@ -142,7 +185,7 @@ const BoardDetail = () => {
                 </ButtonGroup>
             </ButtonArea>
 
-            </FormCard>
+            </FormArea>
             </PageContent>
         </>
 
