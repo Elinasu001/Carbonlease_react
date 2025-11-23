@@ -11,7 +11,7 @@ import ContentSection from "./components/ContentSection.jsx";
 import CommentsPagination from "./components/CommentsPagination.jsx";
 import { useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { fetchActivityDetail } from "../../../api/activity/activityAPI.js";
+import { fetchActivityDetail, toggleLike, deleteActivityBoard } from "../../../api/activity/activityAPI.js";
 import { AuthContext } from "../../Context/AuthContext.jsx";
 import Toast from "../../Common/Toast/Toast.jsx";
 import activityStore from "../../../store/activityStore.js";
@@ -67,15 +67,20 @@ const ActivityBoardDetail = ({onShowToast}) => {
 
 
   console.log(post);
-
+  console.log(auth);
   if (loading) return <div>로딩중...</div>
   if (!post) return <div>게시글을 찾을수 없습니다.</div>
 
   const handleUpdate = () => {
-    navigate(`activityBoards/update/${id}`);
+    navigate(`/activityBoards/update/${id}`);
   };
 
   const handleDelete = async () => {
+    if (!auth.isAuthenticated) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+
     if (!window.confirm("정말 삭제하시겠습니까?")) return;
 
     try {
@@ -87,6 +92,7 @@ const ActivityBoardDetail = ({onShowToast}) => {
       alert("삭제 중 오류가 발생했습니다.");
     }
   };
+
 
   const handleLikeToggle = async (e) => {
     e.stopPropagation();
@@ -177,10 +183,13 @@ const ActivityBoardDetail = ({onShowToast}) => {
           </ProfilAndLike>
 
           {/* 수정/삭제 버튼 */}
-          <ButtonSection>
-            <button className="update-btn" onClick={handleUpdate}>수정</button>
-            <button className="delete-btn" onClick={handleDelete}>삭제</button>
-          </ButtonSection>
+          {auth.isAuthenticated && auth.nickName === post.nickName && (
+            <ButtonSection>
+              <button className="update-btn" onClick={handleUpdate}>수정</button>
+              <button className="delete-btn" onClick={handleDelete}>삭제</button>
+            </ButtonSection>
+          )}
+
 
           {/* 댓글 영역 */}
           <CommentSection>

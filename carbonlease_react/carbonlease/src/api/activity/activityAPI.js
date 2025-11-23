@@ -41,9 +41,10 @@ export const fetchActivityBoards = (pageNo, filter, keyword) => {
   });
 };
 
-export const fetchActivityDetail = (activityNo, accessToken, memberNo) => {
+export const fetchActivityDetail = (activityNo) => {
+  const accessToken = localStorage.getItem("accessToken");
+
   return activityAPI.get(`/${activityNo}`, {
-    params: { memberNo: memberNo ?? 0 },
     headers: accessToken
       ? { Authorization: `Bearer ${accessToken}` }
       : {}
@@ -64,6 +65,14 @@ export const toggleLike = (activityNo) => {
 
 
 export const deleteActivityBoard = (activityNo) => {
-  return activityAPI.delete(`/${activityNo}`);
+    const accessToken = localStorage.getItem("accessToken");
+
+    return activityAPI.delete(`/${activityNo}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
 };
+
+
 
