@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
-import { AuthContext } from "../../../Context/AuthContext";
-import { insertReplyAPI } from "../../../../api/activity/activityAPI";
-import { ReplyInput, ReplyInputButton, ReplyInputSection } from "../ActivityBoardDetail.styles";
+import { AuthContext } from "../../../../Context/AuthContext";
+import { insertReplyAPI } from "../../../../../api/activity/activityAPI";
+import { ReplyInputSection, ReplyInput, ReplyInputButton } from "../../ActivityBoardDetail.styles";
 
 const CommentInsert = ({ boardNo, onSuccess }) => {
   const [content, setContent] = useState("");

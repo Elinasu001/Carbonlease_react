@@ -9,7 +9,7 @@ const ProfilCard = ({nickName, count, carbon}) => {
       <ProfilText>
         <div><strong>{nickName}</strong></div>
         <div>인증 횟수: {count}회</div>
-        <div>탄소 절약: {carbon} kg CO₂</div>
+        <div>탄소 절약: {carbon}g CO₂</div>
       </ProfilText>
     </ProfilCardWrapper>
   )

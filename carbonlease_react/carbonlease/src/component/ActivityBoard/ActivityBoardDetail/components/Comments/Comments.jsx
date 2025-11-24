@@ -7,7 +7,7 @@ import {
   ReplyDate,
   ReplyButton,
   ReplyInput
-} from "../ActivityBoardDetail.styles";
+} from "../../ActivityBoardDetail.styles";
 
 const Comments = ({
   comments = [],
@@ -20,7 +20,7 @@ const Comments = ({
   const [editContent, setEditContent] = useState("");
 
   const startEdit = (reply) => {
-    onUpdate(reply, undefined); // 수정 모드 진입 신호
+    onUpdate(reply.replyNo, undefined); // 수정 모드 진입 신호
     setEditContent(reply.replyContent);
   };
 
@@ -41,7 +41,7 @@ const Comments = ({
               />
 
               <ReplyFooter>
-                <ReplyButton onClick={() => onUpdate(reply, editContent, stopEditing)}>
+                <ReplyButton onClick={() => onUpdate(reply.replyNo, editContent, stopEditing)}>
                   저장
                 </ReplyButton>
                 <ReplyButton onClick={stopEditing}>취소</ReplyButton>

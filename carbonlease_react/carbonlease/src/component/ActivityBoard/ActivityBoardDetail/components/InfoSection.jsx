@@ -21,7 +21,7 @@ const InfoSection = ({ title, writer, createDate, views, likes }) => {
             <span>조회</span>
             <span>{views}</span>
             <span>·</span>
-            <span> 공감수</span>
+            <span> 좋아요</span>
             <span>{likes}</span>
           </InfoItem>
         </InfoRow>
