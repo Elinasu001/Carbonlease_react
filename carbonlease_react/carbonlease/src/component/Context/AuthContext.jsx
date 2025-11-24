@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
         addressLine2 : null,
         role : null,
         isAuthenticated : false,
+        expiredDate : null
     });
 
     useEffect(() => {
@@ -46,7 +47,7 @@ export const AuthProvider = ({ children }) => {
         console.log(1000*60*60*24);
 
         {
-            accessToken !== null && (Date.now() - expiredDate > 1000*60*60*24)? 
+            expiredDate !== null && (Date.now() - expiredDate > 1000*60*60*24)? 
 
         axios.post("http://localhost/auth/refresh", {
             refreshToken : refreshToken,
@@ -80,8 +81,11 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem("addressLine1");
             localStorage.removeItem("addressLine2");
             localStorage.removeItem("role");
+            localStorage.removeItem("expiredDate")
         })
         :
+        accessToken !==null
+        ?        
         setAuth({
                 memberId,
                 nickName,
@@ -91,8 +95,11 @@ export const AuthProvider = ({ children }) => {
                 addressLine1, 
                 addressLine2,
                 role,
-                isAuthenticated : true,
-        });
+                isAuthenticated : true
+        })
+        :
+        <></>
+
     }
 
 
@@ -108,7 +115,7 @@ export const AuthProvider = ({ children }) => {
             addressLine1, 
             addressLine2,
             role,
-            isAuthenticated : true,
+            isAuthenticated : true
         });
 
         localStorage.setItem("memberId",memberId);
@@ -132,7 +139,7 @@ export const AuthProvider = ({ children }) => {
             addressLine1 : null, 
             addressLine2 : null,
             role : null,
-            isAuthenticated : false,
+            isAuthenticated : false
         });
 
         localStorage.removeItem("memberId");
@@ -143,6 +150,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem("addressLine1");
         localStorage.removeItem("addressLine2");
         localStorage.removeItem("role");
+        localStorage.removeItem("expiredDate");
 
         //navi('/');
 
