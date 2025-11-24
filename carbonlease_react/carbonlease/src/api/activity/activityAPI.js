@@ -118,7 +118,25 @@ export const increaseViewCountAPI = (activityNo) => {
   return activityAPI.post(`/${activityNo}/view`);
 };
 
+export const activityUpdateForm = (activity, file, accessToken) => {
 
+  const formData = new FormData();
+
+  Object.entries(activity).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
+
+  if (file) {
+    formData.append("file", file);
+  }
+
+  return activityAPI.put(`/${activity.activityNo}`, formData,{
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type" : "multipart/form-data",
+    },
+  });
+};
 
 
 

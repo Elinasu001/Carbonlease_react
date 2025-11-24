@@ -9,11 +9,21 @@ import TextInputSection from "./components/TextInputSection";
 import { useNavigate } from "react-router-dom";
 import useInsertFormState from "./hook/useInsertFormState";
 import useInsertSubmit from "./hook/useInsertSubmit";
+import useToast from "../ActivityBoardDetail/hooks/useToast";
+import Toast from "../../Common/Toast/Toast";
 
 
 const ActivityInsertForm = () => {
   
   const navigate = useNavigate();
+
+  const {
+    toastMessage,
+    showToast,
+    toastVariant,
+    showToastMessage,
+    closeToast
+  } = useToast();
 
   const {
     title, setTitle,
@@ -33,7 +43,8 @@ const ActivityInsertForm = () => {
     regionNo,
     category,
     file,
-    navigate
+    navigate,
+    showToastMessage
   });
 
   return (
@@ -93,6 +104,13 @@ const ActivityInsertForm = () => {
             </ActivityForm>
           </FormArea>
         </PageContent>
+
+        <Toast 
+          message={toastMessage}
+          isVisible={showToast}
+          variant={toastVariant}
+          onClose={closeToast}
+        />
     </>
   )
 }
