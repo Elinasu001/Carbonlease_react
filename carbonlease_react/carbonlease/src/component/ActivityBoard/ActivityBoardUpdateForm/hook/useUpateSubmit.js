@@ -42,7 +42,7 @@ export default function useUpdateSubmit({
         };
 
         try {
-            await ActivityUpdateForm(activity, file, accessToken);
+            await activityUpdateForm(activity, file, accessToken);
             showToastMessage("수정 완료!", "success");
             navigate(`/activityBoards/${activityNo}`);
         } catch (err) {
