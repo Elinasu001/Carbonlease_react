@@ -13,6 +13,7 @@ const useCampaignList = (onShowToast, auth) => {
     });
 
     useEffect (()=>{
+        setLoading(false);
         getCampaigns(currentPage);
     }, [currentPage]);
 
@@ -28,11 +29,10 @@ const useCampaignList = (onShowToast, auth) => {
                 if (result && result.status === 200) {
                     
                     // 캠페인 목록 및 페이지 정보 설정
-                    const Campaigns = result.data.campaigns;
-                    const PageInfo = result.data.pageInfo;
+                    const { campaigns, pageInfo } = result.data;
 
                     // 각 캠페인에 저장된 좋아요 상태 반영
-                    const updatedCampaigns = Campaigns.map(campaign => {
+                    const updatedCampaigns = campaigns.map(campaign => {
                         const storedLike = campaignStore.getLike(campaign.campaignNo);
                         return {
                             ...campaign,
@@ -44,9 +44,9 @@ const useCampaignList = (onShowToast, auth) => {
                     setCampaigns([...updatedCampaigns]);
                     // pageInfo 구조를 Pagination에서 기대하는 형태로 변환
                     setPageInfo({
-                        startPage: PageInfo.startPage,
-                        endPage: PageInfo.endPage,
-                        totalPage: PageInfo.maxPage
+                        startPage: pageInfo.startPage,
+                        endPage: pageInfo.endPage,
+                        totalPage: pageInfo.maxPage
                     });
                 } else {
                     onShowToast && onShowToast('캠페인 목록을 불러오지 못했습니다.', 'error');

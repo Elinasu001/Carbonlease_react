@@ -19,6 +19,7 @@ const useAdminCampaign = (onShowToast) => {
 
     // 캠페인 목록 불러오기
     const getCampaigns = (page) => {
+        
         // 캠페인 목록 불러오기 시작
         setLoading(true);
 
@@ -26,9 +27,12 @@ const useAdminCampaign = (onShowToast) => {
         findAll(page)
             .then((result) => {
                 if (result && result.status === 200) {
+                    
                     // 캠페인 목록 및 페이지 정보 설정
                     const { campaigns, pageInfo } = result.data;
+
                     setCampaigns([...campaigns]);
+
                     setPageInfo({
                         startPage: pageInfo.startPage,
                         endPage: pageInfo.endPage,

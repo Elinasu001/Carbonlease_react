@@ -25,10 +25,13 @@ const useCampaignDetail = (id, onShowToast, auth) => {
         setError(false);
 
         findByNo(campaignNo)
-            .then(ressult => {
-                if (ressult && ressult.status === 200) {
-                    const campaignData = ressult.data;
+            .then((result) => {
+                if (result && result.status === 200) {
+
+                    const campaignData = result.data;
+
                     const storedLike = campaignStore.getLike(campaignNo);
+
                     setCampaign({
                         ...campaignData,
                         isLiked: storedLike !== undefined ? storedLike : campaignData.isLiked
@@ -60,8 +63,8 @@ const useCampaignDetail = (id, onShowToast, auth) => {
         }
 
         toggleLike(campaignNo)
-            .then((ressult) => {
-                if (ressult && ressult.status === 200) {
+            .then((result) => {
+                if (result && result.status === 200) {
                     const newLikeStatus = !currentLikeStatus;
                     campaignStore.setLike(campaignNo, newLikeStatus);
                     setCampaign(prevCampaign =>
@@ -89,8 +92,8 @@ const useCampaignDetail = (id, onShowToast, auth) => {
         loading,
         error,
         fetchCampaignDetail,
-        handleLikeToggle,
         setCampaign,
+        handleLikeToggle,
     };
 };
 
