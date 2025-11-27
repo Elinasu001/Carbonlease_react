@@ -3,6 +3,7 @@ import './App.css';
 import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/ActivityBoardDetail";
 import ActivityBoards from "./component/ActivityBoard/ActivityBoards/ActivityBoards";
 import ActivityUpdateForm from "./component/ActivityBoard/ActivityBoardUpdateForm/ActivityUpdateForm";
+import ActivityInsertForm from "./component/ActivityBoard/ActivityInsertForm/ActivityInsertForm";
 import BoardDetail from "./component/Board/BoardDetail/BoardDetail";
 import Boards from "./component/Board/Boards/Boards";
 import CampaignDetail from './component/Campaign/CampaignDetail/CampaignDetail';
@@ -17,7 +18,9 @@ import Notices from './component/Notice/Notices/Notices';
 import { GlobalCommonStyles } from './styles/global.styled';
 
 // Admin Components
+import { useContext } from 'react';
 import AdminActivityBoards from './component/Admin/ActivityBoard/boards/AdminActivityBoards';
+import AdminActivityBoardUpdate from './component/Admin/ActivityBoard/update/AdminActivityBoardsUpdate';
 import AdminHome from './component/Admin/AdminHome';
 import AdminBoards from './component/Admin/Board/AdminBoards';
 import AdminCampaigns from './component/Admin/Campaign/AdminCampaigns/AdminCampaigns';
@@ -32,9 +35,6 @@ import AdminUsers from './component/Admin/User/AdminUsers';
 import { AuthContext } from './component/Context/AuthContext';
 import MyPage from './component/Member/MyPage/MyPage';
 import MemberUpdateForm from './component/Member/UpdateForm/MemberUpdateForm';
-import { useContext } from 'react';
-import { AuthContext } from './component/Context/AuthContext';
-import AdminActivityBoardUpdate from './component/Admin/ActivityBoard/update/AdminActivityBoardsUpdate';
 
 
 function App() {
@@ -68,7 +68,7 @@ function App() {
 				<Route path="/guide" element={<ComponentGuide />} />
 				
 				{/* Sample Page Route */}
-				<Route path="/sample" element={<SamplePage />} />
+				{/*<Route path="/sample" element={<SamplePage />} >*/}
 			</Route>
 			
 			<Route path="/admin/*" element={<AdminLogin />} />
