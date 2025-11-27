@@ -73,15 +73,7 @@ export const AuthProvider = ({ children }) => {
 
         }).catch(error => {
             console.log(error.response.data["error-message"]);
-            localStorage.removeItem("memberId");
-            localStorage.removeItem("nickName");
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("refreshToken");
-            localStorage.removeItem("email");
-            localStorage.removeItem("addressLine1");
-            localStorage.removeItem("addressLine2");
-            localStorage.removeItem("role");
-            localStorage.removeItem("expiredDate")
+            logout();
         })
         :
         accessToken !==null

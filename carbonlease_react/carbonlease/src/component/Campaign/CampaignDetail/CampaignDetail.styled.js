@@ -26,6 +26,16 @@ export const CategoryBadge = styled.span`
     font-weight: 600;
 `;
 
+export const SignOutBadge = styled.span`
+    display: inline-block;
+    padding: 8px 20px;
+    background: #ffbbbbff;
+    color: #d62323ff;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+`;
+
 export const Title = styled.h1`
     font-size: 20px;
     font-weight: 700;
