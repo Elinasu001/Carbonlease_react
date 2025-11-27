@@ -10,15 +10,14 @@ const Layout = () => {
     const showSidebar =
         location.pathname === "/" ||
         location.pathname.startsWith("/boards") ||
-        location.pathname.startsWith("/activityBoards") ||
-        location.pathname.startsWith("/campaigns");
+        location.pathname.startsWith("/activityBoards");
 
     return (
         <LayoutWrap>
             <Header />
 
-            <PageWrapper>
-              <MainContent>
+            <PageWrapper showSidebar={showSidebar}>
+              <MainContent showSidebar={showSidebar}>
                 <Outlet />
               </MainContent>
 
