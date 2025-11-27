@@ -12,7 +12,7 @@ import FormField from '../../../../Common/Form/FormField';
 import useUpdateForm from '../useUpdateForm';
 
 
-const FormCardBodyComponent = (onShowToast, auth) => {
+const FormCardBodyComponent = ({ onShowToast, auth }) => {
     const {
         formData,
         fileNames,
@@ -22,7 +22,7 @@ const FormCardBodyComponent = (onShowToast, auth) => {
         handleFileChange,
         handleSubmit,
         handleCancel
-    } = useUpdateForm({ onShowToast, auth });
+    } = useUpdateForm(onShowToast, auth);
     
 
     return (
