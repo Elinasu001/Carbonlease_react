@@ -2,8 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/ActivityBoardDetail";
 import ActivityBoards from "./component/ActivityBoard/ActivityBoards/ActivityBoards";
-import ActivityBoardUpdateForm from "./component/ActivityBoard/ActivityBoardUpdateForm/ActivityBoardUpdateForm";
-import ActivityInsertForm from "./component/ActivityBoard/ActivityInsertForm/ActivityInsertForm";
+import ActivityUpdateForm from "./component/ActivityBoard/ActivityBoardUpdateForm/ActivityUpdateForm";
 import BoardDetail from "./component/Board/BoardDetail/BoardDetail";
 import Boards from "./component/Board/Boards/Boards";
 import CampaignDetail from './component/Campaign/CampaignDetail/CampaignDetail';
@@ -18,8 +17,7 @@ import Notices from './component/Notice/Notices/Notices';
 import { GlobalCommonStyles } from './styles/global.styled';
 
 // Admin Components
-import { useContext } from 'react';
-import AdminActivityBoards from './component/Admin/ActivityBoard/AdminActivityBoards';
+import AdminActivityBoards from './component/Admin/ActivityBoard/boards/AdminActivityBoards';
 import AdminHome from './component/Admin/AdminHome';
 import AdminBoards from './component/Admin/Board/AdminBoards';
 import AdminCampaigns from './component/Admin/Campaign/AdminCampaigns/AdminCampaigns';
@@ -34,7 +32,9 @@ import AdminUsers from './component/Admin/User/AdminUsers';
 import { AuthContext } from './component/Context/AuthContext';
 import MyPage from './component/Member/MyPage/MyPage';
 import MemberUpdateForm from './component/Member/UpdateForm/MemberUpdateForm';
-import SamplePage from "./component/Sample/SamplePage";
+import { useContext } from 'react';
+import { AuthContext } from './component/Context/AuthContext';
+import AdminActivityBoardUpdate from './component/Admin/ActivityBoard/update/AdminActivityBoardsUpdate';
 
 
 function App() {
@@ -54,7 +54,7 @@ function App() {
 				<Route path="/boards/:id" element={<BoardDetail />} />
 				<Route path="/activityBoards" element={<ActivityBoards />} />
 				<Route path="/activityBoards/insert" element={<ActivityInsertForm />} />
-				<Route path="/activityBoards/updateForm/:id" element={<ActivityBoardUpdateForm />} />	
+				<Route path="/activityBoards/update/:id" element={<ActivityUpdateForm />} />	
 				<Route path="/activityBoards/:id" element={<ActivityBoardDetail />} />
 
 				<Route path="/notices" element={<Notices />} />
@@ -90,6 +90,7 @@ function App() {
 				<Route path="campaigns/update/:id" element={<UpdateForm />} />
 				<Route path="boards" element={<AdminBoards />} />
 				<Route path="activityBoards" element={<AdminActivityBoards />} />
+				<Route path="activityBoards/update/:id" element={<AdminActivityBoardUpdate />} />
 			</Route>
 
 		</Routes>
