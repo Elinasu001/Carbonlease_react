@@ -42,14 +42,10 @@ export const fetchActivityBoards = (pageNo, filter, keyword) => {
 };
 
 export const fetchActivityDetail = (activityNo) => {
-  const accessToken = localStorage.getItem("accessToken");
-
-  return activityAPI.get(`/${activityNo}`, {
-    headers: accessToken
-      ? { Authorization: `Bearer ${accessToken}` }
-      : {}
-  });
+  return activityAPI.get(`/${activityNo}`);
 };
+
+
 
 
 export const toggleLike = (activityNo) => {

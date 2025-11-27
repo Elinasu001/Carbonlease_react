@@ -2,11 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchActivityDetail } from "../../../../api/activity/activityAPI";
 
-
-export default function useUpdateFormState() {
+export default function useUpdateFormState(id) {
 
     const navigate = useNavigate();
-    const { activityNo } = useParams();
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -23,29 +21,38 @@ export default function useUpdateFormState() {
 
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
-        if(!token) {
+        if (!token) {
             alert("로그인 후 이용해주세요!");
             navigate("/login");
             return;
         }
 
-        fetchActivityDetail(activityNo)
+        fetchActivityDetail(id)
             .then(res => {
+                console.log("activity detail data:", res.data);
                 const d = res.data;
+
                 setTitle(d.activityTitle);
                 setContent(d.activityContent);
                 setAddress(d.address);
                 setLat(d.lat);
                 setLng(d.lng);
-                setRegionNo(d.regionNo);
-                setCategory(d.certificationNo);
-                setOriginImage(d.thumbnailPath);
+                setRegionNo(String(d.regionNo ?? ""));
+                setCategory(String(d.certificationNo ?? ""));
+
+                const base = import.meta.env.VITE_API_BASE_URL;
+
+                if (d.images && d.images.length > 0) {
+                    setOriginImage(`${base}${d.images[0]}`);
+                } else {
+                    setOriginImage(null);
+                }
             })
             .catch(err => console.error(err));
-    }, [navigate, activityNo]);
+    }, [navigate, id]);
 
     return {
-        activityNo,
+        activityNo: id,
         title, setTitle,
         content, setContent,
         address, setAddress,

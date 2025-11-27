@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Pagination from '../../Common/Pagination/Pagination';
-import ConfirmDialog from "../../Common/ConfirmDialog/ConfirmDialog";
-import Toast from "../../Common/Toast/Toast";
-import { PageHeader } from "../../Common/DataTable/DataTable.styled";
+import Pagination from '../../../ActivityBoard/Pagination/Pagination';
+import ConfirmDialog from "../../../Common/ConfirmDialog/ConfirmDialog";
+import Toast from "../../../Common/Toast/Toast";
+import { PageHeader } from "../../../Common/DataTable/DataTable.styled";
 import useAdminBoards from "./hooks/useAdminActivityBoards";
 import AdminTable from "./components/AdminTable";
 

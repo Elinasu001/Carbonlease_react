@@ -5,7 +5,7 @@ import {
   hideBoard,
   restoreBoard,
   deleteBoard,
-} from "../../../../api/activity/adminActivityAPI.js";
+} from "../../../../../api/activity/adminActivityAPI";
 
 export default function useAdminBoards() {
   const [boards, setBoards] = useState([]);
@@ -19,20 +19,21 @@ export default function useAdminBoards() {
   const [loading, setLoading] = useState(true);
 
   const loadBoards = (page = 1) => {
-    setLoading(true);
+  setLoading(true);
 
-    fetchAdminBoards(page)
-      .then((res) => {
-        setBoards(res.data.list);
-        setPageInfo({
-          currentPage: page,
-          totalPage: res.data.pageInfo.maxPage,
-          startPage: res.data.pageInfo.startPage,
-          endPage: res.data.pageInfo.endPage,
-        });
-      })
-      .finally(() => setLoading(false));
-  };
+  fetchAdminBoards(page)
+    .then((res) => {
+
+      setBoards(res.data.list);
+      setPageInfo({
+        currentPage: page,
+        totalPage: res.data.pageInfo.maxPage,
+        startPage: res.data.pageInfo.startPage,
+        endPage: res.data.pageInfo.endPage,
+      });
+    })
+    .finally(() => setLoading(false));
+};
 
   const handleHide = (id) => hideBoard(id).then(() => loadBoards(pageInfo.currentPage));
   const handleRestore = (id) => restoreBoard(id).then(() => loadBoards(pageInfo.currentPage));

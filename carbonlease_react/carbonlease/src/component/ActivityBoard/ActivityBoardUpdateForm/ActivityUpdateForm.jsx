@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import PageTitle from "../../Common/Layout/PageTitle/PageTitle";
 import PageContent from "../../Common/PageContent/PageContent";
 import TextInputSection from "../ActivityInsertForm/components/TextInputSection";
@@ -15,6 +15,8 @@ import Toast from "../../Common/Toast/Toast";
 const ActivityUpdateForm = () => {
 
   const navigate = useNavigate();
+  const { id } = useParams();
+  console.log("activityNo from params:", id);
 
   const {
     toastMessage,
@@ -25,7 +27,6 @@ const ActivityUpdateForm = () => {
   } = useToast();
 
   const {
-    activityNo,
     title, setTitle,
     content, setContent,
     address, setAddress,
@@ -35,7 +36,7 @@ const ActivityUpdateForm = () => {
     category, setCategory,
     file, setFile,
     originImage
-  } = useUpdateFormState();
+  } = useUpdateFormState(id);
 
   const { handleSubmit } = useUpdateSubmit({
     title,
@@ -46,7 +47,7 @@ const ActivityUpdateForm = () => {
     regionNo,
     category,
     file,
-    activityNo,
+    activityNo: id,
     navigate,
     showToastMessage
   });
