@@ -4,7 +4,6 @@ import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/A
 import ActivityBoards from "./component/ActivityBoard/ActivityBoards/ActivityBoards";
 import ActivityInsertForm from './component/ActivityBoard/ActivityInsertForm/ActivityInsertForm';
 import ActivityUpdateForm from "./component/ActivityBoard/ActivityBoardUpdateForm/ActivityUpdateForm";
-import ActivityInsertForm from "./component/ActivityBoard/ActivityInsertForm/ActivityInsertForm";
 import BoardDetail from "./component/Board/BoardDetail/BoardDetail";
 import Boards from "./component/Board/Boards/Boards";
 import CampaignDetail from './component/Campaign/CampaignDetail/CampaignDetail';
@@ -36,7 +35,6 @@ import NoticeUpdateForm from './component/Admin/Notice/NoticeUpdateForm';
 import AdminUsers from './component/Admin/User/AdminUsers';
 import MyPage from './component/Member/MyPage/MyPage';
 import MemberUpdateForm from './component/Member/UpdateForm/MemberUpdateForm';
-import AdminActivityBoardUpdate from './component/Admin/ActivityBoard/update/AdminActivityBoardsUpdate';
 import { AuthProvider } from './component/Context/AuthContext';
 
 
