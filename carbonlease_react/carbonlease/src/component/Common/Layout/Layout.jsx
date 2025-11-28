@@ -1,14 +1,13 @@
 import { Outlet, useLocation } from "react-router-dom";
-import { LayoutWrap, MainContent, PageWrapper } from "./Layout.styled";
-import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import Header from "../Header/Header";
 import Sidebar from "../Sidebar/Sidebar";
+import { LayoutWrap, MainContent, PageWrapper } from "./Layout.styled";
 
 const Layout = () => {
     const location = useLocation();
 
     const showSidebar =
-        location.pathname === "/" ||
         location.pathname.startsWith("/boards") ||
         location.pathname.startsWith("/activityBoards");
 

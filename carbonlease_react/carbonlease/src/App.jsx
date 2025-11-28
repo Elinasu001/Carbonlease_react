@@ -4,6 +4,7 @@ import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/A
 import ActivityBoards from "./component/ActivityBoard/ActivityBoards/ActivityBoards";
 import ActivityInsertForm from './component/ActivityBoard/ActivityInsertForm/ActivityInsertForm';
 import ActivityUpdateForm from "./component/ActivityBoard/ActivityBoardUpdateForm/ActivityUpdateForm";
+import ActivityInsertForm from "./component/ActivityBoard/ActivityInsertForm/ActivityInsertForm";
 import BoardDetail from "./component/Board/BoardDetail/BoardDetail";
 import Boards from "./component/Board/Boards/Boards";
 import CampaignDetail from './component/Campaign/CampaignDetail/CampaignDetail';
@@ -19,7 +20,9 @@ import { GlobalCommonStyles } from './styles/global.styled';
 import SamplePage from './component/Sample/SamplePage'
 
 // Admin Components
+import { useContext } from 'react';
 import AdminActivityBoards from './component/Admin/ActivityBoard/boards/AdminActivityBoards';
+import AdminActivityBoardUpdate from './component/Admin/ActivityBoard/update/AdminActivityBoardsUpdate';
 import AdminHome from './component/Admin/AdminHome';
 import AdminBoards from './component/Admin/Board/AdminBoards';
 import AdminCampaigns from './component/Admin/Campaign/AdminCampaigns/AdminCampaigns';
@@ -67,7 +70,7 @@ function App() {
 				<Route path="/guide" element={<ComponentGuide />} />
 				
 				{/* Sample Page Route */}
-				<Route path="/sample" element={<SamplePage />} />
+				{/*<Route path="/sample" element={<SamplePage />} >*/}
 			</Route>
 			
 			{/* <Route path="/admin/*" element={<AdminLogin />} /> */}
