@@ -1,9 +1,6 @@
 import { BoardNo, BoardsRow, Content, ETC, ListWrapper, TextInfo, Thumbnail, Title } from "../ActivityBoards.styles";
-import SkeletonBoardsList from "./SkeletonBoardsList";
 
-const BoardsList = ({ boards, onClickItem, loading }) => {
-
-  if (loading) return <SkeletonBoardsList />
+const BoardsList = ({ boards, onClickItem }) => {
 
   return (
     <ListWrapper>

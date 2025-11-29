@@ -7,6 +7,7 @@ import BoardsList from './components/BoardsList';
 import SearchBar from './components/SearchBar';
 import EmptyState from './components/EmptyState';
 import { useActivityBoards } from './hooks/useActivityBoards';
+import SkeletonBoardsList from './components/SkeletonBoardsList';
 
 const ActivityBoards = () => {
 
@@ -36,15 +37,21 @@ const ActivityBoards = () => {
 
             <PageContent>
 
-                {/* 게시글 없을 때 */}
-                {activityBoards.length === 0 ? (
-                    <EmptyState message="검색된 게시글이 없습니다." />
-                ) : (
-                    <BoardsList 
-                        boards={activityBoards}
-                        loading={loading}
-                        onClickItem={(id) => navigate(`/activityBoards/${id}`)}
-                    />
+                {/* 로딩 중일 때 최우선 */}
+                {loading ? (
+                <SkeletonBoardsList />
+                    ) : (
+                    <>
+                        {/* 로딩 끝났고 + 데이터 없음 */}
+                        {activityBoards.length === 0 ? (
+                        <EmptyState message="검색된 게시글이 없습니다." />
+                        ) : (
+                        <BoardsList 
+                            boards={activityBoards}
+                            onClickItem={(id) => navigate(`/activityBoards/${id}`)}
+                        />
+                        )}
+                    </>
                 )}
                
                 <ButtonAndSearch>

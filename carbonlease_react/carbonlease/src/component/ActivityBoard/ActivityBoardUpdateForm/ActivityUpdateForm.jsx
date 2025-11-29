@@ -29,15 +29,22 @@ const ActivityUpdateForm = () => {
   } = useToast();
 
   useEffect(() => {
-    if(!auth.isAuthenticated) {
-      showToastMessage("로그인이 필요한 서비스 입니다!", "error");
-
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
-      return;
+    if (!auth.isAuthenticated) {
+      const timer = setTimeout(() => navigate("/login"), 1500);
+      return () => clearTimeout(timer);
     }
   }, [auth.isAuthenticated]);
+
+  if (!auth.isAuthenticated) {
+    return (
+      <Toast
+        message="로그인이 필요한 서비스입니다!"
+        isVisible={true}
+        variant="error"
+        onClose={() => {}}
+      />
+    );
+  }
 
   const {
     title, setTitle,

@@ -5,6 +5,13 @@ import SkeletonBox from "./SkeletonBox";
 const SidoAverage = ({ sido, sidoAvg, onPrev, onNext }) => {
   const [slide, setSlide] = useState("");
 
+  const getGrade = (value) => {
+    if (value <= 15) return "좋음";
+    if (value <= 35) return "보통";
+    if (value <= 75) return "나쁨";
+    return "매우나쁨";
+  };
+
   const handlePrev = () => {
     setSlide("slide-right");
     setTimeout(() => {
@@ -32,7 +39,7 @@ const SidoAverage = ({ sido, sidoAvg, onPrev, onNext }) => {
       </div>
 
       <div className="date">{sidoAvg.time} 기준</div>
-      <div className="value">{sidoAvg.value}㎍/㎥ 보통</div>
+      <div className="value">{sidoAvg.value}㎍/㎥ {getGrade(sidoAvg.value)}</div>
     </SidoInfoBox>
   );
 };
