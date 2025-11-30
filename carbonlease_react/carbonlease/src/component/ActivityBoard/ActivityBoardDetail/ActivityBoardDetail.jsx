@@ -91,7 +91,7 @@ const ActivityBoardDetail = () => {
 
   const handleDelete = async () => {
     if (!auth.isAuthenticated) {
-      alert("로그인이 필요합니다.");
+      showToastMessage("로그인이 필요합니다.", "warning");
       return;
     }
 
@@ -99,11 +99,11 @@ const ActivityBoardDetail = () => {
 
     try {
       await deleteActivityBoard(id);
-      alert("삭제되었습니다.");
+      showToastMessage("삭제되었습니다.", "success");
       navigate("/activityBoards");
     } catch (err) {
       console.error("삭제 실패", err);
-      alert("삭제 중 오류 발생");
+      showToastMessage("삭제 중 오류 발생", "error");
     }
   };
 

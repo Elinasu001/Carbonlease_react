@@ -8,10 +8,20 @@ import SearchBar from './components/SearchBar';
 import EmptyState from './components/EmptyState';
 import { useActivityBoards } from './hooks/useActivityBoards';
 import SkeletonBoardsList from './components/SkeletonBoardsList';
+import useToast from '../ActivityBoardDetail/hooks/useToast';
+import Toast from '../../Common/Toast/Toast';
 
 const ActivityBoards = () => {
 
     const navigate = useNavigate();
+
+    const {
+        toastMessage,
+        showToast,
+        toastVariant,
+        showToastMessage,
+        closeToast,
+      } = useToast();
     
     const {
         activityBoards,
@@ -23,7 +33,7 @@ const ActivityBoards = () => {
         handleSearch,
         loading,
         setLoading
-    } = useActivityBoards();
+    } = useActivityBoards();    
 
     return (
         <>
@@ -59,8 +69,7 @@ const ActivityBoards = () => {
                         onClick={() => {
                             const token = localStorage.getItem("accessToken");
                             if (!token){
-                                alert("로그인 후 이용해주세요!");
-                                navigate("/login");
+                                showToastMessage("로그인 후 이용해주세요!","warning");
                                 return;
                             }
                             navigate("/activityBoards/insert");
@@ -79,6 +88,13 @@ const ActivityBoards = () => {
                 />
 
             </PageContent>
+
+            <Toast
+                message={toastMessage}
+                isVisible={showToast}
+                onClose={closeToast}
+                variant={toastVariant}
+            />
         </>
     );
 };
