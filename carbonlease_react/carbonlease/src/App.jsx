@@ -16,7 +16,7 @@ import Login from './component/Member/Login/Login';
 import NoticeDetail from './component/Notice/NoticeDetail/NoticeDetail';
 import Notices from './component/Notice/Notices/Notices';
 import { GlobalCommonStyles } from './styles/global.styled';
-import SamplePage from './component/Sample/SamplePage'
+import NotFound from './component/Common/NotFound/NotFound';
 
 // Admin Components
 import { useContext } from 'react';
@@ -46,7 +46,6 @@ function App() {
 		<AuthProvider>
 			<GlobalCommonStyles />
 		<Routes>
-			<Route path='*' element = "존재하지 않는 페이지" />
 			{/* User Routes - with Layout */}
 			<Route element={<Layout />}>
 				<Route path="/" element={<Home />} />
@@ -67,17 +66,10 @@ function App() {
 				<Route path="/myPage/updateForm" element={<MemberUpdateForm />} />
 				<Route path="/guide" element={<ComponentGuide />} />
 				
-				{/* Sample Page Route */}
-				{/*<Route path="/sample" element={<SamplePage />} >*/}
 			</Route>
 			
-			{/* <Route path="/admin/*" element={<AdminLogin />} /> */}
-			</Routes>
-
-			<Routes>
-				{/* Admin Routes - without user Layout */}
-			<Route path='*' element = "존재하지 않는 페이지" />
 			
+			{/* Admin Routes - without user Layout */}
 			<Route path="admin/*" element={<AdminLayout />}>
 				<Route path='login' element={<AdminLogin />} />
 				<Route path="home" element={<AdminHome />} />
@@ -92,6 +84,8 @@ function App() {
 				<Route path="activityBoards" element={<AdminActivityBoards />} />
 				<Route path="activityBoards/update/:id" element={<AdminActivityBoardUpdate />} />
 			</Route>
+			{/* 전역 404 */}
+			<Route path="*" element={<NotFound />} />
 
 				</Routes>
 			</AuthProvider>
