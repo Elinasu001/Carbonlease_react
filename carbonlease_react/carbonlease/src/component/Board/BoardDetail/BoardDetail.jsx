@@ -27,7 +27,14 @@ const BoardDetail = () => {
     const {auth} = useContext(AuthContext);
 
     const handleUpdate = () => {
-        navigate(`/boards/updateForm/${post.id}`);
+      console.log("수정 로그인 체크:", auth);
+      if (!auth) {
+        alert("로그인이 필요한 서비스입니다!");
+        navigate("/login");
+        return;
+      }
+      console.log("수정 로그인 체크:", id);
+       navigate(`/boards/UpdateForm/${id}`);
   }; 
 
     const goList = () => {
@@ -57,6 +64,7 @@ const BoardDetail = () => {
                     regionName: response.boardDetail.regionName,
                     replyCount: response.replyCount.endPage,
                     boardNo: response.boardDetail.boardNo,
+                    memberId: response.boardDetail.memberId,
                 });
                 console.log("댓글데이터 : ", response.replyList.length);
                 setReply([
@@ -72,7 +80,7 @@ const BoardDetail = () => {
       // alert("댓글 등록!!");
       console.log("login ", auth);
 
-      if (!accessToken) {
+      if (!auth) {
         alert("로그인이 필요한 서비스입니다!");
         navigate("/login");
         return;
@@ -80,6 +88,7 @@ const BoardDetail = () => {
 
       insertReplay();
     }
+
     const replyTextarea = useRef(null);
     const insertReplay = async  () =>{
       console.log( "댓글 내용 : ",  replyTextarea.current.value);
@@ -111,7 +120,74 @@ const BoardDetail = () => {
                 fetchReplies();
             })
     }
-        
+
+    const handleDelete = async () => {
+      console.log("삭제 로그인 체크:", auth);
+      if (!auth) {
+        alert("로그인이 필요한 서비스입니다!");
+        navigate("/login");
+        return;
+      }
+       console.log("댓글길이 : {}", reply.length);
+
+       if(reply.length > 0) {
+          const isOk = confirm("댓글이 존재합니다. 삭제를 하시겠습니까?");
+          if(isOk){
+            // alert("삭제호출");
+                  const deleteVo = {
+              boardNo:board.boardNo,
+              memberId:board.memberId,  //게시글 작성자ID
+            };
+
+            await axios
+                  .post(`http://localhost/boards/delete`, deleteVo, {
+                    headers: {
+                      Authorization : `Bearer ${accessToken}`,
+                      "Content-Type": "application/json",
+                    }
+                  })
+                  .then((result) => {
+                      const response = result.data;
+                      console.log("상세보기 데이터:", response.deleteOK);
+                      if(response.deleteOK > 0) {
+                        alert("삭제되었습니다.");
+                         navigate(`/boards`);
+                      } else {
+                        alert("게시글 삭제 오류");
+                      }
+                      //fetchReplies();
+                  })
+          } else {
+            alert("삭제취소");
+          }
+       } else {
+              const deleteVo = {
+              boardNo:board.boardNo,
+              memberId:board.memberId,  //게시글 작성자ID
+            };
+
+            await axios
+                  .post(`http://localhost/boards/delete`, deleteVo, {
+                    headers: {
+                      Authorization : `Bearer ${accessToken}`,
+                      "Content-Type": "application/json",
+                    }
+                  })
+                  .then((result) => {
+                      const response = result.data;
+                      console.log("상세보기 데이터:", response.deleteOK);
+                      if(response.deleteOK > 0) {
+                        alert("삭제되었습니다.");
+                         navigate(`/boards`);
+                      } else {
+                        alert("게시글 삭제 오류");
+                      }
+                      //fetchReplies();
+                  })
+       }
+       
+    }
+
     return(
         <>
            
@@ -185,9 +261,12 @@ const BoardDetail = () => {
 
             {/* 버튼 */}
                 <BackButton onClick={goList}>목록으로</BackButton>
-                <BackButton onClick={handleUpdate}>수정</BackButton>
-                <BackButton >삭제</BackButton>
-               
+                {(board.memberId === auth.memberId) && (
+                  <BackButton onClick={handleUpdate}>수정</BackButton>
+                )}
+                {(board.memberId === auth.memberId) && (
+                <BackButton onClick={handleDelete}>삭제</BackButton>
+                )}
               </FormArea>
             </PageContent>
         </>

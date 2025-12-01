@@ -18,6 +18,7 @@ import Notices from './component/Notice/Notices/Notices';
 import { GlobalCommonStyles } from './styles/global.styled';
 import NotFound from './component/Common/NotFound/NotFound';
 import BoardInsertForm from './component/Board/BoardInsert/BoardInsertForm';
+import BoardUpdateForm from './component/Board/BoardUpdate/BoardUpdateForm';
 
 // Admin Components
 import { useContext } from 'react';
@@ -53,6 +54,9 @@ function App() {
 				<Route path="/boards" element={<Boards />} />
 				<Route path="/boards/:id" element={<BoardDetail />} />
 				<Route path="/boards/InsertForm" element={<BoardInsertForm />} />
+				<Route path="/boards/UpdateForm/:id" element={<BoardUpdateForm />} />
+
+
 				<Route path="/activityBoards" element={<ActivityBoards />} />
 				<Route path="/activityBoards/insert" element={<ActivityInsertForm />} />
 				<Route path="/activityBoards/update/:id" element={<ActivityUpdateForm />} />	

@@ -12,7 +12,7 @@ import { BoardInsertForm } from '../../../api/board/boardAPI';
  const Boards = () => {
 
     const navigate = useNavigate();
-
+    const accessToken = localStorage.getItem("accessToken");
     const [currentPage, setCurrentPage] = useState(1);
     const [board, setBoard] = useState([]);
     const [pageInfo, setPageInfo] = useState({
@@ -29,7 +29,9 @@ import { BoardInsertForm } from '../../../api/board/boardAPI';
     }
 
     useEffect (()=>{
+
         getBoards(currentPage);
+        console.log("로그인 정보 : {}", accessToken);
     }, [currentPage])
 
     const getBoards = (page) => {
