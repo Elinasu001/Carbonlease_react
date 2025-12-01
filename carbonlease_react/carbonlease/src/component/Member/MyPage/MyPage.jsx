@@ -202,10 +202,9 @@ const MyPage = () => {
                         />
                     </FieldGroup>
 
-                    <FieldGroup>
-                        <Button variant='success' type='button' onClick={() => navi('/myPage/update')}>정보 수정</Button>
-                        <Button variant='outline-success' type='button' onClick={() => navi(-1)}>이전으로</Button>
-                        <Button variant='danger' type='button' onClick={() => setShowConfirm(true)}>회원 탈퇴</Button>
+                    <FieldGroup className="userFormButtonGroup">
+                        <Button className="userFormButton" variant='success' type='button' onClick={() => navi('/myPage/update')}>정보 수정</Button>
+                        <Button className="userFormButton" variant='danger' type='button' onClick={() => setShowConfirm(true)}>회원 탈퇴</Button>
                     </FieldGroup>
 
                 </DemoContainer>                

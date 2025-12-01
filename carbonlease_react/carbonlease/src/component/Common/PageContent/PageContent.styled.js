@@ -11,6 +11,11 @@ export const PageContentWrap = styled.section`
         padding: 0 15px;
     }
 
+    .signUpContainer {
+        margin : auto;
+        max-width : 600px;
+    }
+
     .myPageContainer {
         display: flex;
         justify-content : center;
@@ -27,7 +32,28 @@ export const PageContentWrap = styled.section`
 
     .myPageChildernContainer {
         margin-left : 50px;
-        max-width : 600px;
+        min-width : 360px;
+        max-width : 700px;
+    }
+
+    .userFormInput {
+        width : 80%;
+        margin-right : 10px;
+    }
+
+    .userFormButtonGroup {
+        display : flex;
+        justify-content : center;
+
+    }
+
+    .userFormButton {
+        margin-right : 20px;
+    }
+
+    .loginContainer {
+        margin : auto;
+        width : 440px;
     }
 
     @media (max-width: 1199px) {

@@ -112,7 +112,7 @@ const MemberUpdateForm = () => {
             />
             <PageContent>
                 <form onSubmit={handleUpdateMember}>
-                    <DemoContainer id="signUpContainer" style={{ maxWidth: '600px' }}>
+                    <DemoContainer className="signUpContainer">
                         <FieldGroup>
                             <FieldLabel>아이디</FieldLabel>
                             <FieldInput
@@ -128,6 +128,7 @@ const MemberUpdateForm = () => {
                                 placeholder="닉네임을 입력하세요"
                                 value={nickName}
                                 onChange={(e) => setNickName(e.target.value)}
+                                className='userFormInput'
                                 required
                             />
                             <CheckNickNameDuplicate nickName={nickName} checkNickName={checkNickName} setCheckNickName={setCheckNickName} setNickNameMsg={setNickNameMsg} />
@@ -140,14 +141,14 @@ const MemberUpdateForm = () => {
                                 placeholder="이메일을 입력하세요"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                className='userFormInput'
                                 required
                             />
                             <CheckEmailDuplicate email={email} checkEmail={checkEmail} setCheckEmail={setCheckEmail} setEmailMsg={setEmailMsg} />
                             <FormLabel className={checkEmail ? 'regValidMsg' : 'regInvalidMsg'}>{emailMsg}</FormLabel>
                         </FieldGroup>
                         <FieldGroup>
-                            <Button variant='primary' type='button' onClick={findAddress}>주소지 검색</Button>
-                            <FieldLabel>기본주소</FieldLabel>
+                            <FieldLabel>기본주소 <Button className='rounded-pill' variant='primary' type='button' onClick={findAddress} size="sm">주소지 검색</Button></FieldLabel>
                             <FieldInput
                                 type="text"
                                 placeholder="기본주소"
@@ -165,9 +166,9 @@ const MemberUpdateForm = () => {
                                 onChange={(e) => setAddressLine2(e.target.value)}
                             />
                         </FieldGroup>
-                        <FieldGroup>
-                            <Button variant='success' type='submit'>정보 수정</Button>
-                            <Button variant='outline-success' type='button' onClick={() => navi(-1)}>취소</Button>
+                        <FieldGroup className="userFormButtonGroup">
+                            <Button className="userFormButton" variant='success' type='submit'>정보 수정</Button>
+                            <Button className="userFormButton" variant='outline-success' type='button' onClick={() => navi(-1)}>취소</Button>
                         </FieldGroup>
                     </DemoContainer>
                 </form>
