@@ -46,7 +46,6 @@ function App() {
 		<AuthProvider>
 			<GlobalCommonStyles />
 		<Routes>
-			{/*<Route path='*' element = "존재하지 않는 페이지" />*/}
 			{/* User Routes - with Layout */}
 			<Route element={<Layout />}>
 				<Route path="/" element={<Home />} />
@@ -74,7 +73,6 @@ function App() {
 
 			<Routes>
 				{/* Admin Routes - without user Layout */}
-			<Route path='*' element = "존재하지 않는 페이지" />
 			
 			<Route path="admin/*" element={<AdminLayout />}>
 				<Route path='login' element={<AdminLogin />} />
