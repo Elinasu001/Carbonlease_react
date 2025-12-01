@@ -72,7 +72,22 @@ const AdminNotices = () => {
 
     const confirmDelete = () => {
         console.log('삭제 확정:', selectedId);
-        // TODO: 삭제 API 호출
+
+        axios.put(`http://localhost/admin/notices/delete/${selectedId}`,{}, {
+            headers: {
+                Authorization: `Bearer ${auth.accessToken}`,
+            },
+        })
+        .then((res) => {
+            console.log(res);
+            
+        })
+        .catch((err) => {
+            console.error(err);
+            alert("삭제 실패");
+            console.log(auth.accessToken);
+        });
+        
         setShowConfirm(false);
         setToast({ show: true, message: '삭제되었습니다!', variant: 'success' });
         setSelectedId(null);

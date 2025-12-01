@@ -38,9 +38,9 @@ const NoticeDetail = () => {
     // 게시글 컴포넌트 배열
     const noticeComponents = [
         NoticeHeader,
+        NoticeMeta,
         NoticeFiles,
-        NoticeContent,
-        NoticeMeta
+        NoticeContent
     ];
     
     // 게시글 상세조회 요청
@@ -48,14 +48,16 @@ const NoticeDetail = () => {
         axios
             .get(`http://www.localhost/notices/detail/${id}`)
             .then((result) => {
-                const response = result.data;
-                console.log(response);
-                // setNotice({
-                //     title: response.noticeTitle,
-                //     content: response.noticeContent,
-                //     viewCount: response.viewCount,
-                //     createDate: response.createDate
-                // })
+                const responseNotice = result.data.notice;
+                const responseAttachment = result.data.attachment;
+                console.log(responseAttachment);
+                setNotice({
+                    title: responseNotice.noticeTitle,
+                    content: responseNotice.noticeContent,
+                    viewCount: responseNotice.viewCount,
+                    createDate: responseNotice.createDate,
+                    files: responseAttachment
+                })
             })
 
     }, [id])

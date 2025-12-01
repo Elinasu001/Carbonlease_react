@@ -132,22 +132,22 @@ const NoticeUpdateForm = () => {
 
 
 
-        // axios.post("http://localhost/admin/notices/insert", notice, {
-        //     headers: {
-        //         Authorization: `Bearer ${auth.accessToken}`,
-        //         "Content-Type": "multipart/form-data",
-        //     },
-        // })
-        // .then((res) => {
-        //     console.log(res);
-        //     alert("등록 완료!");
-        //     navi("/admin/notices");
-        // })
-        // .catch((err) => {
-        //     console.error(err);
-        //     alert("등록 실패");
-        //     console.log(auth.accessToken);
-        // });
+        axios.put(`http://localhost/admin/notices/update/${id}`, notice, {
+            headers: {
+                Authorization: `Bearer ${auth.accessToken}`,
+                "Content-Type": "multipart/form-data",
+            },
+        })
+        .then((res) => {
+            console.log(res);
+            alert("수정 완료!");
+            navi("/admin/notices");
+        })
+        .catch((err) => {
+            console.error(err);
+            alert("수정 실패");
+            console.log(auth.accessToken);
+        });
     };
 
     // 취소버튼 handler

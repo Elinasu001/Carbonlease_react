@@ -39,7 +39,7 @@ export const MetaInfo = styled.div`
     padding: 20px 0;
     border-top: 1px solid #e0e0e0;
     border-bottom: 1px solid #e0e0e0;
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
     flex-wrap: wrap;
 `;
 
@@ -147,16 +147,20 @@ export const FileWrapper = styled.div`
     margin: 10px 0 20px 0;
     padding: 10px 0;
     border-bottom: 1px solid #e5e5e5;
-`;
+    `;
 
 export const FileHeader = styled.div`
     font-size: 14px;
     font-weight: 700;
     margin-bottom: 8px;
-`;
+    justify-content: flex-end;
+    display: flex;
+    `;
 
 export const FileItem = styled.div`
+    justify-content: flex-end;
     display: flex;
+    
     align-items: center;
     gap: 6px;
 

@@ -3,10 +3,10 @@ import { FileWrapper, FileHeader, FileItem, FileIcon } from '../NoticeDetail.sty
 const NoticeFiles = ({ notice }) => {
 
     const handleDownload = (file) => {
-        const downloadUrl = `http://www.localhost${file.filePath}${file.changeName}`;
-        const a = document.createElement("a");
+        const downloadUrl = `${file.filePath}`;
+        const a = document.createElement("a");  
         a.href = downloadUrl;
-        a.download = file.originName;
+        a.download = file.changeName;
         a.click();
     };
 
