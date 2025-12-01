@@ -74,7 +74,6 @@ function App() {
 
 			<Routes>
 				{/* Admin Routes - without user Layout */}
-			<Route path='*' element = "존재하지 않는 페이지" />
 			
 			<Route path="admin/*" element={<AdminLayout />}>
 				<Route path='login' element={<AdminLogin />} />
