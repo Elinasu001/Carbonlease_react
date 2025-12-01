@@ -11,6 +11,25 @@ export const PageContentWrap = styled.section`
         padding: 0 15px;
     }
 
+    .myPageContainer {
+        display: flex;
+        justify-content : center;
+    }
+    .regInvalidMsg {
+        font-size: 14px;
+        color: red;
+    }
+
+    .regValidMsg {
+        font-size: 14px;
+        color: rgb(7, 165, 7);
+    }
+
+    .myPageChildernContainer {
+        margin-left : 50px;
+        max-width : 600px;
+    }
+
     @media (max-width: 1199px) {
         padding: 50px 0;
     }

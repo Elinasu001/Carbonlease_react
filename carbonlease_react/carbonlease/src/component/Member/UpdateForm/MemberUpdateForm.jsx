@@ -151,7 +151,7 @@ const MemberUpdateForm = () => {
                             <FieldInput
                                 type="text"
                                 placeholder="기본주소"
-                                value={addressLine1}
+                                value={addressLine1 !== 'null' ? addressLine1 : ''}
                                 onChange={(e) => setAddressLine1(e.target.value)}
                                 readOnly
                             />
@@ -161,7 +161,7 @@ const MemberUpdateForm = () => {
                             <FieldInput
                                 type="text"
                                 placeholder="상세 주소를 입력하세요"
-                                value={addressLine2}
+                                value={addressLine2 !== 'null' ? addressLine2 : ''}
                                 onChange={(e) => setAddressLine2(e.target.value)}
                             />
                         </FieldGroup>
