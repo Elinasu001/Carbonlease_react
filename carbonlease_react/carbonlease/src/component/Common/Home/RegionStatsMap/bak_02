@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
-import { formatRegionStatsForMap, getRegionCarbonStats } from '../../../../api/main/regionStatsApi';
-
+import { getRegionCarbonStats } from '../../../../api/main/regionStatsApi';
 import {
     InfoBox,
     InfoContent,
@@ -21,21 +20,18 @@ const RegionStatsMap = () => {
     const [tooltipContent, setTooltipContent] = useState('');
 
     useEffect(() => {
-        const fetchRegionStats = async () => {
+        const fetchData = async () => {
             try {
-                const apiData = await getRegionCarbonStats();
-                console.log('getRegionCarbonStats() 결과:', apiData);
-                // value가 %면, k 단위로 변환해서 setRegionData
-                const formatted = formatRegionStatsForMap(apiData);
-                console.log('formatRegionStatsForMap() 결과:', formatted);
-                setRegionData(formatted);
+                const data = await getRegionCarbonStats();
+                console.log('Region data:', data);
+                setRegionData(data);
             } catch (err) {
-                console.error("지도 데이터 로딩 실패:", err);
+                console.error('Failed to fetch region data:', err);
             } finally {
                 setLoading(false);
             }
         };
-        fetchRegionStats();
+        fetchData();
     }, []);
 
     if (loading) {
@@ -46,7 +42,7 @@ const RegionStatsMap = () => {
         );
     }
 
-    // 버블 크기 계산 (value가 %면 그대로, 실제 값이면 변환)
+    // 버블 크기 계산 (value에 따라)
     const getBubbleSize = (value) => {
         const minSize = 20;
         const maxSize = 60;
@@ -59,20 +55,25 @@ const RegionStatsMap = () => {
             <InfoBox>
                 <InfoIcon className="bi bi-geo-alt-fill" />
                 <InfoContent>
-                    <InfoTitle>지역별 탄소중립포인트 에너지 사용량 정보</InfoTitle>
+                    <InfoTitle>
+                        광역시 지역별 탄소중립 포인트
+                    </InfoTitle>
                     <InfoDescription>
                         각 지역의 친환경 실천 활동을 통해 적립된 포인트를 확인하세요
                     </InfoDescription>
                 </InfoContent>
             </InfoBox>
-
+            
             <MapWrapper>
                 <ComposableMap
                     projection="geoMercator"
-                    projectionConfig={{ scale: 6000, center: [127.7, 36.3] }}
+                    projectionConfig={{
+                        scale: 6000,
+                        center: [127.7, 36.3]
+                    }}
                     width={500}
                     height={800}
-                    style={{ width: '100%', height: 'auto' }}
+                    style={{ width: '100%', height: 'auto'}}
                 >
                     <Geographies geography="/maps/south-korea-provinces.json">
                         {({ geographies }) =>
@@ -85,7 +86,10 @@ const RegionStatsMap = () => {
                                     strokeWidth={1.5}
                                     style={{
                                         default: { outline: 'none' },
-                                        hover: { fill: '#aad3e2ff', outline: 'none' },
+                                        hover: { 
+                                            fill: '#aad3e2ff',
+                                            outline: 'none'
+                                        },
                                         pressed: { outline: 'none' }
                                     }}
                                 />
@@ -95,12 +99,14 @@ const RegionStatsMap = () => {
 
                     {/* 버블 마커 */}
                     {regionData.map((region) => {
-                        console.log(`버블 차트 지역: ${region.region}, value: ${region.value}`);
                         const size = getBubbleSize(region.value);
                         const isHovered = hoveredRegion === region.region;
-
+                        
                         return (
-                            <Marker key={region.region} coordinates={[region.lng, region.lat]}>
+                            <Marker
+                                key={region.region}
+                                coordinates={[region.lng, region.lat]}
+                            >
                                 <g
                                     onMouseEnter={() => {
                                         setHoveredRegion(region.region);
@@ -145,16 +151,20 @@ const RegionStatsMap = () => {
                                             pointerEvents: 'none'
                                         }}
                                     >
-                                        {/* value가 %면 (region.value).toFixed(1)+'%' / 실제 값이면 (region.value/1000).toFixed(1)+'k' */}
-                                        {isNaN(Number(region.value)) ? '0.0' : Number(region.value).toFixed(1)}%
+                                        {(region.value / 1000).toFixed(1)}k
                                     </text>
                                 </g>
                             </Marker>
                         );
                     })}
                 </ComposableMap>
-
-                {tooltipContent && <Tooltip>{tooltipContent}</Tooltip>}
+                
+                {/* 호버 시 툴팁 */}
+                {tooltipContent && (
+                    <Tooltip>
+                        {tooltipContent}
+                    </Tooltip>
+                )}
             </MapWrapper>
         </MapContainer>
     );
