@@ -12,7 +12,6 @@ import { BackButton, FormArea, StyledButton } from './BoardDetailStyles.js';
 import { AuthContext } from "../../Context/AuthContext";
 import { useContext } from "react";
 import { useRef } from "react";
-import { ReplyButton } from '../../ActivityBoard/ActivityBoardDetail/ActivityBoardDetail.styles.js';
 
 const BoardDetail = () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -39,6 +38,10 @@ const BoardDetail = () => {
     const goList = () => {
         navigate("/boards");
   };
+
+  const handlereply = () => {
+      alert("댓글 수정!!");
+  }; 
 
     // 좋아요
   const handleLikeToggle = () => {
@@ -180,7 +183,7 @@ const BoardDetail = () => {
                         alert("삭제되었습니다.");
                          navigate(`/boards`);
                       } else {
-                        alert("게시글 삭제 오류");
+                        alert("삭제 중 오류 발생");
                       }
                       //fetchReplies();
                   })
@@ -202,9 +205,13 @@ const BoardDetail = () => {
 
             <PageContent>
                 <FormArea style={{ padding: '50px' }}>
-                <Form.Label /><strong>No : {id}</strong>
-                    <div> 
-                      조회수 : {board.viewCount} </div> <br />
+                {/* <Form.Label /><strong>No : {} </strong> */}
+
+            {/* 좋아요 */}
+            <StyledButton $liked={post.isLiked} onClick={handleLikeToggle}>
+                <i className={post.isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'} />
+                {post.isLiked ? '좋아요' : '좋아요'}
+            </StyledButton>  <br /><br />      
 
 
             <Form.Group className="mb-4">
@@ -229,9 +236,11 @@ const BoardDetail = () => {
               
 
               {/* {댓글 리스트} */}
-            <BoardReply data={reply}/>
+            <BoardReply data={reply}/> 
             <ReplyPagination currentPage={1} totalPages={board.replyCount} />  
-              
+
+            {/* <ReplyButton onClick={handlereply}> 수정 </ReplyButton> | <ReplyButton> 삭제 </ReplyButton>   */}
+            
               {/* {댓글 등록} */}
             <Form.Label><strong>댓글</strong></Form.Label>
               <Form.Control
@@ -241,7 +250,7 @@ const BoardDetail = () => {
                 maxLength={1000}
                 style={{ height: '100px', width: "600px" }}
               />
-                <ReplyButton variant="outline-success" onClick={replyBt}>
+                <BackButton variant="outline-success" onClick={replyBt}>
                     댓글 등록
                     <Modal onClick={(showAlert) => setShowAlert(true)}
                         show={showAlert}
@@ -250,14 +259,10 @@ const BoardDetail = () => {
                         message="댓글이 등록되었습니다."
                         variant="info"
                     />
-                </ReplyButton>  
+                </BackButton>  
 
 
-            {/* 좋아요 */}
-            <StyledButton $liked={post.isLiked} onClick={handleLikeToggle}>
-                <i className={post.isLiked ? 'bi bi-heart-fill' : 'bi bi-heart'} />
-                {post.isLiked ? '좋아요' : '좋아요'}
-            </StyledButton>
+
 
             {/* 버튼 */}
                 <BackButton onClick={goList}>목록으로</BackButton>
@@ -267,6 +272,9 @@ const BoardDetail = () => {
                 {(board.memberId === auth.memberId) && (
                 <BackButton onClick={handleDelete}>삭제</BackButton>
                 )}
+
+                <div> 
+                      조회수 : {board.viewCount} </div> <br />
               </FormArea>
             </PageContent>
         </>

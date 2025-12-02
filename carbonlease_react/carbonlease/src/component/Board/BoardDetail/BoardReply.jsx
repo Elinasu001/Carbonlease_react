@@ -22,7 +22,7 @@ const BoardReply = ({ data = [] }) => {
                     borderBottom:"1px solid #eee",
                     fontSize:"14px"}}> <br />
 
-                     <div> 작성자 : {reply.nickname} / {reply.enrollDate} <br /></div>
+                     <div> 작성자 : {reply.nickname} / {reply.enrollDate} <br /></div> 
                            댓  글 : {reply.replyContent}
                 </div>
                     

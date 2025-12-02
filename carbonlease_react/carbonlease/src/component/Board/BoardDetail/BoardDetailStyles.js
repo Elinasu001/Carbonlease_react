@@ -182,6 +182,7 @@ const mint = {
   shadowHover: "0 4px 10px rgba(0,0,0,0.18)"
 };
 
+
 // 목록으로, 수정, 삭제
 export const BackButton = styled.button`
   background: ${mint.base};
@@ -202,6 +203,17 @@ export const BackButton = styled.button`
   }
 `;
 
+
+/* 수정/삭제 버튼 */
+export const ReplyButton = styled.span`
+  font-size: 13px;
+  color: #007aff;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 
 
 

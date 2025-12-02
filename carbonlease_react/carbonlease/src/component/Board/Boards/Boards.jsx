@@ -92,11 +92,6 @@ import { BoardInsertForm } from '../../../api/board/boardAPI';
                 <Dropdown.Item eventKey="nickname">닉네임</Dropdown.Item>
               </DropdownButton>
         </div>
-
-
-
-
-
             </PageContent>
 
            <Pagination
