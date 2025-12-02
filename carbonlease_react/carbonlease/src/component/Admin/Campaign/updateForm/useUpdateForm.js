@@ -166,19 +166,20 @@ const UpdateForm = (onShowToast, auth) => {
         // 캠페인 수정 API 호출
         update(id, [safeThumbnail, safeDetail], formData)
             .then((result) => {
-                // console.log('update 응답:', result);
-                if (result && result.status === 201) {
+                if (result && (result.status === 201 || result.status === 200)) {
                     onShowToast && onShowToast('게시글 수정이 완료되었습니다!', 'success');
-                    navigate('/admin/campaigns');
+                    setTimeout(() => {
+                        navigate('/admin/campaigns');
+                    }, 800); // 0.8초 후 이동
                 } else {
                     onShowToast && onShowToast('게시글 수정에 실패했습니다.', 'error');
                 }
             })
             .catch((error) => {
-                //console.error('update 에러:', error);
                 onShowToast && onShowToast(
-                    error?.response?.data?.["error-message"] || '수정에 실패했습니다.'
-                )
+                    error?.response?.data?.["error-message"] || '수정에 실패했습니다.',
+                    'error'
+                );
             });
     };
 
