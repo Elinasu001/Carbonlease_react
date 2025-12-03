@@ -12,6 +12,7 @@ import { BackButton, FormArea, StyledButton } from './BoardDetailStyles.js';
 import { AuthContext } from "../../Context/AuthContext";
 import { useContext } from "react";
 import { useRef } from "react";
+import { increaseViewCountAPI } from "../../../api/board/boardAPI.js";
 
 const BoardDetail = () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -54,25 +55,27 @@ const BoardDetail = () => {
   };
 
 
-
     // 조회수 증가
- const viewCount = async () => {
-  const key = `viewed_${id}`;
-  const viewed = localStorage.getItem(key);
+   useEffect(() => {
+    const viewCount = async () => {
+      if (!id || !board) return;
 
-  if (!viewed) {
-    try {
-      await axios.post(`/boards/${id}/view`); // 수정됨
-      localStorage.setItem(key, "true");
-    } catch (error) {
-      console.error("조회수 증가 실패:", error);
-    }
-  }
-};
+      const key = `viewed_${id}`;
+      if (!localStorage.getItem(key)) {
+        try {
+          await increaseViewCountAPI(id); // boardAPI.js에 정의된 함수 사용
+          localStorage.setItem(key, "true");
 
-useEffect(() => {
-  viewCount();
-}, [id]);
+          // 화면 즉시 반영
+          setBoard(prev => prev ? { ...prev, viewCount: prev.viewCount + 1 } : prev);
+        } catch (error) {
+          console.error("조회수 증가 실패:", error);
+        }
+      }
+    };
+
+    viewCount();
+  }, [id, board]);
  
 
   const fetchReplies = async () => {
