@@ -15,11 +15,10 @@ import EnrollForm from './component/Member/EnrollForm/EnrollForm';
 import Login from './component/Member/Login/Login';
 import NoticeDetail from './component/Notice/NoticeDetail/NoticeDetail';
 import Notices from './component/Notice/Notices/Notices';
-import { GlobalCommonStyles } from './styles/global.styled';
+import { GlobalCommonStyles, GlobalLayoutStyles } from './styles/global.styled';
 import NotFound from './component/Common/NotFound/NotFound';
 
 // Admin Components
-import { useContext } from 'react';
 import AdminActivityBoards from './component/Admin/ActivityBoard/boards/AdminActivityBoards';
 import AdminActivityBoardUpdate from './component/Admin/ActivityBoard/update/AdminActivityBoardsUpdate';
 import AdminHome from './component/Admin/AdminHome';
@@ -44,8 +43,9 @@ function App() {
 	
 	return (
 		<>
-		<AuthProvider>
-			<GlobalCommonStyles />
+		   <AuthProvider>
+			   <GlobalCommonStyles />
+			   <GlobalLayoutStyles />
 		<Routes>
 			{/* User Routes - with Layout */}
 			<Route element={<Layout />}>
