@@ -28,11 +28,15 @@ export const BoardInsertForm = (board, accessToken) => {
 };
 
 export const Boards = (pageNo, filter, keyword) => {
-  return activityAPI.get("", {
+  return boardAPI.get("", {
     params: {
       pageNo,
       filter,
       keyword
     }
   });
+};
+
+export const increaseViewCountAPI = (boardNo) => {
+  return boardAPI.post(`/${boardNo}/view`);
 };

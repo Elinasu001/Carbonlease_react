@@ -24,6 +24,7 @@ const BoardDetail = () => {
     const [showAlert, setShowAlert] = useState(false);
     const {auth} = useContext(AuthContext);
 
+
     const handleUpdate = () => {
       console.log("수정 로그인 체크:", auth);
       if (!auth) {
@@ -51,6 +52,28 @@ const BoardDetail = () => {
       likes: prev.isLiked ? prev.likes - 1 : prev.likes + 1
     }));
   };
+
+
+
+    // 조회수 증가
+ const viewCount = async () => {
+  const key = `viewed_${id}`;
+  const viewed = localStorage.getItem(key);
+
+  if (!viewed) {
+    try {
+      await axios.post(`/boards/${id}/view`); // 수정됨
+      localStorage.setItem(key, "true");
+    } catch (error) {
+      console.error("조회수 증가 실패:", error);
+    }
+  }
+};
+
+useEffect(() => {
+  viewCount();
+}, [id]);
+ 
 
   const fetchReplies = async () => {
     axios
@@ -280,5 +303,6 @@ const BoardDetail = () => {
         </>
     );
 };
+
 
 export default BoardDetail;
