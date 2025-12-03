@@ -103,30 +103,6 @@ export const SidoInfoBox = styled.div`
   transition: opacity 0.85s cubic-bezier(0.22, 0.61, 0.36, 1),
             transform 0.85s cubic-bezier(0.22, 0.61, 0.36, 1);
 
-  /* 왼쪽으로 사라짐 */
-  &.fade-slide-out-left {
-    opacity: 0;
-    transform: translateX(-8%);
-  }
-
-  /* 오른쪽으로 사라짐 */
-  &.fade-slide-out-right {
-    opacity: 0;
-    transform: translateX(8%);
-  }
-
-  /* 자동 슬라이드는 왼쪽 방향 */
-  &.fade-slide-out {
-    opacity: 0;
-    transform: translateX(-8%);
-  }
-
-  /* 나타나는 애니메이션 */
-  &.fade-slide-in {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
   .nav {
     display: flex;
     align-items: center;
@@ -163,3 +139,9 @@ export const SidoInfoBox = styled.div`
   }
 `;
 
+
+export const SidoNullBox = styled.div`
+  margin-top: 8px;
+  font-size: 12px;
+  color: #777;
+`;
