@@ -31,8 +31,8 @@ import UpdateForm from './component/Admin/Campaign/updateForm/UpdateForm';
 import AdminLayout from './component/Admin/Layout/AdminLayout';
 import AdminLogin from './component/Admin/Login/AdminLogin';
 import AdminNotices from './component/Admin/Notice/AdminNotices';
-import NoticeInsertForm from './component/Admin/Notice/NoticeInsertForm';
-import NoticeUpdateForm from './component/Admin/Notice/NoticeUpdateForm';
+import NoticeInsertForm from './component/Admin/Notice/AdminNotice/NoticeInsertForm';
+import NoticeUpdateForm from './component/Admin/Notice/AdminNotice/NoticeUpdateForm';
 import AdminUsers from './component/Admin/User/AdminUsers';
 import MyPage from './component/Member/MyPage/MyPage';
 import MemberUpdateForm from './component/Member/UpdateForm/MemberUpdateForm';
@@ -82,6 +82,7 @@ function App() {
 				<Route path="home" element={<AdminHome />} />
 				<Route path="users" element={<AdminUsers />} />
 				<Route path="notices" element={<AdminNotices />} />
+				<Route path="notices/:id" element={<NoticeDetail />} />
 				<Route path="notices/insert" element={<NoticeInsertForm />} />
 				<Route path="notices/update/:id" element={<NoticeUpdateForm />} />
 				<Route path="campaigns" element={<AdminCampaigns />} />

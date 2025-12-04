@@ -7,19 +7,20 @@ import {
     FormContainer,
     PageHeader,
     SubmitButton
-} from '../../Common/DataTable/DataTable.styled';
-import FormField from '../../Common/Form/FormField';
-import { AuthContext } from '../../Context/AuthContext'
+} from '../../../Common/DataTable/DataTable.styled';
+import FormField from '../../../Common/Form/FormField';
+import { AuthContext } from '../../../Context/AuthContext'
 
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const NoticeInsertForm = () => {
+const NoticeUpdateForm = () => {
 
     const [errors, setErrors] = useState({});
     const navi = useNavigate();
-
+    
+    const { id } = useParams();
     const { auth } = useContext(AuthContext);
 
     // 폼 데이터 상태 관리
@@ -40,7 +41,7 @@ const NoticeInsertForm = () => {
         alert("로그인 해주세요");
         navi("/login");
         }
-        //console.log(auth.accessToken)
+        console.log(auth.accessToken)
     }, [auth.isAuthenticated]);
 
     // form
@@ -58,6 +59,34 @@ const NoticeInsertForm = () => {
             }));
         }
     };
+
+    // 2. 기존 데이터 갖고오기
+    useEffect(()=>{
+        // console.log('ID??????', id) // OK
+        // const getNotice = (noticeNo) => {
+            if(auth.accessToken){
+                // console.log('너안감?');
+                // console.log(auth.accessToken); 이제 감
+                axios
+                    .get(`http://www.localhost/admin/notices/detail/${id}`, {
+                        headers: {
+                            Authorization: `Bearer ${auth.accessToken}`
+                        },
+                    })
+                    .then((result) => {
+                        const response = result.data;
+                        console.log(result);
+                        setFormData({
+                            title: response.noticeTitle,
+                            content: response.noticeContent,
+                            files: [],
+                            fix: '',
+                        })
+
+                    })
+            }
+        // }
+    }, [id])
 
     // file form
     const handleFileChange = (e) => {
@@ -103,7 +132,7 @@ const NoticeInsertForm = () => {
 
 
 
-        axios.post("http://localhost/admin/notices/insert", notice, {
+        axios.put(`http://localhost/admin/notices/update/${id}`, notice, {
             headers: {
                 Authorization: `Bearer ${auth.accessToken}`,
                 "Content-Type": "multipart/form-data",
@@ -111,12 +140,12 @@ const NoticeInsertForm = () => {
         })
         .then((res) => {
             console.log(res);
-            alert("등록 완료!");
+            alert("수정 완료!");
             navi("/admin/notices");
         })
         .catch((err) => {
             console.error(err);
-            alert("등록 실패");
+            alert("수정 실패");
             console.log(auth.accessToken);
         });
     };
@@ -194,4 +223,4 @@ const NoticeInsertForm = () => {
     )
 }
 
-export default NoticeInsertForm;
+export default NoticeUpdateForm;
