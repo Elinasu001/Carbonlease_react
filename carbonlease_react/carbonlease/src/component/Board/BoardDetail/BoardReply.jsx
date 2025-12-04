@@ -9,7 +9,7 @@ const BoardReply = ({ data = [], onUpdate, onDelete }) => {
    
     const { auth } = useContext(AuthContext); 
     console.log("로그인 사용자 auth:", auth);
-    console.log("로그인 사용자 memberNo:", auth?.memberNo, "타입:", typeof auth?.memberNo);
+    console.log("로그인 사용자 memberId:", auth?.memberId, "타입:", typeof auth?.memberId);
 
     // 어떤 댓글이 수정 중인지 상태로 관리 (수정 중인 댓글 ID -> replyNo 사용)
     const [editingReplyNo, setEditingReplyNo] = useState(null);
