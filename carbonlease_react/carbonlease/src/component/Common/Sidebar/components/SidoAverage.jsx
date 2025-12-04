@@ -9,7 +9,7 @@ const SidoAverage = ({ sido, sidoAvg, isLoading, onPrev, onNext }) => {
     return "매우나쁨";
   };
 
-  if (sidoAvg) {
+  if (isLoading) {
     return <SkeletonBox />;
   }
 
