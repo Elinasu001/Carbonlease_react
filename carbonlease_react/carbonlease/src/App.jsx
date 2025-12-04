@@ -37,6 +37,7 @@ import AdminUsers from './component/Admin/User/AdminUsers';
 import MyPage from './component/Member/MyPage/MyPage';
 import MemberUpdateForm from './component/Member/UpdateForm/MemberUpdateForm';
 import { AuthProvider } from './component/Context/AuthContext';
+import KakaoCallback from './component/Member/Login/KakaoCallback';
 
 
 function App() {
@@ -51,6 +52,7 @@ function App() {
 			{/* User Routes - with Layout */}
 			<Route element={<Layout />}>
 				<Route path="/" element={<Home />} />
+				<Route path="/kakao/callback" element={<KakaoCallback />} />
 				<Route path="/boards" element={<Boards />} />
 				<Route path="/boards/:id" element={<BoardDetail />} />
 				<Route path="/boards/InsertForm" element={<BoardInsertForm />} />
