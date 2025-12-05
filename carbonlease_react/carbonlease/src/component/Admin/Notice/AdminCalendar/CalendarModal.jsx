@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+// CalendarModal.jsx
+import React, { useEffect, useState } from "react";
 import {
-  ModalWrapper,
   ModalOverlay,
+  ModalWrapper,
   ModalContent,
   ModalHeader,
   ModalBody,
@@ -12,19 +13,30 @@ import {
   Button
 } from "./CalendarModal.styled";
 
-
-
-const CalendarModal = ({ isOpen, onClose, onSubmit }) => {
+const CalendarModal = ({ isOpen, onClose, onSubmit, onDelete, event, isEdit }) => {
   const [form, setForm] = useState({
     title: "",
     start: "",
     end: ""
   });
 
+  useEffect(() => {
+    if (isEdit && event) {
+      setForm({
+        title: event.title,
+        start: event.start,
+        end: event.end
+      });
+    } else {
+      setForm({
+        title: "",
+        start: "",
+        end: ""
+      });
+    }
+  }, [isEdit, event]);
+
   const handleChange = (e) => {
-
-    // const response = (e.target.value) 
-
     setForm({
       ...form,
       [e.target.name]: e.target.value
@@ -32,26 +44,29 @@ const CalendarModal = ({ isOpen, onClose, onSubmit }) => {
   };
 
   const handleSubmit = () => {
-    if (!form.title || !form.start || !form.end) {
-      alert("모든 값을 입력하세요.");
-      return;
-    }
     onSubmit(form);
-    onClose();
   };
 
   if (!isOpen) return null;
 
   return (
-    <ModalOverlay>
-      <ModalWrapper>
+    <ModalOverlay onClick={onClose}>
+      <ModalWrapper onClick={(e) => e.stopPropagation()}>
         <ModalContent>
           <ModalHeader>
-            <h3>일정 등록</h3>
+            <h3>{isEdit ? "일정 수정" : "일정 등록"}</h3>
             <CloseButton onClick={onClose}>×</CloseButton>
           </ModalHeader>
 
           <ModalBody>
+            <Label>제목</Label>
+            <Input
+              name="title"
+              value={form.title}
+              onChange={handleChange}
+              placeholder="제목을 입력하세요"
+            />
+
             <Label>시작일</Label>
             <Input
               type="date"
@@ -67,21 +82,18 @@ const CalendarModal = ({ isOpen, onClose, onSubmit }) => {
               value={form.end}
               onChange={handleChange}
             />
-
-            <Label>이벤트 내용</Label>
-            <Input
-              name="title"
-              placeholder="내용을 입력하세요"
-              value={form.title}
-              onChange={handleChange}
-            />
           </ModalBody>
 
           <ModalFooter>
-            <Button onClick={onClose} $cancel>
-              취소
+            {isEdit && (
+              <Button $cancel onClick={onDelete}>
+                삭제
+              </Button>
+            )}
+
+            <Button onClick={handleSubmit}>
+              {isEdit ? "수정 완료" : "등록"}
             </Button>
-            <Button onClick={handleSubmit}>등록</Button>
           </ModalFooter>
         </ModalContent>
       </ModalWrapper>
@@ -90,4 +102,3 @@ const CalendarModal = ({ isOpen, onClose, onSubmit }) => {
 };
 
 export default CalendarModal;
-
