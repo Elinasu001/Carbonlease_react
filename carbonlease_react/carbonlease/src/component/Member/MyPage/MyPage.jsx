@@ -107,7 +107,28 @@ const MyPage = () => {
         }
     ];
 
+    const kakaoSignOut = () => {
+
+       axios.delete("http://localhost/members/kakao", {
+            headers: {
+                Authorization: `Bearer ${auth.accessToken}`,
+            }
+        }).then(result => {
+            console.log(result);
+            showToastMessage('성공적으로 회원탈퇴되었습니다.', 'success');
+            setTimeout(() => {
+                logout();
+                navi('/');
+            }, 1000);
+        }).catch(err => {
+            showToastMessage(err.response.data["error-message"], 'error');
+        })
+
+
+    }
+
     const signOut = () => {
+
         console.log('aa');
 
         axios.delete("http://localhost/members", {
@@ -204,7 +225,7 @@ const MyPage = () => {
 
                     <FieldGroup className="userFormButtonGroup">
                         <Button className="userFormButton" variant='success' type='button' onClick={() => navi('/myPage/update')}>정보 수정</Button>
-                        <Button className="userFormButton" variant='danger' type='button' onClick={() => setShowConfirm(true)}>회원 탈퇴</Button>
+                        <Button className="userFormButton" variant='danger' type='button' onClick={ auth.isSocialLogin === 'Y' ? () => kakaoSignOut() : () => setShowConfirm(true)}>회원 탈퇴</Button>
                     </FieldGroup>
 
                 </DemoContainer>                

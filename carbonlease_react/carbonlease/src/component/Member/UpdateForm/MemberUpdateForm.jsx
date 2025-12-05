@@ -125,7 +125,7 @@ const MemberUpdateForm = () => {
 
     const confirmUpdate = () => {
 
-        login(auth.memberId, nickName, auth.accessToken, auth.refreshToken, email, addressLine1, addressLine2, auth.role);
+        login(auth.memberId, nickName, auth.accessToken, auth.refreshToken, email, addressLine1, addressLine2, auth.role, auth.expiredDate, auth.isSocialLogin);
         navi('/myPage');
 
     }

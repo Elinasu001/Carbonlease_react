@@ -12,10 +12,15 @@ const Layout = () => {
   const navi = useNavigate();
 
     useEffect(() => {
-      if(auth.role === '[ROLE_ADMIN]'){
+
+      if(auth.role === null) {
+          return;
+      }
+      
+      if(auth.role !== '[ROLE_USER]'){
         navi('/NotFound');
       }
-    }, [])
+    }, [auth])
 
     const { pathname } = useLocation();
 

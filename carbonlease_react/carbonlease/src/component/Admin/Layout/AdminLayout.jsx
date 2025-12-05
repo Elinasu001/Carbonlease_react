@@ -23,7 +23,7 @@ const AdminLayout = () => {
         if(auth.role !== '[ROLE_ADMIN]'){
           navi('/admin/login');
         }
-    }, [])
+    }, [auth])
 
     const toggleSidebar = () => {
         setSidebarActive(!sidebarActive);
