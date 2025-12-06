@@ -1,11 +1,11 @@
 
 import DataTable from '../../../../Common/DataTable/DataTable';
 import {
+    ButtonGroup,
     CategoryBadge,
     DeleteButton,
     EditButton,
-    StatusBadge,
-    ButtonGroup
+    StatusBadge
 } from '../../../../Common/DataTable/DataTable.styled';
 
 const AdminCampaignList = ({ campaigns, onEdit, onDelete }) => {
@@ -48,7 +48,12 @@ const AdminCampaignList = ({ campaigns, onEdit, onDelete }) => {
             render: (value, row) => (
                 <ButtonGroup>
                     <EditButton onClick={() => onEdit(row)}>수정</EditButton>
-                    {row.displayStatus !== "삭제" && <DeleteButton onClick={() => onDelete(value)}>삭제</DeleteButton>}
+                    <DeleteButton
+                        onClick={() => onDelete(value)}
+                        disabled={row.displayStatus === "숨김"}
+                    >
+                        숨김
+                    </DeleteButton>
                 </ButtonGroup>
             )
         }

@@ -77,16 +77,24 @@ export const DeleteButton = styled.button`
     color: #fff;
     cursor: pointer;
     transition: background-color 0.2s, border-color 0.2s;
+    
+        &:disabled {
+            background-color: #e0e0e0;
+            border-color: #bdbdbd;
+            color: #888;
+            cursor: not-allowed;
+            border: 1px solid #e0e0e0;
+        }
 
-    &:hover {
-        background-color: #bb2d3b;
-        border-color: #b02a37;
-    }
+        &:not(:disabled):hover {
+            background-color: #bb2d3b;
+            border-color: #b02a37;
+        }
 
-    &:active {
-        background-color: #b02a37;
-        border-color: #a52834;
-    }
+        &:not(:disabled):active {
+            background-color: #b02a37;
+            border-color: #a52834;
+        }
 `;
 
 export const DataTableContainer = styled.div`
@@ -390,13 +398,15 @@ export const StatusBadge = styled.span`
     background-color: ${props => {
         switch (props.$status) {
             case '진행중':
-                return '#d4edda';
+                return '#d4edda'; // 연녹색
             case '종료':
-                return '#dddddd'; 
+                return '#e2e3e5'; // 연회색
             case '삭제':
-                return '#f8d7da';
-            case '대기':
-                return '#fff3cd';
+                return '#f8d7da'; // 연빨강
+            case '숨김':
+                return '#f5f5f5'; // 밝은 회색
+            case '모집예정':
+                return '#fff3cd'; // 연노랑
             default:    
                 return '#e9ecef';
         }
@@ -404,13 +414,15 @@ export const StatusBadge = styled.span`
     color: ${props => {
         switch (props.$status) {
             case '진행중':
-                return '#155724';
+                return '#155724'; // 진녹색
             case '종료':
-                return '#222222';
+                return '#6c757d'; // 중간 회색
             case '삭제':
-                return '#721c24';
-            case '대기':
-                return '#856404';
+                return '#721c24'; // 진빨강
+            case '숨김':
+                return '#888'; // 중간 회색
+            case '모집예정':
+                return '#856404'; // 진노랑
             default:
                 return '#495057';
         }
