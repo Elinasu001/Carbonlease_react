@@ -13,7 +13,7 @@ import {
 const AdminHome = () => {
     return (
         <DashboardWrapper>
-            <DashboardTitle>Admin Dashboard | 각종 이력을 간략히 확인할 수 있습니다.</DashboardTitle>
+            <DashboardTitle>Dashboard | 각종 이력을 간략히 확인할 수 있습니다.</DashboardTitle>
             <DoughnutChart />
             {/* 두 번째 행: 지역, 인기글 TOP5 */}
             <DashboardRow>

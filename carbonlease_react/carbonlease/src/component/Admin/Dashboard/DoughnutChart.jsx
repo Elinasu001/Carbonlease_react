@@ -28,7 +28,7 @@ const dummyData = [
         datasets: [
                 {
                 data: [120, 20, 45],
-                backgroundColor: ['#50ba69ff', '#ff6f61', '#0d6efd'],
+                backgroundColor: ['#9ac6a5ff', '#ff6f61', '#8bb0e8ff'],
                 borderWidth: 0
                 }
             ]
@@ -41,7 +41,7 @@ const dummyData = [
         datasets: [
                 {
                 data: [80, 10, 30, 25],
-                backgroundColor: ['#50ba69ff', '#ff6f61', '#0d6efd', '#ffc107'],
+                backgroundColor: ['#9ac6a5ff', '#ff6f61', '#8bb0e8ff', '#f6e393ff'],
                 borderWidth: 0
                 }
             ]
@@ -54,7 +54,7 @@ const dummyData = [
         datasets: [
                 {
                 data: [45, 5, 18],
-                backgroundColor: ['#50ba69ff', '#ff6f61', '#ffc107'],
+                backgroundColor: ['#9ac6a5ff', '#ff6f61', '#f6e393ff'],
                 borderWidth: 0
                 }
             ]
@@ -67,7 +67,7 @@ const dummyData = [
         datasets: [
                 {
                 data: [30, 3],
-                backgroundColor: ['#50ba69ff', '#ff6f61'],
+                backgroundColor: ['#9ac6a5ff', '#ff6f61'],
                 borderWidth: 0
                 }
             ]

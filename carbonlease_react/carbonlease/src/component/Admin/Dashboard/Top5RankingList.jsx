@@ -18,7 +18,7 @@ const dummyData = {
         {
         label: 'Views',
         data: [120, 95, 80, 60, 45],
-        backgroundColor: '#0d6efd',
+        backgroundColor: '#00a34a',
         // borderRadius: 6,
         barPercentage: 0.6,
         categoryPercentage: 0.7
@@ -42,7 +42,7 @@ const options = {
         },
         datalabels: {
             color: '#222', // 원하는 색상
-            font: { weight: 'bold', size: 13 },
+            font: { weight: 'bold', size: 14 },
             anchor: 'end',
             align: 'top',
             formatter: Math.round
@@ -53,12 +53,12 @@ const options = {
             beginAtZero: true,
             max: 400,
             ticks: {
-                font: { size: 12 },
+                font: { size: 14 },
                 stepSize: 40
             }
         },
         x: {
-            ticks: { font: { size: 12 } }
+            ticks: { font: { size: 14 } }
         }
     }
 };

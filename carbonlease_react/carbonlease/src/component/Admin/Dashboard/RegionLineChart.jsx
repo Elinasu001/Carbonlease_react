@@ -32,14 +32,13 @@ const dummyData = {
     datasets: [
         {
         color: '#222',
-        font: { size: 10, weight: 'bold' },
+        font: { size: 12, weight: 'bold' },
         label: 'Activity Count',
         data: regionData,
         fill: false,
-        borderColor: '#0d6efd',
-        backgroundColor: '#0d6efd',
-        pointBorderColor: 'rgba(13,110,253,0.3)',
-        pointBackgroundColor: 'rgba(13,110,253,0.3)',
+        backgroundColor: '#00a34a',
+        pointBorderColor: 'rgba(13, 253, 121, 0.3)',
+        pointBackgroundColor: 'rgba(13, 253, 145, 0.3)',
         pointRadius: 12,
         pointHoverRadius: 16,
         pointStyle: 'circle',
@@ -55,7 +54,7 @@ const options = {
             display: true,
             position: 'top',
             labels: {
-                font: { size: 12 }
+                font: { size: 14 }
             }
         },
         title: {
@@ -68,13 +67,13 @@ const options = {
         y: {
             beginAtZero: true,
                 ticks: {
-                    font: { size: 12 },
+                    font: { size: 14 },
                     stepSize: 40
                 },
                 max: 400
         },
         x: {
-            ticks: { font: { size: 12 } }
+            ticks: { font: { size: 14 } }
         }
     }
 };
