@@ -1,27 +1,56 @@
 import { useEffect, useState } from 'react';
-import { formatRegionStatsForMap, getRegionStats } from '../../../../api/main/regionStatsApi';
+import { getRegionStats } from '../../../../api/main/regionStatsApi';
 
-export default function useRegionStatsMap() {
+
+const useRegionStatsMap = (onShowToast) => {
+
+    // 1. 상태 선언
     const [regionData, setRegionData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [hoveredRegion, setHoveredRegion] = useState(null);
     const [tooltipContent, setTooltipContent] = useState('');
+    const [errorShown, setErrorShown] = useState(false);
 
-    // 컴포넌트 마운트 시 지역 통계 데이터 불러오기
+    // 2. 지역 통계 데이터를 지도용 포맷으로 변환
+    const formatRegionStatsForMap = (list) =>
+        list.map((items) => ({
+            //localName: items.localName,
+            topRegionName: items.topRegionName,
+            //year: items.year,
+            avgUseQnt: items.avgUseQnt,
+            usagePercent: items.usagePercent,
+            latitude: Number(items.latitude),
+            longitude: Number(items.longitude)
+    }));
+
+    // 3. useEffect로 데이터 불러오기
     useEffect(() => {
-        const fetchRegionStats = async () => {
-            try {
-                const apiData = await getRegionStats();
-                                const formatted = formatRegionStatsForMap(apiData);
-                                setRegionData(formatted);
-            } catch (err) {
-                console.error('지도 데이터 로딩 실패:', err);
-            } finally {
+        getRegionStats()
+            .then((result) => {
+                const formatted = formatRegionStatsForMap(result);
+                setRegionData(formatted);
+            })
+            .catch((error) => {
+                if (!errorShown) {
+                    onShowToast(
+                        error?.response?.data?.["error-message"] || '지역 통계 데이터를 불러오지 못했습니다.',
+                        'error'
+                    );
+                    setErrorShown(true);
+                }
+            })
+            .finally(() => {
                 setLoading(false);
-            }
-        };
-        fetchRegionStats();
-    }, []);
+            });
+    }, [errorShown]);
+
+    // 4. 버블 크기 계산 함수 (value가 %면 그대로, 실제 값이면 변환)
+    const getBubbleSize = (value) => {
+        const minSize = 30;
+        const maxSize = 50;
+        const maxValue = Math.max(...regionData.map(r => r.usagePercent));
+        return minSize + ((value / maxValue) * (maxSize - minSize));
+    };
 
     return {
         regionData,
@@ -30,5 +59,7 @@ export default function useRegionStatsMap() {
         setHoveredRegion,
         tooltipContent,
         setTooltipContent,
+        getBubbleSize,
     };
-}
+};
+export default useRegionStatsMap;

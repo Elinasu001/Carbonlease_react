@@ -1,6 +1,7 @@
-
+import { useState } from 'react';
 import { Marker } from 'react-simple-maps';
-import { StyledComposableMap, StyledGeographies, StyledGeography } from './components/RegionStatsMap.styled';
+import Toast from '../../../Common/Toast/Toast';
+import Loading from '../../Loading/Loading';
 import BubbleMarker from './components/BubbleMarker';
 import {
     InfoBox,
@@ -8,14 +9,32 @@ import {
     InfoDescription,
     InfoIcon,
     InfoTitle,
-    LoadingText,
     MapContainer,
-    MapWrapper,
-    Tooltip
+    MapWrapper, StyledComposableMap, StyledGeographies, StyledGeography, Tooltip
 } from './components/RegionStatsMap.styled';
 import useRegionStatsMap from './useRegionStatsMap';
 
 const RegionStatsMap = () => {
+    
+    // 1. Toast 상태 관리
+    const [toastMessage, setToastMessage] = useState('');
+    const [showToast, setShowToast] = useState(false);
+    const [toastVariant, setToastVariant] = useState('success');
+
+    // 1-1. 토스트 메시지 표시
+    const handleShowToast = (message, variant = 'success') => {
+        console.log('토스트 호출:', message, variant);
+        setToastMessage(message);
+        setToastVariant(variant);
+        setShowToast(true);
+    };
+
+    // 1-2. 토스트 메시지 닫기
+    const handleCloseToast = () => {
+        setShowToast(false);
+    };
+
+    // 2. 지역 통계 지도 훅 사용
     const {
         regionData,
         loading,
@@ -23,27 +42,19 @@ const RegionStatsMap = () => {
         setHoveredRegion,
         tooltipContent,
         setTooltipContent,
-    } = useRegionStatsMap();
+    } = useRegionStatsMap(handleShowToast);
 
+    // 3. 로딩 상태 처리
     if (loading) {
         return (
-            <MapContainer>
-                <LoadingText>데이터 로딩 중...</LoadingText>
-            </MapContainer>
+            <Loading
+                message="정보를 불러오는 중..."
+            />
         );
     }
 
-
-    // 버블 크기 계산 (value가 %면 그대로, 실제 값이면 변환)
-    const getBubbleSize = (value) => {
-        const minSize = 30;
-        const maxSize = 50;
-        // usagePercent 기준으로 maxValue 계산
-        const maxValue = Math.max(...regionData.map(r => r.usagePercent));
-        return minSize + ((value / maxValue) * (maxSize - minSize));
-    };
-
     return (
+        <>
         <MapContainer>
             <InfoBox>
                 <InfoIcon className="bi bi-geo-alt-fill" />
@@ -92,6 +103,7 @@ const RegionStatsMap = () => {
                                         setHoveredRegion(null);
                                         setTooltipContent('');
                                     }}
+                                    onShowToast={handleShowToast}
                                 />
                             </Marker>
                         );
@@ -101,6 +113,13 @@ const RegionStatsMap = () => {
                 {tooltipContent && <Tooltip>{tooltipContent}</Tooltip>}
             </MapWrapper>
         </MapContainer>
+        <Toast
+            message={toastMessage}
+            isVisible={showToast}
+            onClose={handleCloseToast}
+            variant={toastVariant}
+        />
+        </>
     );
 };
 
