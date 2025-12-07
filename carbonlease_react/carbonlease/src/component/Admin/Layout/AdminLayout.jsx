@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Context/AuthContext';
 import {
@@ -20,11 +20,12 @@ const AdminLayout = () => {
     const navi = useNavigate();
     const { auth, logout } = useContext(AuthContext);
 
-    useEffect(() => {
-        if(auth.role !== '[ROLE_ADMIN]'){
-          navi('/admin/login');
-        }
-    }, [])
+        // [임시] DB 없이 접근 가능하게 인증 체크 주석처리
+        // useEffect(() => {
+        //     if(auth.role !== '[ROLE_ADMIN]'){
+        //       navi('/admin/login');
+        //     }
+        // }, [])
 
     const toggleSidebar = () => {
         setSidebarActive(!sidebarActive);

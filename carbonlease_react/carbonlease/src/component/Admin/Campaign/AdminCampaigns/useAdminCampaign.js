@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { findAll, deleteById } from '../../../../api/campaign/adminCampaignApi';
+import { deleteById, findAll } from '../../../../api/campaign/adminCampaignApi';
 
 // 어드민 캠페인 목록/페이지네이션 관리 커스텀 훅
 const useAdminCampaign = (onShowToast) => {
@@ -28,7 +28,6 @@ const useAdminCampaign = (onShowToast) => {
         findAll(page)
             .then((result) => {
                 if (result && result.status === 200) {
-                    
                     // 캠페인 목록 및 페이지 정보 설정
                     const { campaigns, pageInfo } = result.data;
 
