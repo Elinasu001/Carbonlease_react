@@ -39,41 +39,36 @@ export const AuthProvider = ({ children }) => {
         const role = localStorage.getItem("role");
         const expiredDate = localStorage.getItem("expiredDate");
         const isSocialLogin = localStorage.getItem("isSocialLogin");
-        //console.log(refreshToken);
-
-        // 관리자는 자동로그인 불가
-        if(role === '[ROLE_ADMIN]'){
-            logout();
-            return;
-        }
 
         console.log('토큰 만료 기간 : '+ expiredDate);
 
         console.log(Date.now());
 
+
         {
-            expiredDate !== null && (Date.now() > expiredDate)? 
+            accessToken !== null && (Date.now() > expiredDate) ? 
 
         axios.post("http://localhost/auth/refresh", {
             refreshToken : refreshToken,
         }).then(result => {
             //console.log(result.data);
-            const newAccessToken = result.data["accessToken"];
+            const newAcessToken = result.data["accessToken"];
             const newRefreshToken = result.data["refreshToken"];
-            localStorage.setItem("accessToken",newAccessToken);
+            const newExpiredDate = result.data["expiredDate"];
+            localStorage.setItem("accessToken",newAcessToken);
             localStorage.setItem("refreshToken",newRefreshToken);
-            console.log(newAccessToken);
+            localStorage.setItem("expiredDate", newExpiredDate);
             setAuth({
                 memberId,
                 nickName,
-                accessToken : newAccessToken,
+                accessToken : newAcessToken,
                 refreshToken : newRefreshToken,
                 email, 
                 addressLine1, 
                 addressLine2,
                 role,
                 isAuthenticated : true,
-                expiredDate,
+                expiredDate : newExpiredDate,
                 isSocialLogin
             });
 
@@ -98,7 +93,7 @@ export const AuthProvider = ({ children }) => {
                 isSocialLogin
         })
         :
-        <></>
+        null
 
     }
 

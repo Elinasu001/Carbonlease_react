@@ -38,6 +38,7 @@ const KakaoEnrollForm = () => {
     const nickNameregexp = /^[A-Za-z0-9ㄱ-ㅎㅏ-ㅣ가-힣]{2,12}$/;
 
     useEffect(() => {
+
         setMemberId(kakaoInfo.memberId);
         setMemberPwd(kakaoInfo.memberPwd);
     }, [])
