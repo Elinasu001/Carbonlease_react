@@ -5,7 +5,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:80';
 const adminBoardsAPI = axios.create({
   baseURL: `${API_BASE_URL}/admin`,
   timeout: 10000,
-  withCredentials: true,
+  //withCredentials: true,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -22,7 +22,7 @@ adminBoardsAPI.interceptors.request.use(config => {
 export const fetchAdminBoards = (page, status, keyword) =>
   adminBoardsAPI.get(`/boards`, { params: { page, status, keyword } });
 
-// 상세 조회 ★ 여기서 백엔드 지원이 필요함
+// 상세 조회 
 export const fetchAdminBoardDetail = (id) =>
   adminBoardsAPI.get(`/boards/${id}`);
 
