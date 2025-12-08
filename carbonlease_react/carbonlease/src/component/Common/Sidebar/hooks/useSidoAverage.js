@@ -16,7 +16,6 @@ export const useSidoAverage = (sido) => {
       .get(`${API_BASE}/api/air/sido`, { params: { name: sido } })
       .then((res) => {
         setData(res.data);
-        // 성공하면 캐싱 처리
         localStorage.setItem(
           `sido-${sido}`,
           JSON.stringify({
@@ -28,7 +27,6 @@ export const useSidoAverage = (sido) => {
       .catch((err) => {
         console.error(err);
 
-        // 실패하면 캐싱된 데이터 fallBack
         const cached = localStorage.getItem(`sido-${sido}`);
         if(cached) {
           const parsed = JSON.parse(cached);

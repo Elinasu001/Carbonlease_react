@@ -1,6 +1,6 @@
 import PageTitle from "../Layout/PageTitle/PageTitle";
 import PageContent from "../PageContent/PageContent";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   EmptyWrapper,
