@@ -1,8 +1,12 @@
 import React, { useState, useContext } from 'react'; // useContext import 추가
 import { FloatingLabel } from "react-bootstrap";
+<<<<<<< HEAD
 import { ReplyListBox } from "../../ActivityBoard/ActivityBoardDetail/ActivityBoardDetail.styles";
 import { Button } from "react-bootstrap";
 import { AuthContext } from "../../Context/AuthContext";
+=======
+import { ReplyListBox } from "../../Common/Comments/Comment.styled";
+>>>>>>> cffab517ce9e9b600fd86bb3313efc7be26b8eac
 
 
 const BoardReply = ({ data = [], onUpdate, onDelete }) => { 
