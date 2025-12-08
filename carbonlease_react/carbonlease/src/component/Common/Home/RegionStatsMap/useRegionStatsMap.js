@@ -9,7 +9,6 @@ const useRegionStatsMap = (onShowToast) => {
     const [loading, setLoading] = useState(true);
     const [hoveredRegion, setHoveredRegion] = useState(null);
     const [tooltipContent, setTooltipContent] = useState('');
-    const [errorShown, setErrorShown] = useState(false);
 
     // 2. 지역 통계 데이터를 지도용 포맷으로 변환
     const formatRegionStatsForMap = (list) =>
@@ -23,26 +22,25 @@ const useRegionStatsMap = (onShowToast) => {
             longitude: Number(items.longitude)
     }));
 
-    // 3. useEffect로 데이터 불러오기
+    // 3. useEffect로 데이터 불러오기 (최초 마운트 시 한 번만 호출)
     useEffect(() => {
+        console.log('API 호출!');
         getRegionStats()
             .then((result) => {
-                const formatted = formatRegionStatsForMap(result);
+                const raw = result.data ?? result;
+                const formatted = formatRegionStatsForMap(raw);
                 setRegionData(formatted);
             })
             .catch((error) => {
-                if (!errorShown) {
-                    onShowToast(
-                        error?.response?.data?.["error-message"] || '지역 통계 데이터를 불러오지 못했습니다.',
-                        'error'
-                    );
-                    setErrorShown(true);
-                }
+                onShowToast(
+                    error?.response?.data?.["error-message"] || '지역 통계 데이터를 불러오지 못했습니다.',
+                    'error'
+                );
             })
             .finally(() => {
                 setLoading(false);
             });
-    }, [errorShown]);
+    }, []);
 
     // 4. 버블 크기 계산 함수 (value가 %면 그대로, 실제 값이면 변환)
     const getBubbleSize = (value) => {
@@ -60,6 +58,7 @@ const useRegionStatsMap = (onShowToast) => {
         tooltipContent,
         setTooltipContent,
         getBubbleSize,
-    };
-};
+    }
+}
+
 export default useRegionStatsMap;
