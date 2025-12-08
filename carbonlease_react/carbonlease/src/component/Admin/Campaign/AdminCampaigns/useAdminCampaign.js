@@ -22,8 +22,7 @@ const useAdminCampaign = (onShowToast) => {
 
     // 캠페인 목록 불러오기
     const getCampaigns = (page) => {
-        
-
+        setLoading(true);
         // 캠페인 목록 API 호출
         findAll(page)
             .then((result) => {

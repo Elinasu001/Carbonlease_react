@@ -20,7 +20,13 @@ adminDashboardApi.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// 각 게시글 수 조회
+// 게시글 통계 집계 조회
 export const getUsersAllBoardsCount = () => {
     return adminDashboardApi.get('/boardsAllCount');
 };
+
+// 지역별 커뮤니티 활동량(합산/일반/인증) 통합 조회
+export const getUsersRegionActivityStats = () => {
+    return adminDashboardApi.get('/activityRegion');
+};
+
