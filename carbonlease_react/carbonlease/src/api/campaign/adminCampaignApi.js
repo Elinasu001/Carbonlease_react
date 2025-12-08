@@ -6,8 +6,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 // Axios 인스턴스 생성
 const adminCampaignApi = axios.create({
     baseURL: `${API_BASE_URL}/admin/campaigns`,
-    timeout: 10000,
-    withCredentials: true
+    timeout: 10000
 });
 
 // 인터셉터 설정: 모든 요청에 토큰 자동 주입
@@ -90,7 +89,18 @@ export const update = (id, files, campaign) => {
 }
 
 
-// 캠페인 게시글 삭제
+// 캠페인 게시글 숨김 처리 (상태값 N으로 변경)
+export const hideById = (id) => {
+    return adminCampaignApi.post(`/${id}`);
+};
+
+// 캠페인 게시글 복구
+export const restoreById = (id) => {
+    return adminCampaignApi.post(`/${id}/restore`);
+};
+
+// 캠페인 게시글 완전 삭제
 export const deleteById = (id) => {
     return adminCampaignApi.delete(`/${id}`);
 };
+

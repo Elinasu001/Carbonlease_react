@@ -5,10 +5,11 @@ import {
     CategoryBadge,
     DeleteButton,
     EditButton,
-    StatusBadge
+    StatusBadge,
+    RestoreButton
 } from '../../../../Common/DataTable/DataTable.styled';
 
-const AdminCampaignList = ({ campaigns, onEdit, onDelete }) => {
+const AdminCampaignList = ({ campaigns, onEdit, onHide, onDelete, onRestore }) => {
     // campaigns 데이터 구조 전체를 확인
     console.log('캠페인 데이터 구조:', campaigns);
     
@@ -47,12 +48,18 @@ const AdminCampaignList = ({ campaigns, onEdit, onDelete }) => {
             field: 'campaignNo',
             render: (value, row) => (
                 <ButtonGroup>
+                    {row.displayStatus === '숨김' ? (
+                        <RestoreButton onClick={() => onRestore(value)}>
+                            복구
+                        </RestoreButton>
+                    ) : (
+                        <DeleteButton onClick={() => onHide(value)}>
+                            숨김
+                        </DeleteButton>
+                    )}
                     <EditButton onClick={() => onEdit(row)}>수정</EditButton>
-                    <DeleteButton
-                        onClick={() => onDelete(value)}
-                        disabled={row.displayStatus === "숨김"}
-                    >
-                        숨김
+                    <DeleteButton onClick={() => onDelete(value)} style={{marginLeft: '4px'}}>
+                        삭제
                     </DeleteButton>
                 </ButtonGroup>
             )
