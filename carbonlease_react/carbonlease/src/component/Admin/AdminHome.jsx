@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import DoughnutChart from './Dashboard/DoughnutChart/DoughnutChart';
 import Toast from '../Common/Toast/Toast';
 import RegionLineChart from './Dashboard/RegionLineChart/RegionLineChart';
-import Top5RankingList from './Dashboard/Top5RankingList';
+import Top5RankingList from './Dashboard/TopRankingList/Top5RankingList';
 import {
     DashboardRow,
     DashboardSection,
