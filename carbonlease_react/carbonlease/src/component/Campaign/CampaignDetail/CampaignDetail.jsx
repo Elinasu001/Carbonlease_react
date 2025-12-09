@@ -1,7 +1,5 @@
 import { useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteReply, getReplies, insertReply, updateReply } from '../../../api/campaign/campaignApi';
-import CommentBox from '../../Common/Comments/CommentBox';
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import Loading from '../../Common/Loading/Loading';
 import PageContent from '../../Common/PageContent/PageContent';
