@@ -30,15 +30,19 @@ const NoticeCalendar = () => {
     };
 
 
-    // 카테고리 가져오기 API
+    // 카테고리 가져오기
     const fetchCategories = async () => {
-      const { data } = await axios.get("http://localhost/notices/calendar/categories");
+      const { data } 
+      = await axios
+      .get("http://localhost/notices/calendar/categories");
       setCategories(data.categories);
     };
 
-
+    // 일정 가져오기
     const fetchEvents = async () => {
-        const { data } = await axios.get('http://localhost/notices/calendar')
+        const { data } 
+        = await axios
+        .get('http://localhost/notices/calendar')
 
         const converted = data.events.map(e => ({
           id: e.calendarNo,
@@ -113,7 +117,7 @@ const NoticeCalendar = () => {
                   headerToolbar={{
                   start: "title",
                   center: btnList,
-                  end: "prev,next"
+                  end: "today prev,next"
               }}
               customButtons={customButtons}
               />

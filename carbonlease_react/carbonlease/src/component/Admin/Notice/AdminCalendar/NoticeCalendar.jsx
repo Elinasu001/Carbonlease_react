@@ -23,16 +23,6 @@ const NoticeCalendar = () => {
     fetchEvents();
   }, []);
 
-  // event색상 지정
-  const eventColorClass = (cat) => {
-    switch (cat) {
-      case 1: return 'green';
-      case 2: return 'blue';
-      case 3: return 'red';
-      default: return 'yellow';
-    }
-  };
-
   // 일정 전체 조회
   const fetchEvents = async () => {
 
@@ -148,7 +138,16 @@ const handleEventClick = (info) => {
     setOpenEditModal(false);
   };
 
-
+  // event색상 지정
+  const eventColorClass = (cat) => {
+    switch (cat) {
+      case 1: return 'green';
+      case 2: return 'blue';
+      case 3: return 'red';
+      default: return 'yellow';
+    }
+  };
+  
   return (
     <>
       <StyleWrapper>
