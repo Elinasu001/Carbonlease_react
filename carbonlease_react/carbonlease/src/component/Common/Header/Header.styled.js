@@ -8,7 +8,8 @@ export const HeaderWrap = styled.header`
     --background-color: rgba(255, 255, 255, 0);
     color: var(--default-color);
     background-color: var(--background-color);
-    padding: 0px 0 15px 0;
+    ${'' /* padding: 0px 0 15px 0; */}
+    border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
     transition: all 0.5s;
     z-index: 997;
     display: flex;
@@ -36,7 +37,7 @@ export const HeaderWrap = styled.header`
     }
 
     .container {
-        padding-top:15px;
+        padding: 10px 0;
     }
 `;
 
@@ -46,14 +47,16 @@ export const Topbar = styled.div`
     height: 40px;
     padding: 0;
     font-size: 14px;
-    transition: all 0.5s;
+    transition: all 0.2s;
     width: 100%;
-    padding-bottom:15px;
+    overflow: hidden;
+    
     .contact-info {
+        width:100%;
         i {
             font-style: normal;
             color: var(--contrast-color);
-
+            margin-right: 10px;
             a,
             span {
                 padding-left: 5px;
@@ -87,6 +90,43 @@ export const Topbar = styled.div`
 
         &:hover {
             color: var(--contrast-color);
+        }
+    }
+`;
+
+/* Notice Slider */
+export const NoticeSlider = styled.div`
+    position: relative;
+    height: 20px;
+    overflow: hidden;
+    flex: 1;
+    max-width: 800px;
+
+    .notice-item {
+        position: absolute;
+        width: 100%;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease-in-out;
+        pointer-events: none;
+
+        &.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        a {
+            color: var(--contrast-color);
+            text-decoration: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+
+            &:hover {
+                text-decoration: underline;
+            }
         }
     }
 `;

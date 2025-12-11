@@ -2,11 +2,15 @@ import styled from 'styled-components';
 
 // ===== Hero Section =====
 export const HeroSection = styled.section`
-    padding: 180px 0 80px 0 ;
-    margin-top: 80px;
-    background: linear-gradient(135deg, var(--surface-color) 0%, color-mix(in srgb, var(--accent-color), transparent 95%) 100%);
-    position: relative;
+position: relative;
     overflow: hidden;
+    margin-top:120px;
+    padding: 45px 0;
+
+    /* AOS 애니메이션 강제 비활성화 */
+    & * {
+        opacity: 1 !important;
+    }
 
     &::before {
         content: "";
@@ -15,31 +19,21 @@ export const HeroSection = styled.section`
         left: 0;
         right: 0;
         bottom: 0;
-        background: radial-gradient(circle at 20% 80%, color-mix(in srgb, var(--accent-color), transparent 90%) 0%, transparent 50%);
         pointer-events: none;
     }
 
     .hero-content {
         padding: 20px 0;
     }
-
-    /* Tablet */
-    @media (max-width: 992px) {
-        padding: 100px 0 60px 0;
-        margin-top: 70px;
+    
+    .container .row {
+        justify-content: center;
     }
 
-    /* Mobile */
-    @media (max-width: 768px) {
-        padding: 120px 0 50px 0;
-        margin-top: 60px;
+    @media (max-width: 1200px) {
+        margin-top: 90px;
     }
 
-    /* Small Mobile */
-    @media (max-width: 576px) {
-        padding: 100px 0 40px 0;
-        margin-top: 60px;
-    }
 `;
 
 export const HeroTitle = styled.h1`
@@ -50,8 +44,9 @@ export const HeroTitle = styled.h1`
     color: var(--heading-color);
 
     @media (max-width: 768px) {
-        font-size: 2.5rem;
+        font-size: 2rem;
         font-weight: 600;
+        margin-top:24px;
         margin-bottom: 24px;
     }
 `;
@@ -231,20 +226,18 @@ export const HeroImage = styled.img`
 `;
 
 export const ImageFallback = styled.div`
-    width: 100%;
-    max-width: 100%;
+    width: 400px;
     height: 100%;
     min-height: 260px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #ffffff;
-    border: 2px dashed #e6e6e6;
+    ${'' /* border: 2px dashed #e6e6e6; */}
     border-radius: 8px;
     color: #9aa0a6;
     font-size: 16px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    ${'' /* box-shadow: 0 4px 12px rgba(0,0,0,0.04); */}
 
     @media (min-width: 992px) {
         min-height: 300px;
@@ -255,19 +248,14 @@ export const ImageFallback = styled.div`
     }
 `;
 
-// ===== Featured Services Section =====
-export const FeaturedServicesSection = styled.section`
-    --surface-color: color-mix(in srgb, var(--default-color), transparent 96%);
-    padding-top: 0;
-
-    @media (max-width: 1199px) {
-        padding: 60px 0;
-    }
-
-    @media (max-width: 768px) {
-        padding: 40px 0;
-    }
+export const AboutInner = styled.div`
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap:wrap;
+    gap:30px;
 `;
+
 
 export const ServiceItem = styled.div`
     background-color: var(--surface-color);
@@ -327,7 +315,6 @@ export const AboutSection = styled.section`
     @media (max-width: 768px) {
         padding: 40px 0;
     }
-    
 `;
 
 export const SectionTitle = styled.div`
@@ -389,6 +376,7 @@ export const SectionTitle = styled.div`
 export const AboutContent = styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     height: 100%;
 
     h3 {
@@ -425,14 +413,13 @@ export const AboutContent = styled.div`
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                width: 24px;
-                height: 24px;
-                background-color: var(--accent-color);
-                color: white;
+                width: 30px;
+                height: 30px;
+                color: #0d6efd;
                 border-radius: 50%;
                 margin-right: 12px;
                 flex-shrink: 0;
-                font-size: 12px;
+                font-size: 22px;
             }
 
             span {
@@ -465,42 +452,6 @@ export const AboutContent = styled.div`
     }
 `;
 
-// ===== Stats Section =====
-export const StatsSection = styled.section`
-    padding-bottom:100px;
-    background-color: var(--background-color);
-
-    @media (max-width: 1199px) {
-        padding: 60px 0;
-    }
-
-    @media (max-width: 768px) {
-        padding: 40px 0;
-    }
-`;
-
-export const StatsItem = styled.div`
-    padding: 30px;
-    width: 100%;
-
-    span {
-        font-size: 48px;
-        display: block;
-        color: var(--accent-color);
-        font-weight: 700;
-    }
-
-    p {
-        color: color-mix(in srgb, var(--default-color), transparent 40%);
-        padding: 0;
-        margin: 0;
-        font-family: var(--heading-font);
-        font-size: 15px;
-        font-weight: 600;
-        }
-    }
-`;
-
 // ===== Services Section =====
 export const ServicesSection = styled.section`
     background-color: var(--background-color);
@@ -520,6 +471,7 @@ export const ServicesSection = styled.section`
 `;
 
 export const ServiceItemGrid = styled.div`
+    ${'' /* background-color: var(--surface-color); */}
     background-color: var(--surface-color);
     text-align: center;
     border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
@@ -559,6 +511,7 @@ export const ServiceItemGrid = styled.div`
         margin: 10px 0 15px 0;
         font-size: 22px;
         transition: 0.3s;
+    }
 `;
 
 // ===== Call To Action Section =====
@@ -566,7 +519,7 @@ export const CallToActionSection = styled.section`
     padding: 80px 0;
     position: relative;
     clip-path: inset(0);
-    background-color: var(--background-color);
+    background-color: #f8f9fa;
 
     @media (max-width: 1199px) {
         padding: 60px 0;
@@ -587,6 +540,20 @@ export const CallToActionSection = styled.section`
         color: var(--default-color);
         font-size: 18px;
         margin-bottom: 30px;
+    }
+
+    .btn-light {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 12px 40px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: color-mix(in srgb, var(--accent-color) 85%, black 15%);
+            transform: translateY(-2px);
+        }
     }
 
     .cta-btn {
@@ -612,7 +579,7 @@ export const CallToActionSection = styled.section`
     }
 `;
 
-
+// ===== Styles for Bootstrap Integration =====
 export const GlobalStyles = styled.div`
     .section {
         position: relative;
@@ -633,6 +600,7 @@ export const GlobalStyles = styled.div`
         }
     }
 
+    /* Small adjustments so Bootstrap buttons inside hero-actions align nicely */
     .hero-actions .btn {
         display: inline-flex;
         align-items: center;
@@ -642,7 +610,7 @@ export const GlobalStyles = styled.div`
 
     .section-title {
         text-align: center;
-        margin-bottom: 60px;
+        margin-bottom:40px;
     }
 
     .row {

@@ -3,11 +3,11 @@ import styled from "styled-components";
 export const PageTitleWrap = styled.div`
     /* Page Title */
     .page-title {
-        color: var(--default-color);
-        background-color: var(--background-color);
-        padding: 80px 0 60px 0;
         position: relative;
-        margin-top: 80px;
+        background-color: var(--background-color);
+        margin-top:120px;
+        padding-top: 45px;
+        color: var(--default-color);
     }
 
     .page-title h1 {
@@ -36,11 +36,18 @@ export const PageTitleWrap = styled.div`
         color: color-mix(in srgb, var(--default-color), transparent 70%);
     }
 
+    @media (max-width: 1200px) {
+        .page-title {
+            margin-top:90px;
+            padding-top: 30px;
+        }
+    }
+
     /* Tablet */
     @media (max-width: 992px) {
+        
         .page-title {
-            padding: 60px 0 40px 0;
-            margin-top: 70px;
+            padding-top: 20px;
         }
 
         .page-title h1 {
@@ -54,10 +61,6 @@ export const PageTitleWrap = styled.div`
 
     /* Mobile */
     @media (max-width: 768px) {
-        .page-title {
-            padding: 40px 0 30px 0;
-            margin-top: 60px;
-        }
 
         .page-title h1 {
             font-size: 24px;
@@ -71,10 +74,6 @@ export const PageTitleWrap = styled.div`
 
     /* Small Mobile */
     @media (max-width: 576px) {
-        .page-title {
-            padding: 30px 0 20px 0;
-        }
-
         .page-title h1 {
             font-size: 20px;
         }

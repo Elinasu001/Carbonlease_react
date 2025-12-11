@@ -1,19 +1,31 @@
-import { useState } from 'react';
-import { Outlet, NavLink } from 'react-router-dom';
+import { useContext, useState, useEffect } from 'react';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../Context/AuthContext';
 import {
+    Footer,
     LayoutSidenav,
-    SidenavContent,
-    SidenavMenu,
-    SidenavFooter,
     MainContent,
-    Topnav,
+    Overlay,
     PageContent,
-    Footer
+    SidenavContent,
+    SidenavFooter,
+    SidenavMenu,
+    Topnav
 } from './AdminLayout.styled';
 
 const AdminLayout = () => {
     const [sidebarActive, setSidebarActive] = useState(false);
     const showUsersMenu = true; // 필요 시 false로 변경
+
+    const navi = useNavigate();
+    const { auth, logout } = useContext(AuthContext);
+    const [currentPage, setCurrentPage] = useState('');
+
+    useEffect(() => {
+        {
+            auth.role !== '[ROLE_ADMIN]' ? ( setCurrentPage(window.location.pathname) ,navi('/admin/login')) : navi(currentPage);
+        }
+    }, [auth.role])
 
     const toggleSidebar = () => {
         setSidebarActive(!sidebarActive);
@@ -21,8 +33,20 @@ const AdminLayout = () => {
 
     return (
         <LayoutSidenav>
+            {/* 모바일 오버레이 */}
+            {sidebarActive && (
+                <Overlay onClick={toggleSidebar} />
+            )}
             {/* Sidebar */}
             <SidenavContent className={sidebarActive ? 'active' : ''}>
+                {/* 모바일 닫기(X) 버튼 */}
+                <button
+                    className="sidebar-close"
+                    onClick={toggleSidebar}
+                    aria-label="사이드바 닫기"
+                >
+                    <span className="sidebar-close-icon">×</span>
+                </button>
                 <SidenavMenu>
                     <div className="sb-sidenav-menu-heading">Core</div>
                     <NavLink className="nav-link" to="/admin/home">
@@ -71,13 +95,20 @@ const AdminLayout = () => {
                 <SidenavFooter>
                     Logged in as: Admin
                 </SidenavFooter>
+
             </SidenavContent>
+
 
             {/* Main Content */}
             <MainContent>
                 {/* Top Navigation */}
                 <Topnav>
-                    <button className="sidebar-toggle" onClick={toggleSidebar}>
+                    {/* 햄버거 버튼: 모바일에서만 보임 */}
+                    <button
+                        className="sidebar-toggle"
+                        onClick={toggleSidebar}
+                        aria-label="사이드바 열기"
+                    >
                         <i className="fas fa-bars"></i>
                     </button>
                     <NavLink className="navbar-brand" to="/admin/home">Carbonlease Admin</NavLink>
@@ -88,9 +119,9 @@ const AdminLayout = () => {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <a href="/admin/login">
+                            <NavLink onClick={logout} to="/admin/login">
                                 <i className="fas fa-sign-out-alt"></i>
-                            </a>
+                            </NavLink>
                         </li>
                     </ul>
                 </Topnav>
