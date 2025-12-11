@@ -65,10 +65,3 @@ export const deleteReply = (replyNo) => {
 export const updateReply = (replyNo, replyContent) => {
     return campaignApi.put(`/replies/${replyNo}`, { replyContent });
 };
-
-
-
-
-
-
-
