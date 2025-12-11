@@ -40,6 +40,7 @@ import MemberUpdateForm from './component/Member/UpdateForm/MemberUpdateForm';
 import { AuthProvider } from './component/Context/AuthContext';
 import KakaoCallback from './component/Member/Login/KakaoCallback';
 import KakaoEnrollForm from './component/Member/EnrollForm/KaKaoEnrollForm';
+import ProtectedRoute from './component/Context/ProtectedRoute';
 
 
 function App() {
@@ -73,8 +74,8 @@ function App() {
 				<Route path="/campaigns/detail/:id" element={<CampaignDetail />} />
 				<Route path="/login" element={<Login/>} />
 				<Route path="/signUp" element={<EnrollForm/>} />
-				<Route path="/myPage" element = {<MyPage/>} />
-				<Route path="/myPage/update" element={<MemberUpdateForm />} />
+				<Route path="/myPage" element={<ProtectedRoute allow={["[ROLE_USER]"]}> <MyPage /> </ProtectedRoute>}/>
+				<Route path="/myPage/update" element={<ProtectedRoute allow={["[ROLE_USER]"]}> <MemberUpdateForm /> </ProtectedRoute>}/>
 				<Route path="/guide" element={<ComponentGuide />} />
 			</Route>
 			
