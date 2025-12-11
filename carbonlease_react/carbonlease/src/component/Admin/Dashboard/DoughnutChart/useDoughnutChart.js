@@ -28,7 +28,7 @@ function convertStatsToChartData(stats) {
             backgroundColor.push('#f6e393ff');
         }
 
-        let title = item.boardType;
+        let title = item.BOARDTYPE;
         
         if (title) {
             title = title.charAt(0).toUpperCase() + title.slice(1);
@@ -58,6 +58,7 @@ const useDoughnutChart = (onShowToast) => {
         setLoading(true);
         getUsersAllBoardsCount()
             .then((result) => {
+                //alert(JSON.stringify(result.data, null, 2)); // 응답 구조 확인
                 const stats = result.data;
                 setChartData(convertStatsToChartData(stats));
             })
