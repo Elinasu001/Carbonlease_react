@@ -27,7 +27,7 @@ export const DashboardTitle = styled.h3`
     display: block;
 `;
 
-export const DashboardRow = styled.div`]
+export const DashboardRow = styled.div`
     min-height: 700px;
     overflow:hidden;
     display: flex;
