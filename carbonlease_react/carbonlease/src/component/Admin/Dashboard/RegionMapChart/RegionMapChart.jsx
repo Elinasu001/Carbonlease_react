@@ -37,13 +37,7 @@ const RegionMapChart = ({ onShowToast }) => {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                {regionStats
-                .filter(
-                    r =>
-                        typeof r.latitude === 'number' &&
-                        typeof r.longitude === 'number'
-                )
-                .map(region => (
+                {regionStats.map(region => (
                     <CircleMarker
                         key={region.regionNo}
                         center={[region.latitude, region.longitude]}
