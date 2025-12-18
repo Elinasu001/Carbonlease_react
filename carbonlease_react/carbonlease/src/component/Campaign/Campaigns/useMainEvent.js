@@ -1,12 +1,14 @@
 import { Client } from '@stomp/stompjs';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import SockJS from 'sockjs-client';
 import { fetchMainEvent, participateEvent } from '../../../api/campaign/eventMainApi';
+import { AuthContext } from '../../Context/AuthContext';
 
 const useMainEvent = (onShowToast) => {
     const [event, setEvent] = useState(null);
     const [loading, setLoading] = useState(true);
     const [stompClient, setStompClient] = useState(null);
+    const { auth } = useContext(AuthContext);
     
     // 이벤트 정보 불러오기
     const loadEvent = useCallback(() => {
@@ -24,16 +26,23 @@ const useMainEvent = (onShowToast) => {
 
     // 참여하기
     const handleParticipate = () => {
+
+        if (!auth?.isAuthenticated) {
+            onShowToast('로그인이 필요합니다.', 'error');
+            return;
+        }
         if (!event) return;
         participateEvent(event.eventId)
             .then(() => {
                 onShowToast('참여 완료했습니다!', 'success');
                 loadEvent(); // 참여 성공 시만 이벤트 정보 갱신
             })
-            .catch(err => onShowToast(
-                err?.response?.data?.message || '로그인이 필요합니다.',
-                'error'
-            ));
+            .catch((error) => {
+                onShowToast(
+                   '이미 참여한 이벤트입니다.',
+                    'error'
+                );
+            });
     };
 
     // WebSocket 연결 및 실시간 참여자 수 반영
