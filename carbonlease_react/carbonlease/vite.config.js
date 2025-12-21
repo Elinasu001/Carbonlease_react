@@ -7,4 +7,14 @@ export default defineConfig({
   define: {
     global: {},
   },
+ server: {
+    proxy: {
+      '/ws-event': {
+        target: 'http://localhost:80',
+        ws: true,
+        changeOrigin: true,
+        secure: false,
+      }
+    }
+  },
 })

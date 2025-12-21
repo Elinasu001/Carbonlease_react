@@ -5,7 +5,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Axios 인스턴스 생성
 const eventMainApi = axios.create({
-    baseURL: `${API_BASE_URL}/events`
+    baseURL: `${API_BASE_URL}/api/events`
 });
 
 // 인터셉터 설정: 모든 요청에 토큰 자동 주입

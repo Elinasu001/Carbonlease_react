@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { fetchMainEvent, participateEvent } from '../../../api/campaign/eventMainApi.js';
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import PageContent from '../../Common/PageContent/PageContent';
 import Toast from '../../Common/Toast/Toast';
@@ -27,7 +26,7 @@ const Campaigns = () => {
     };
 
     // useMainEvent 훅을 컴포넌트 내부에서 호출
-    const { event, loading, handleParticipate } = useMainEvent(handleShowToast, fetchMainEvent, participateEvent);
+    const { event, loading, handleParticipate } = useMainEvent(handleShowToast);
 
     return(
         <>
