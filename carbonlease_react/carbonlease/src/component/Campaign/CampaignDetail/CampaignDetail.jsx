@@ -1,5 +1,8 @@
 import { useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { deleteReply, getReplies, insertReply, updateReply } from '../../../api/campaign/campaignApi';
+import { useLikeStore } from '../../../store/likeStore.jsx';
+import CommentBox from '../../Common/Comments/CommentBox';
 import PageTitle from '../../Common/Layout/PageTitle/PageTitle';
 import Loading from '../../Common/Loading/Loading';
 import PageContent from '../../Common/PageContent/PageContent';
@@ -12,8 +15,6 @@ import CampaignHeader from './components/CampaignHeader';
 import CampaignImage from './components/CampaignImage';
 import CampaignMeta from './components/CampaignMeta';
 import useCampaignDetail from './useCampaignDetail';
-import CommentBox from '../../Common/Comments/CommentBox';
-import { deleteReply, getReplies, insertReply, updateReply } from '../../../api/campaign/campaignApi';
 
 const CampaignDetail = () => {
     const navigate = useNavigate();
@@ -56,6 +57,12 @@ const CampaignDetail = () => {
         error,
         handleLikeToggle,
     } = useCampaignDetail(id, handleShowToast, auth);
+    const { likeState } = useLikeStore();
+
+    // 전역 상태에서 isLiked 우선 적용
+    const isLiked = campaign && likeState[campaign.campaignNo]?.isLiked !== undefined
+        ? likeState[campaign.campaignNo].isLiked
+        : campaign?.isLiked;
 
     
 
@@ -150,7 +157,7 @@ const CampaignDetail = () => {
                         handleBack={handleBack}
                         handleLikeToggle={handleLikeToggle}
                         onShowToast={handleShowToast}
-                        isLiked={campaign.isLiked}
+                        isLiked={isLiked}
                         likeCount={campaign.likeCount}
                     />
                 </CampaignDetailContainer>

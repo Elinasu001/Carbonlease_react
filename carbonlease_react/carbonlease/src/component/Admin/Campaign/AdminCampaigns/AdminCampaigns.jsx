@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import SearchFilterBox from '../../Util/StatusFilter';
 import { useNavigate } from 'react-router-dom';
-import Loading from '../../../Common/Loading/Loading';
 import ConfirmDialog from '../../../Common/ConfirmDialog/ConfirmDialog';
 import {
     CreateButton,
     PageHeader,
 } from '../../../Common/DataTable/DataTable.styled';
+import Loading from '../../../Common/Loading/Loading';
 import Pagination from '../../../Common/Pagination/Pagination';
 import Toast from '../../../Common/Toast/Toast';
+import SearchFilterBox from '../../Util/StatusFilter';
 import AdminCampaignList from './components/AdminCampaignList';
 import useAdminCampaign from './useAdminCampaign';
 
@@ -113,7 +113,7 @@ const AdminCampaigns = () => {
         setSelectedId(null);
     };
 
-    // 삭제 핸들러 (모달 오픈)    
+    // 삭제 핸들러 (모달 오픈)
     const handleDelete = (id) => {
         setSelectedId(id);
         setShowDeleteConfirm(true);
@@ -137,7 +137,8 @@ const AdminCampaigns = () => {
     }
     return (
         <div>
-            <PageHeader>
+            <PageHeader
+            style={{marginBottom:"20px"}}>
                 <h1>캠페인 관리</h1>
                 <CreateButton onClick={() => navigate('/admin/campaigns/insert')}>
                     <i className="fas fa-plus"></i>
@@ -155,7 +156,7 @@ const AdminCampaigns = () => {
                 }}
                 onKeywordChange={(e) => setTempKeyword(e.target.value)}
                 onSearch={() => {
-                    setKeyword(tempKeyword); // 검색 버튼 눌렀을 때만 실제 검색
+                    setKeyword(tempKeyword);
                     setCurrentPage(1);
                 }}
             />

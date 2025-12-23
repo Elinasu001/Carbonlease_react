@@ -1,9 +1,8 @@
     
 import { useEffect, useState } from 'react';
-import { hideById, restoreById, deleteById, findAll } from '../../../../api/campaign/adminCampaignApi';
+import { deleteById, findAll, hideById, restoreById } from '../../../../api/campaign/adminCampaignApi';
 
 
-// 내부에서 currentPage, status, keyword를 useState로 관리
 const useAdminCampaign = (onShowToast) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [status, setStatus] = useState("");
@@ -18,7 +17,6 @@ const useAdminCampaign = (onShowToast) => {
 
     useEffect(() => {
         getCampaigns(currentPage, status, keyword);
-        // eslint-disable-next-line
     }, [currentPage, status, keyword]);
 
 

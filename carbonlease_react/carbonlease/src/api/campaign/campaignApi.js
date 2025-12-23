@@ -23,15 +23,17 @@ campaignApi.interceptors.request.use(
 );
 
 // 캠페인 리스트 조회
-export const findAll = (page) => {
+export const findAll = (page, memberNo) => {
     return campaignApi.get('', {
-        params: { pageNo : page }
+        params: { pageNo: page, memberNo }
     });
 };
 
 // 캠페인 상세 조회
-export const findDetailByNo = (id) => {
-    return campaignApi.get(`/detail/${id}`);
+export const findDetailByNo = (id, memberNo) => {
+    return campaignApi.get(`/detail/${id}`, {
+        params: { memberNo }
+    });
 };
 
 // 캠페인 좋아요 토글

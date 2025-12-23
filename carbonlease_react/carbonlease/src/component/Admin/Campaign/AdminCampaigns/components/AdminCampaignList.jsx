@@ -5,8 +5,8 @@ import {
     CategoryBadge,
     DeleteButton,
     EditButton,
-    StatusBadge,
-    RestoreButton
+    RestoreButton,
+    StatusBadge
 } from '../../../../Common/DataTable/DataTable.styled';
 
 const AdminCampaignList = ({ campaigns, onEdit, onHide, onDelete, onRestore }) => {
@@ -69,7 +69,7 @@ const AdminCampaignList = ({ campaigns, onEdit, onHide, onDelete, onRestore }) =
 
     return (
 
-		<DataTable 
+		<DataTable
 			title="캠페인 목록"
 			columns={columns}
 			data={campaigns}
