@@ -9,6 +9,8 @@ import OutlineWriterButton from '../../Common/UI/Button/OutlineWriterButton';
 import { ButtonGroup, Dropdown, Form, InputGroup, Button } from 'react-bootstrap';
 import { BoardInsertForm } from '../../../api/board/boardAPI';
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
  const Boards = () => {
 
     const navigate = useNavigate();
@@ -34,11 +36,11 @@ import { BoardInsertForm } from '../../../api/board/boardAPI';
 
     const getBoards = (page, query = '', type = 'TITLE') => {
         axios
-            .get(`http://localhost/boards?pageNo=${page}&searchType=${type}&searchQuery=${query}`)
+            .get(`${API_BASE_URL}/boards?pageNo=${page}&searchType=${type}&searchQuery=${query}`)
             .then((result) => {
                 console.log(result); // OK
-                const responseBoard = result.data.boards;
-                const responsePageInfo = result.data.pageInfo;
+                const responseBoard = result.data.data.boards;
+                const responsePageInfo = result.data.data.pageInfo;
                 setBoard([...responseBoard]);
                 setPageInfo({
                     startPage: responsePageInfo.startPage,

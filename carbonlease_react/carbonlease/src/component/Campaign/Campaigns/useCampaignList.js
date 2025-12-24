@@ -30,7 +30,7 @@ const useCampaignList = (onShowToast, auth) => {
                 if (result && result.status === 200) {
                     
                     // 캠페인 목록 및 페이지 정보 설정
-                    const { campaigns, pageInfo } = result.data;
+                    const { campaigns, pageInfo } = result.data.data;
 
                     // 각 캠페인에 저장된 좋아요 상태 반영
                     const updatedCampaigns = campaigns.map(campaign => {

@@ -15,6 +15,7 @@ import {
 import axios from "axios";
 import { AuthContext } from '../../../Context/AuthContext';
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
 
 const CalendarModal = ({ isOpen, onClose, onSubmit, onDelete, event, isEdit }) => {
   const { auth } = useContext(AuthContext);
@@ -30,7 +31,7 @@ const CalendarModal = ({ isOpen, onClose, onSubmit, onDelete, event, isEdit }) =
   useEffect(()=> {
     if (!auth?.accessToken) return;
 
-    axios.get("http://localhost/admin/calendar/category", {
+    axios.get(`${API_BASE_URL}/admin/calendar/category`, {
     headers:{ Authorization:`Bearer ${auth.accessToken}` }
   }).then(res => {
     setCategories(res.data?.categories ?? []);

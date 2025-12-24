@@ -4,6 +4,9 @@ import { Button } from "react-bootstrap";
 import Alert from "../../Common/Alert/Alert";
 import { AuthContext } from "../../Context/AuthContext";
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
+
 const CheckIdDuplicate = (props) => {
 
 
@@ -29,7 +32,7 @@ const CheckIdDuplicate = (props) => {
             // 삼항연산자로는 return이 안됨
         }
 
-        axios.post("http://localhost/members/checkId",
+        axios.post(`${API_BASE_URL}/members/checkId`,
             {
                 memberId: props.memberId
             }).then(result => {

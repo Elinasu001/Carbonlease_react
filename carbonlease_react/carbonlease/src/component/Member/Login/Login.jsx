@@ -9,6 +9,8 @@ import Alert from '../../Common/Alert/Alert';
 import { FieldGroup, FieldInput } from '../../Common/Form/FormField.styled';
 import { DemoContainer } from '../../Common/ComponentGuide/ComponentGuide.styled';
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
 
 const Login = () => {
 
@@ -50,11 +52,11 @@ const Login = () => {
             setPwdMsg("");
         }
 
-        axios.post("http://localhost/auth/login", {
+        axios.post(`${API_BASE_URL}/auth/login`, {
             memberId, memberPwd
         }).then(result => {
             //console.log(result);
-            const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin } = result.data;
+            const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin } = result.data.data;
             login(memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin);
             setAlertMsg("로그인에 성공하였습니다.");
             setAlertVariant('info');

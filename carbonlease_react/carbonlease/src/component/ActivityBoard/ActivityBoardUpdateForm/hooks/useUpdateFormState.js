@@ -39,7 +39,7 @@ export default function useUpdateFormState(id) {
                 setRegionNo(String(d.regionNo ?? ""));
                 setCategory(String(d.certificationNo ?? ""));
 
-                const base = import.meta.env.VITE_API_BASE_URL;
+                const base = window.ENV?.API_URL;
 
                 if (d.images && d.images.length > 0) {
                     setOriginImage(`${base}${d.images[0]}`);

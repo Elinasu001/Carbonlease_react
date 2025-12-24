@@ -12,6 +12,7 @@ import CheckIdDuplicate from '../CheckDuplicate/CheckIdDuplicate';
 import CheckNickNameDuplicate from '../CheckDuplicate/CheckNickNameDuplicate';
 import CheckEmailDuplicate from '../CheckDuplicate/CheckEmailDuplicate';
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
 
 
 const EnrollForm = () => {
@@ -117,7 +118,7 @@ const EnrollForm = () => {
         e.preventDefault();
         {
             checkId && checkNickName && checkEmail ?
-                axios.post("http://localhost/members", {
+                axios.post(`${API_BASE_URL}/members`, {
                     memberId, memberPwd, nickName, email, addressLine1, addressLine2
                 }).then(result => {
                     setSignUpAlertVariant('info');

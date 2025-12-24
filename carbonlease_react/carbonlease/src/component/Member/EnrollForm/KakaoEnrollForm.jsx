@@ -11,6 +11,8 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../../Context/AuthContext";
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
 
 const KakaoEnrollForm = () => {
 
@@ -79,7 +81,7 @@ const KakaoEnrollForm = () => {
 
         {
             checkNickName && checkEmail ?
-                axios.post("http://localhost/members", {
+                axios.post(`${API_BASE_URL}/members`, {
                     memberId, memberPwd, nickName, email, addressLine1, addressLine2
                 }).then(result => {
                     setSignUpAlertVariant('info');
@@ -100,10 +102,10 @@ const KakaoEnrollForm = () => {
 
     const successSignUp = () => {
 
-        axios.post("http://localhost/auth/login", {
+        axios.post(`${API_BASE_URL}/auth/login`, {
             memberId, memberPwd
         }).then(result => {
-            const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin } = result.data;
+            const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin } = result.data.data;
             login(memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin);
         }).catch(err => {
             console.error(err);

@@ -1,5 +1,7 @@
 import { BoardNo, BoardsRow, Content, ETC, ListWrapper, TextInfo, Thumbnail, Title } from "../ActivityBoards.styles";
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
 const BoardsList = ({ boards, onClickItem }) => {
 
   return (
@@ -18,7 +20,7 @@ const BoardsList = ({ boards, onClickItem }) => {
                 
             <Thumbnail>
               {item.thumbnailPath ? (
-                <img src={`http://localhost:80${item.thumbnailPath}`} alt="thumbnail" />
+                <img src={`${item.thumbnailPath}`} alt="thumbnail" />
               ) : (
                 <img src="/images/No_Image.png" alt="no image" />
               )}

@@ -11,6 +11,9 @@ import PageContent from "../../Common/PageContent/PageContent";
 import Toast from "../../Common/Toast/Toast";
 import { AuthContext } from "../../Context/AuthContext";
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
+
 const MyPage = () => {
 
     const navi = useNavigate();
@@ -35,7 +38,7 @@ const MyPage = () => {
         {
             auth.memberId !== null ?
                 (
-                    axios.get(`http://localhost/members/boards`,
+                    axios.get(`${API_BASE_URL}/members/boards`,
                         {
                             headers: {
                                 Authorization: `Bearer ${auth.accessToken}`
@@ -43,19 +46,19 @@ const MyPage = () => {
                         }
                     )
                         .then(result => {
-                            // console.log(result);
-                            setBoardData([...result.data]);
+                             console.log(result);
+                            setBoardData([...result.data.data]);
                         }).catch(err => {
                             console.error(err.response.data['error-message']);
                         }),
-                    axios.get("http://localhost/members/activityBoards",
+                    axios.get(`${API_BASE_URL}/members/activityBoards`,
                         {
                             headers: {
                                 Authorization: `Bearer ${auth.accessToken}`
                             }
                         }
                     ).then(result => {
-                        setActivityData([...result.data]);
+                        setActivityData([...result.data.data]);
                     }).catch(err => {
                         console.error(err.response.data["error-message"]);
                     })
@@ -109,7 +112,7 @@ const MyPage = () => {
 
     const kakaoSignOut = () => {
 
-       axios.delete("http://localhost/members/kakao", {
+       axios.delete(`${API_BASE_URL}/members/kakao`, {
             headers: {
                 Authorization: `Bearer ${auth.accessToken}`,
             }
@@ -129,7 +132,7 @@ const MyPage = () => {
 
     const signOut = () => {
 
-        axios.delete("http://localhost/members", {
+        axios.delete(`${API_BASE_URL}/members`, {
             headers: {
                 Authorization: `Bearer ${auth.accessToken}`,
             },

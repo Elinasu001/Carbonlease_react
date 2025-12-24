@@ -2,6 +2,8 @@ import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -48,13 +50,13 @@ export const AuthProvider = ({ children }) => {
         {
             accessToken !== null && (Date.now() > expiredDate) ? 
 
-        axios.post("http://localhost/auth/refresh", {
+        axios.post(`${API_BASE_URL}/auth/refresh`, {
             refreshToken : refreshToken,
         }).then(result => {
             //console.log(result.data);
-            const newAcessToken = result.data["accessToken"];
-            const newRefreshToken = result.data["refreshToken"];
-            const newExpiredDate = result.data["expiredDate"];
+            const newAcessToken = result.data.data["accessToken"];
+            const newRefreshToken = result.data.data["refreshToken"];
+            const newExpiredDate = result.data.data["expiredDate"];
             localStorage.setItem("accessToken",newAcessToken);
             localStorage.setItem("refreshToken",newRefreshToken);
             localStorage.setItem("expiredDate", newExpiredDate);

@@ -6,6 +6,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from "@fullcalendar/interaction";
 import { Button } from 'react-bootstrap';
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
 const NoticeCalendar = () => {
     const [events, setEvents] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -34,7 +36,7 @@ const NoticeCalendar = () => {
     const fetchCategories = async () => {
       const { data } 
       = await axios
-      .get("http://localhost/notices/calendar/categories");
+      .get(`${API_BASE_URL}/notices/calendar/categories`);
       setCategories(data.categories);
     };
 
@@ -42,7 +44,7 @@ const NoticeCalendar = () => {
     const fetchEvents = async () => {
         const { data } 
         = await axios
-        .get('http://localhost/notices/calendar')
+        .get(`${API_BASE_URL}/notices/calendar`)
 
         const converted = data.events.map(e => ({
           id: e.calendarNo,

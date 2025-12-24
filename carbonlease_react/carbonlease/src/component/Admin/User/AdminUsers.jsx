@@ -8,6 +8,8 @@ import ConfirmDialog from "../../Common/ConfirmDialog/ConfirmDialog";
 import Toast from "../../Common/Toast/Toast";
 import { Button, Dropdown } from "react-bootstrap";
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
 const AdminUsers = () => {
 
     const { auth } = useContext(AuthContext);
@@ -38,7 +40,7 @@ const AdminUsers = () => {
 
         // console.log(auth);
 
-        axios.get(`http://localhost/admin/members?orderBy=${orderBy}&keyword=${keyword}`,{
+        axios.get(`${API_BASE_URL}/admin/members?orderBy=${orderBy}&keyword=${keyword}`,{
             headers : {
                Authorization :  `Bearer ${auth.accessToken}`
             }
@@ -56,7 +58,7 @@ const AdminUsers = () => {
 
     const handleRestore = (memberNo) => {
 
-        axios.put(`http://localhost/admin/members/restore?memberNo=${memberNo}`,{},{
+        axios.put(`${API_BASE_URL}/admin/members/restore?memberNo=${memberNo}`,{},{
             headers : {
                Authorization :  `Bearer ${auth.accessToken}`
             }
@@ -72,7 +74,7 @@ const AdminUsers = () => {
 
     const handleDelete = (memberNo) => {
 
-        axios.delete(`http://localhost/admin/members?memberNo=${memberNo}`,{
+        axios.delete(`${API_BASE_URL}/admin/members?memberNo=${memberNo}`,{
             headers : {
                 Authorization : `Bearer ${auth.accessToken}`
             }

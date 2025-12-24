@@ -21,10 +21,10 @@ const useTop5RankingList = (onShowToast) => {
                 setTop5List(convertTop5StatsToList(result.data));
             })
             .catch((error) => {
-                onShowToast(
-                    error?.response?.data?.["error-message"] || '상위 5개 목록을 불러오지 못했습니다.',
-                    'error'
-                );
+                // onShowToast(
+                //     error?.response?.data?.["error-message"] || '상위 5개 목록을 불러오지 못했습니다.',
+                //     'error'
+                // );
             })
             .finally(() => {
                 setLoading(false);

@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
 function NoticesList() {
 
     const navigate = useNavigate();
@@ -23,7 +25,7 @@ function NoticesList() {
 
     const getNotices = (page) => {
         axios
-            .get(`http://localhost/notices?pageNo=${page}`)
+            .get(`${API_BASE_URL}/notices?pageNo=${page}`)
             .then((result) => {
                 console.log(result); // OK
                 const responseNotice = result.data.notices;

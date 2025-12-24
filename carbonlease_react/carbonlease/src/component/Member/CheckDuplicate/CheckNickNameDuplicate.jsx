@@ -4,6 +4,8 @@ import { Button } from "react-bootstrap";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
 const CheckNickNameDuplicate = (props) => {
 
     const [showCheckAlert, setShowCheckAlert] = useState(false);
@@ -28,7 +30,7 @@ const CheckNickNameDuplicate = (props) => {
             // 삼항연산자로는 return이 안됨
         }
 
-        axios.post("http://localhost/members/checkNickName",
+        axios.post(`${API_BASE_URL}/members/checkNickName`,
             {
                 nickName: props.nickName
             }).then(result => {

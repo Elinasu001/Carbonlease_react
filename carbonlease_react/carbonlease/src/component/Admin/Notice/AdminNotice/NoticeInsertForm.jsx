@@ -14,6 +14,8 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
 const NoticeInsertForm = () => {
 
     const [errors, setErrors] = useState({});
@@ -102,7 +104,7 @@ const NoticeInsertForm = () => {
 
 
 
-        axios.post("http://localhost/admin/notices", notice, {
+        axios.post(`${API_BASE_URL}/admin/notices`, notice, {
             headers: {
                 Authorization: `Bearer ${auth.accessToken}`,
                 "Content-Type": "multipart/form-data",

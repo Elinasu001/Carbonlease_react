@@ -12,6 +12,9 @@ import CheckEmailDuplicate from "../CheckDuplicate/CheckEmailDuplicate";
 import { useNavigate } from "react-router-dom";
 import ConfirmDialog from "../../Common/ConfirmDialog/ConfirmDialog";
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
+
 const MemberUpdateForm = () => {
 
     const navi = useNavigate();
@@ -100,7 +103,7 @@ const MemberUpdateForm = () => {
 
         {
             checkNickName && checkEmail ?
-                axios.put("http://localhost/members", {
+                axios.put(`${API_BASE_URL}/members`, {
                     memberId: auth.memberId, memberPwd, nickName, email, addressLine1, addressLine2
                 }, {
                     headers: {
@@ -126,7 +129,7 @@ const MemberUpdateForm = () => {
     const kakaoUpdateMember = () => {
         {
             checkNickName && checkEmail ?
-                axios.put("http://localhost/members/kakao", {
+                axios.put(`${API_BASE_URL}/members/kakao`, {
                     memberId: auth.memberId , nickName, email, addressLine1, addressLine2
                 }, {
                     headers: {

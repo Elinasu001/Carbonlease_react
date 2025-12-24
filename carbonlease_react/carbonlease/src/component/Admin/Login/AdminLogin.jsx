@@ -15,6 +15,8 @@ import {
     MainContent
 } from './AdminLogin.styled';
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
 const AdminLogin = () => {
 
     const navi = useNavigate();
@@ -47,11 +49,11 @@ const AdminLogin = () => {
             setPwdMsg("");
         }
 
-        axios.post("http://localhost/auth/adminLogin", {
+        axios.post(`${API_BASE_URL}/auth/adminLogin`, {
     memberId, memberPwd
 }).then(result => {
             //console.log(result);
-            const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate , isSocialLogin } = result.data;
+            const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate , isSocialLogin } = result.data.data;
             login(memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role,expiredDate ,isSocialLogin);
             setAlertMsg("로그인에 성공하였습니다.");
             setAlertVariant('info');

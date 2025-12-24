@@ -5,6 +5,9 @@ import { AuthContext } from "../../Context/AuthContext";
 import PageTitle from "../../Common/Layout/PageTitle/PageTitle";
 import PageContent from "../../Common/PageContent/PageContent";
 
+const API_BASE_URL = window.ENV?.API_URL || 'http://localhost:80';
+
+
 const KakaoCallback = () => {
 
 const { setKakaoInfo,login } = useContext(AuthContext);
@@ -14,18 +17,20 @@ const code = searchParams.get("code");
 
 const navi = useNavigate();
 
+
+
 useEffect(() => {
-    axios.post(`http://localhost/auth/kakaoLogin?code=${code}`
+    axios.post(`${API_BASE_URL}/auth/kakaoLogin?code=${code}`
     ).then(result => {
-        if(result.data.accessToken === undefined){       
+        if(result.data.data.accessToken === undefined){       
         setKakaoInfo({
-            memberId : result.data.memberId,
-            memberPwd : result.data.memberPwd
+            memberId : result.data.data.memberId,
+            memberPwd : result.data.data.memberPwd
         });
             navi('/kakao/signUp');
             return;
         } else {
-            const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin } = result.data;
+            const { memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin } = result.data.data;
             login(memberId, nickName, accessToken, refreshToken, email, addressLine1, addressLine2, role, expiredDate, isSocialLogin);
             navi('/');
             return;
