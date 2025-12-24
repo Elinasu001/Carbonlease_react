@@ -43,3 +43,9 @@ export const deleteCalendarEvent = async (calendarNo) => {
   const res = await adminCalendarApi.delete(`/${calendarNo}`);
   return res.data;
 };
+
+// 카테고리 불러오기
+export const getCategories = async () => {
+  const res = await adminCalendarApi.get("category");
+  return res.data;
+}
