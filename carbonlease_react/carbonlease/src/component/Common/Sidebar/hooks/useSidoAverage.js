@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL;
+import { API_BASE_URL } from '../../../../api/api.js';
 
 export const useSidoAverage = (sido) => {
   const [data, setData] = useState(null);
@@ -13,7 +12,7 @@ export const useSidoAverage = (sido) => {
     setLoading(true);
 
     axios
-      .get(`${API_BASE}/api/air/sido`, { params: { name: sido } })
+      .get(`${API_BASE_URL}/api/air/sido`, { params: { name: sido } })
       .then((res) => {
         setData(res.data);
         localStorage.setItem(

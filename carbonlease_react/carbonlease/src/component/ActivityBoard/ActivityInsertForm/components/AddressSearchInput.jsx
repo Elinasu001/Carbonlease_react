@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { SearchButton, SearchInput, SearchWrapper } from "../ActivityInsertForm.styles";
-
+import { KAKAO_MAP_API_KEY } from '../../../../api/api.js';
 export default function AddressSearchInput({ value, onChange }) {
 
   useEffect(() => {
     if (window.kakao && window.kakao.maps) return; // 중복 방지
 
     const script = document.createElement("script");
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${import.meta.env.VITE_KAKAO_MAP_API_KEY}&libraries=services`;
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_MAP_API_KEY}&libraries=services`;
     script.async = true;
     document.head.appendChild(script);
 

@@ -48,7 +48,7 @@ const AdminLogin = () => {
             setPwdMsg("");
         }
 
-        axios.post(`${API_BASE_URL}/auth/adminLogin`, {
+        axios.post(`${API_BASE_URL}/api/auth/adminLogin`, {
     memberId, memberPwd
 }).then(result => {
             //console.log(result);

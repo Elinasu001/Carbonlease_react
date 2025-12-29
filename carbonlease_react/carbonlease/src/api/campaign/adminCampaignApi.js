@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '../api.js';
 // Axios 인스턴스 생성
 const adminCampaignApi = axios.create({
-    baseURL: `${API_BASE_URL}/admin/campaigns`,
+    baseURL: `${API_BASE_URL}/api/admin/campaigns`,
 });
 
 

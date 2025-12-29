@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '../api.js';
 
 const adminActivityAPI = axios.create({
-  baseURL: `${API_BASE_URL}/admin/`,
+  baseURL: `${API_BASE_URL}/api/admin/`,
 });
 
 adminActivityAPI.interceptors.request.use(config => {

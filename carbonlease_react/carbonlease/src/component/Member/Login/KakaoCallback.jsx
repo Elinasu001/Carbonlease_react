@@ -15,7 +15,7 @@ const code = searchParams.get("code");
 const navi = useNavigate();
 
 useEffect(() => {
-    axios.post(`${API_BASE_URL}/auth/kakaoLogin?code=${code}`
+    axios.post(`${API_BASE_URL}/api/auth/kakaoLogin?code=${code}`
     ).then(result => {
         if(result.data.accessToken === undefined){
         setKakaoInfo({

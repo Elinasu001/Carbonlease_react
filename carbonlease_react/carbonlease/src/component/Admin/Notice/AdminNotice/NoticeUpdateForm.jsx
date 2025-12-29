@@ -69,7 +69,7 @@ const NoticeUpdateForm = () => {
                 // console.log('너안감?');
                 // console.log(auth.accessToken); 이제 감
                 axios
-                    .get(`${API_BASE_URL}/admin/notices/detail/${id}`, {
+                    .get(`${API_BASE_URL}/api/admin/notices/detail/${id}`, {
                         headers: {
                             Authorization: `Bearer ${auth.accessToken}`
                         },
@@ -134,7 +134,7 @@ const NoticeUpdateForm = () => {
 
 
 
-        axios.put(`${API_BASE_URL}/admin/notices/update/${id}`, notice, {
+        axios.put(`${API_BASE_URL}/api/admin/notices/update/${id}`, notice, {
             headers: {
                 Authorization: `Bearer ${auth.accessToken}`,
                 "Content-Type": "multipart/form-data",

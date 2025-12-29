@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { MapArea } from "../ActivityBoardDetail.styles";
-
-const { VITE_KAKAO_MAP_API_KEY } = import.meta.env;
+import { KAKAO_MAP_API_KEY } from '../../../../api/api.js';
 
 const MapSection = ({ lat = 37.566826, lng = 126.9786567 }) => {
   const [loaded, setLoaded] = useState(false);
@@ -11,7 +10,7 @@ const MapSection = ({ lat = 37.566826, lng = 126.9786567 }) => {
     if (!document.getElementById("kakao-map-sdk")) {
       const script = document.createElement("script");
       script.id = "kakao-map-sdk";
-      script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${VITE_KAKAO_MAP_API_KEY}&autoload=false`;
+      script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_MAP_API_KEY}&autoload=false`;
       script.onload = () => window.kakao.maps.load(() => setLoaded(true));
       document.head.appendChild(script);
     } else {

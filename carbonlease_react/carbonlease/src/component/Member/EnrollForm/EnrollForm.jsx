@@ -115,7 +115,7 @@ const EnrollForm = () => {
         e.preventDefault();
         {
             checkId && checkNickName && checkEmail ?
-                axios.post(`${API_BASE_URL}/members`, {
+                axios.post(`${API_BASE_URL}/api/members`, {
                     memberId, memberPwd, nickName, email, addressLine1, addressLine2
                 }).then(result => {
                     setSignUpAlertVariant('info');

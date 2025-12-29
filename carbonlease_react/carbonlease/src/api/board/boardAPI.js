@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '../api.js';
 
 const boardAPI = axios.create({
-  baseURL: `${API_BASE_URL}/boards`,
+  baseURL: `${API_BASE_URL}/api/boards`,
   timeout: 10000,
   withCredentials: true,
   headers: {

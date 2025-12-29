@@ -38,7 +38,7 @@ const AdminUsers = () => {
 
         // console.log(auth);
 
-        axios.get(`${API_BASE_URL}/admin/members?orderBy=${orderBy}&keyword=${keyword}`,{
+        axios.get(`${API_BASE_URL}/api/admin/members?orderBy=${orderBy}&keyword=${keyword}`,{
             headers : {
                 Authorization :  `Bearer ${auth.accessToken}`
             }
@@ -56,7 +56,7 @@ const AdminUsers = () => {
 
     const handleRestore = (memberNo) => {
 
-        axios.put(`${API_BASE_URL}/admin/members/restore?memberNo=${memberNo}`,{},{
+        axios.put(`${API_BASE_URL}/api/admin/members/restore?memberNo=${memberNo}`,{},{
             headers : {
                  Authorization :  `Bearer ${auth.accessToken}`
             }
@@ -72,7 +72,7 @@ const AdminUsers = () => {
 
     const handleDelete = (memberNo) => {
 
-        axios.delete(`${API_BASE_URL}/admin/members?memberNo=${memberNo}`,{
+        axios.delete(`${API_BASE_URL}/api/admin/members?memberNo=${memberNo}`,{
             headers : {
                 Authorization : `Bearer ${auth.accessToken}`
             }

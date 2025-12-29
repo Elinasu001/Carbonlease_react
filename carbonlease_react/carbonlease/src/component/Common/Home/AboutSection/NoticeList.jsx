@@ -8,7 +8,7 @@ const NoticeList = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`${API_BASE_URL}/notices?pageNo=1`)
+        fetch(`${API_BASE_URL}/api/notices?pageNo=1`)
         .then(res => res.json())
         .then(data => setNotices(data.notices ? data.notices.slice(0, 5) : []));
     }, []);

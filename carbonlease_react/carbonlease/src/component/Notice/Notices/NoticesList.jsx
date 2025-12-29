@@ -24,7 +24,7 @@ function NoticesList({ limit }) {
 
     const getNotices = (page) => {
         axios
-            .get(`${API_BASE_URL}/notices?pageNo=${page}`)
+            .get(`${API_BASE_URL}/api/notices?pageNo=${page}`)
             .then((result) => {
                 console.log(result); // OK
                 const responseNotice = result.data.notices;

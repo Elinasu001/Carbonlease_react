@@ -2,7 +2,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '../api.js';
 
 const activityAPI = axios.create({
-  baseURL: `${API_BASE_URL}/activityBoards`,
+  baseURL: `${API_BASE_URL}/api/activityBoards`,
   timeout: 10000,
   withCredentials: true,
   headers: {

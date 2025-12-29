@@ -3,7 +3,7 @@ import { API_BASE_URL } from '../api.js';
 
 // Axios 인스턴스 생성
 const noticeApi = axios.create({
-    baseURL: `${API_BASE_URL}/notices`,
+    baseURL: `${API_BASE_URL}/api/notices`,
 });
 
 // 인터셉터 설정: 모든 요청에 토큰 자동 주입

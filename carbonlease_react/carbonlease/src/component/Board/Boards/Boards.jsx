@@ -34,7 +34,7 @@ import BoardItems from './components/BoardItems';
 
     const getBoards = (page, query = '', type = 'TITLE') => {
         axios
-            .get(`${API_BASE_URL}/boards?pageNo=${page}&searchType=${type}&searchQuery=${query}`)
+            .get(`${API_BASE_URL}/api/boards?pageNo=${page}&searchType=${type}&searchQuery=${query}`)
             .then((result) => {
                 console.log(result); // OK
                 const responseBoard = result.data.boards;
@@ -49,7 +49,7 @@ import BoardItems from './components/BoardItems';
     }
 
 
-    const goWritePage = () => navigate(`${API_BASE_URL}/boards/InsertForm`);
+    const goWritePage = () => navigate(`${API_BASE_URL}/api/boards/InsertForm`);
 
     const handleRowClick = (row) => {
         console.log("hi");

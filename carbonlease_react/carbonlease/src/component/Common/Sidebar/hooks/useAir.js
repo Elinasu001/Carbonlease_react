@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-const API_BASE = import.meta.env.VITE_API_BASE_URL;
+import { API_BASE_URL } from '../../../../api/api.js';
 
 export const useAir = (station) => {
   const [data, setData] = useState(null);
@@ -10,7 +9,7 @@ export const useAir = (station) => {
     if (!station) return;
 
     axios
-      .get(`${API_BASE}/api/air/station`, { params: { name: station } })
+      .get(`${API_BASE_URL}/api/air/station`, { params: { name: station } })
       .then((res) => setData(res.data))
       .catch(console.error);
   }, [station]);

@@ -37,7 +37,7 @@ const MyPage = () => {
         {
             auth.memberId !== null ?
                 (
-                    axios.get(`${API_BASE_URL}/members/boards`,
+                    axios.get(`${API_BASE_URL}/api/members/boards`,
                         {
                             headers: {
                                 Authorization: `Bearer ${auth.accessToken}`
@@ -50,7 +50,7 @@ const MyPage = () => {
                         }).catch(err => {
                             console.error(err.response.data['error-message']);
                         }),
-                    axios.get(`${API_BASE_URL}/members/activityBoards`,
+                    axios.get(`${API_BASE_URL}/api/members/activityBoards`,
                         {
                             headers: {
                                 Authorization: `Bearer ${auth.accessToken}`
@@ -111,7 +111,7 @@ const MyPage = () => {
 
     const kakaoSignOut = () => {
 
-       axios.delete(`${API_BASE_URL}/members/kakao`, {
+       axios.delete(`${API_BASE_URL}/api/members/kakao`, {
             headers: {
                 Authorization: `Bearer ${auth.accessToken}`,
             }
@@ -131,7 +131,7 @@ const MyPage = () => {
 
     const signOut = () => {
 
-        axios.delete(`${API_BASE_URL}/members`, {
+        axios.delete(`${API_BASE_URL}/api/members`, {
             headers: {
                 Authorization: `Bearer ${auth.accessToken}`,
             },

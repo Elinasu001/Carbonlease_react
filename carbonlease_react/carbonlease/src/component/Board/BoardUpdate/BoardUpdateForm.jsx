@@ -7,6 +7,7 @@ import TextInputSection from "../../ActivityBoard/ActivityInsertForm/components/
 import PageTitle from "../../Common/Layout/PageTitle/PageTitle.jsx";
 import PageContent from "../../Common/PageContent/PageContent.jsx";
 import { BoardForm, ButtonSection, FormArea, SelectLabel, SelectRow } from "./BoardUpdateForm.styles.js";
+import { API_BASE_URL } from "../../../api/api.js";
 
 const BoardInsertForm = () => {
   console.log( " 수정페이지  ");
@@ -32,7 +33,7 @@ const BoardInsertForm = () => {
 
     const fetchReplies = async () => {
     axios
-            .get(`${API_BASE_URL}/boards/detail/${id}`)
+            .get(`${API_BASE_URL}/api/boards/detail/${id}`)
             .then((result) => {
                 const response = result.data;
                 console.log("상세보기 데이터:", response);
@@ -84,7 +85,7 @@ const BoardInsertForm = () => {
   const regBoardcall = async (boardVO) => {
     const accessToken = localStorage.getItem("accessToken");
     await axios
-            .post(`${API_BASE_URL}/boards/boardUpdate`, boardVO, {
+            .post(`${API_BASE_URL}/api/boards/boardUpdate`, boardVO, {
               headers: {
                 Authorization : `Bearer ${accessToken}`,
                 "Content-Type": "application/json",

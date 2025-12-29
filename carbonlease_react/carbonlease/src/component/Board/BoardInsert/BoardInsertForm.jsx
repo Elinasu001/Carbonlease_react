@@ -60,7 +60,7 @@ const BoardInsertForm = () => {
   const regBoardcall = async (board) => {
     const accessToken = localStorage.getItem("accessToken");
     await axios
-            .post(`${API_BASE_URL}boards/boardInsert`, board, {
+            .post(`${API_BASE_URL}/api/boards/boardInsert`, board, {
               headers: {
                 Authorization : `Bearer ${accessToken}`,
                 "Content-Type": "application/json",

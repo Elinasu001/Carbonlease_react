@@ -30,7 +30,7 @@ const CheckIdDuplicate = (props) => {
             // 삼항연산자로는 return이 안됨
         }
 
-        axios.post(`${API_BASE_URL}/members/checkId`,
+        axios.post(`${API_BASE_URL}/api/members/checkId`,
             {
                 memberId: props.memberId
             }).then(result => {

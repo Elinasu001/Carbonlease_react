@@ -36,7 +36,7 @@ const NoticeCalendar = () => {
     const fetchCategories = async () => {
       const { data } 
       = await axios
-      .get(`${API_BASE_URL}/notices/calendar/categories`);
+      .get(`${API_BASE_URL}/api/notices/calendar/categories`);
       setCategories(data.categories);
     };
 
@@ -44,7 +44,7 @@ const NoticeCalendar = () => {
     const fetchEvents = async () => {
         const { data } 
         = await axios
-        .get(`${API_BASE_URL}/notices/calendar`)
+        .get(`${API_BASE_URL}/api/notices/calendar`)
 
         const converted = data.events.map(e => ({
           id: e.calendarNo,

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../api/api.js";
 
 const authAPI = axios.create({
-  baseURL: `${API_BASE_URL}/auth/refresh`
+  baseURL: `${API_BASE_URL}/api/auth/refresh`
 });
 
 export const AuthContext = createContext();

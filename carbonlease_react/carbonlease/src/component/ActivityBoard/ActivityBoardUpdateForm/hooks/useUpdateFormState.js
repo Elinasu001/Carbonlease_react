@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchActivityDetail } from "../../../../api/activity/activityAPI";
+import { API_BASE_URL } from '../../../../api/api.js';
 
 export default function useUpdateFormState(id) {
 
@@ -30,10 +31,8 @@ export default function useUpdateFormState(id) {
                 setRegionNo(String(d.regionNo ?? ""));
                 setCategory(String(d.certificationNo ?? ""));
 
-                const base = import.meta.env.VITE_API_BASE_URL;
-
                 if (d.images && d.images.length > 0) {
-                    setOriginImage(`${base}${d.images[0]}`);
+                    setOriginImage(`${API_BASE_URL}${d.images[0]}`);
                 } else {
                     setOriginImage(null);
                 }

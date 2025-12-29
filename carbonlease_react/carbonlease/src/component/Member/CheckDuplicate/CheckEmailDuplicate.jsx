@@ -31,7 +31,7 @@ const CheckEmailDuplicate = (props) => {
             // 삼항연산자로는 return이 안됨
         }
 
-        axios.post(`${API_BASE_URL}/members/checkEmail`,
+        axios.post(`${API_BASE_URL}/api/members/checkEmail`,
             {
                 email: props.email
             }).then(result => {

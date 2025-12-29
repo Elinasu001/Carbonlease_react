@@ -103,7 +103,7 @@ const NoticeInsertForm = () => {
 
 
 
-        axios.post(`${API_BASE_URL}/admin/notices`, notice, {
+        axios.post(`${API_BASE_URL}/api/admin/notices`, notice, {
             headers: {
                 Authorization: `Bearer ${auth.accessToken}`,
                 "Content-Type": "multipart/form-data",

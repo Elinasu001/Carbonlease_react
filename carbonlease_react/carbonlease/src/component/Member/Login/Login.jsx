@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useContext, useState } from 'react';
 import { Button, FormLabel } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '../../../api/api.js';
+import { API_BASE_URL, KAKAO_CLIENT_ID, KAKAO_REDIRECT_URI } from '../../../api/api.js';
 import Alert from '../../Common/Alert/Alert';
 import { DemoContainer } from '../../Common/ComponentGuide/ComponentGuide.styled';
 import { FieldGroup, FieldInput } from '../../Common/Form/FormField.styled';
@@ -12,7 +12,7 @@ import { AuthContext } from '../../Context/AuthContext';
 
 const Login = () => {
 
-    const { VITE_KAKAO_CLIENT_ID, VITE_KAKAO_REDIRECT_URI } = import.meta.env; 
+    // KAKAO_CLIENT_ID, KAKAO_REDIRECT_URI는 api.js에서 import하여 사용
 
     const [showAlert, setShowAlert] = useState(false);
     const [alertVariant, setAlertVariant] = useState('info');
@@ -24,12 +24,12 @@ const Login = () => {
     const { login } = useContext(AuthContext);
     const navi = useNavigate();
 
-    const handleKakaoLoginBtn = () => {
 
+    const handleKakaoLoginBtn = () => {
         window.location.href = "https://kauth.kakao.com/oauth/authorize?"
-                + `client_id=${VITE_KAKAO_CLIENT_ID}` 
-                + `&redirect_uri=${VITE_KAKAO_REDIRECT_URI}`
-                + "&response_type=code";;
+                + `client_id=${KAKAO_CLIENT_ID}` 
+                + `&redirect_uri=${KAKAO_REDIRECT_URI}`
+                + "&response_type=code";
     }
 
 
@@ -50,7 +50,7 @@ const Login = () => {
             setPwdMsg("");
         }
 
-        axios.post(`${API_BASE_URL}/auth/login`, {
+        axios.post(`${API_BASE_URL}/api/auth/login`, {
             memberId, memberPwd
         }).then(result => {
             //console.log(result);

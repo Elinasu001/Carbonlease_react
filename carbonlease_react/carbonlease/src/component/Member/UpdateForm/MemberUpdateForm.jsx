@@ -101,7 +101,7 @@ const MemberUpdateForm = () => {
 
         {
             checkNickName && checkEmail ?
-                axios.put(`${API_BASE_URL}/members`, {
+                axios.put(`${API_BASE_URL}/api/members`, {
                     memberId: auth.memberId, memberPwd, nickName, email, addressLine1, addressLine2
                 }, {
                     headers: {
@@ -127,7 +127,7 @@ const MemberUpdateForm = () => {
     const kakaoUpdateMember = () => {
         {
             checkNickName && checkEmail ?
-                axios.put(`${API_BASE_URL}/members/kakao`, {
+                axios.put(`${API_BASE_URL}/api/members/kakao`, {
                     memberId: auth.memberId , nickName, email, addressLine1, addressLine2
                 }, {
                     headers: {
