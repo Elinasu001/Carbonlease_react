@@ -1,4 +1,4 @@
 window.ENV = {
-    API_URL: "http://localhost:8080",
-    WS_URL: "http://localhost:8080/ws-stomp"
+    API_URL: "https://sh-pk.store",
+    WS_URL: "https://sh-pk.store/ws-stomp"
 }
