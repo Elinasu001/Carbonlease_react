@@ -6,10 +6,7 @@ import { GlobalStyles } from './Home.styles';
 
 const Home = () => {
     useEffect(() => {
-        try {
-            document.body.classList.add('index-page');
-        } catch (e) {}
-
+        document.body.classList.add('index-page');
         const AOS = window.AOS;
         if (AOS) {
             AOS.init({
@@ -20,11 +17,8 @@ const Home = () => {
             });
             AOS.refresh();
         }
-
         return () => {
-            try {
-                document.body.classList.remove('index-page');
-            } catch (e) {}
+            document.body.classList.remove('index-page');
         };
     }, []);
 

@@ -51,6 +51,7 @@ const useCampaignList = (onShowToast, auth) => {
     // 공통 좋아요 토글 훅 사용
     const handleLikeToggle = useLikeToggle({ onShowToast, auth, updateLike, toggleLikeApi: toggleLike });
 
+    
 
     // campaigns 값 변경 시 로그
     useEffect(() => {

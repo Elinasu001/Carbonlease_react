@@ -1,21 +1,11 @@
-import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import PageTitleWrap from "./PageTitle.styled";
-import AOS from "aos";
+
 
 const PageTitle = ({ title, breadcrumbs }) => {
-    useEffect(() => {
-        AOS.init({
-            duration: 600,
-            easing: 'ease-in-out',
-            once: true,
-            mirror: false
-        });
-    }, []);
-
     return (
         <PageTitleWrap>
-            <div className="page-title" data-aos="fade">
+            <div className="page-title">
                 <div className="container d-lg-flex justify-content-between align-items-center">
                     <h1 className="mb-2 mb-lg-0">{title}</h1>
                     <nav className="breadcrumbs">

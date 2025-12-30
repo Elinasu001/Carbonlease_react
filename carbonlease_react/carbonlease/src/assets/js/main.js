@@ -5,6 +5,15 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import GLightbox from 'glightbox';
+import Isotope from 'isotope-layout';
+import Swiper from 'swiper';
+import Waypoint from 'waypoints/lib/noframework.waypoints.js';
+import imagesLoaded from 'imagesloaded';
+import 'swiper/swiper-bundle.min.css';
+
+// purecounter는 npm 패키지가 없으므로 기존처럼 public/assets/vendor/purecounter/purecounter_vanilla.js를 사용하세요.
 
 function initializeScripts() {
   "use strict";
@@ -96,6 +105,7 @@ function initializeScripts() {
   /**
    * Animation on scroll function and init
    */
+  const AOS = window.AOS;
   function aosInit() {
     if (typeof AOS !== 'undefined') {
       AOS.init({
@@ -112,7 +122,7 @@ function initializeScripts() {
    * Initiate glightbox
    */
   if (typeof GLightbox !== 'undefined') {
-    const glightbox = GLightbox({
+    GLightbox({
       selector: '.glightbox'
     });
   }
@@ -120,8 +130,8 @@ function initializeScripts() {
   /**
    * Initiate Pure Counter
    */
-  if (typeof PureCounter !== 'undefined') {
-    new PureCounter();
+  if (typeof window.PureCounter !== 'undefined') {
+    new window.PureCounter();
   }
 
   /**
@@ -133,7 +143,7 @@ function initializeScripts() {
       new Waypoint({
         element: item,
         offset: '80%',
-        handler: function(direction) {
+        handler: function() { // direction 파라미터 제거
           let progress = item.querySelectorAll('.progress .progress-bar');
           progress.forEach(el => {
             el.style.width = el.getAttribute('aria-valuenow') + '%';
@@ -153,11 +163,10 @@ function initializeScripts() {
       );
 
       if (swiperElement.classList.contains("swiper-tab")) {
-        initSwiperWithCustomPagination(swiperElement, config);
+        // 커스텀 페이징 함수가 정의되어 있지 않으므로, 기본 Swiper만 실행하거나 필요시 구현하세요.
+        new Swiper(swiperElement, config);
       } else {
-        if (typeof Swiper !== 'undefined') {
-          new Swiper(swiperElement, config);
-        }
+        new Swiper(swiperElement, config);
       }
     });
   }
@@ -243,7 +252,7 @@ function initializeScripts() {
   /**
    * Correct scrolling position upon page load for URLs containing hash links.
    */
-  window.addEventListener('load', function(e) {
+  window.addEventListener('load', function() {
     if (window.location.hash) {
       if (document.querySelector(window.location.hash)) {
         setTimeout(() => {

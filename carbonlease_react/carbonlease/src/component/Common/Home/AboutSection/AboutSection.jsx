@@ -2,22 +2,21 @@ import { useEffect, useRef, useState } from 'react';
 import { AboutCol, AboutColTitle, AboutInner, AboutSectionWrapper } from './AboutSection.styled';
 import NoticeList from './NoticeList';
 import ThisMonthCampaign from './ThisMonthCampaign';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const AboutSection = () => {
     const sectionRef = useRef(null);
-    const [aboutImgError, setAboutImgError] = useState(false);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
-        const AOS = window.AOS;
-        if (AOS) {
-            AOS.init({
-                duration: 600,
-                easing: 'ease-in-out',
-                once: true, // 한 번만 애니메이션 실행
-                mirror: false,
-                offset: 300 // 트리거 위치를 더 아래로 내려서 스크롤 진입 시에만 동작
-            });
-        }
+        AOS.init({
+            duration: 600,
+            easing: 'ease-in-out',
+            once: true, // 한 번만 애니메이션 실행
+            mirror: false,
+            offset: 300 // 트리거 위치를 더 아래로 내려서 스크롤 진입 시에만 동작
+        });
     }, []);
 
     return (
@@ -29,16 +28,22 @@ const AboutSection = () => {
             style={{ padding: 0 }}
         >
             <div className="container">
-                <AboutInner>
-                    <AboutCol>
-                        <AboutColTitle color="#00a34a">이달의 캠페인</AboutColTitle>
-                        <ThisMonthCampaign />
-                    </AboutCol>
-                    <AboutCol>
-                        <AboutColTitle color="#1976d2">공지사항</AboutColTitle>
-                        <NoticeList />
-                    </AboutCol>
-                </AboutInner>
+                {error ? (
+                    <div style={{color: 'red', fontWeight: 'bold', textAlign: 'center', margin: '40px 0'}}>
+                        데이터가 없습니다.
+                    </div>
+                ) : (
+                    <AboutInner>
+                        <AboutCol>
+                            <AboutColTitle color="#00a34a">이달의 캠페인</AboutColTitle>
+                            <ThisMonthCampaign setError={setError} />
+                        </AboutCol>
+                        <AboutCol>
+                            <AboutColTitle color="#1976d2">공지사항</AboutColTitle>
+                            <NoticeList setError={setError} />
+                        </AboutCol>
+                    </AboutInner>
+                )}
             </div>
         </AboutSectionWrapper>
     );

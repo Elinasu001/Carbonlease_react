@@ -1,3 +1,6 @@
+// 이 파일은 더 이상 사용하지 않습니다. (npm aos 패키지로 대체)
+
+
 'use strict';
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }

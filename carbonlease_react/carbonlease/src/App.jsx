@@ -1,3 +1,4 @@
+
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import ActivityBoardDetail from "./component/ActivityBoard/ActivityBoardDetail/ActivityBoardDetail";
@@ -42,6 +43,16 @@ import MyPage from './component/Member/MyPage/MyPage';
 import MemberUpdateForm from './component/Member/UpdateForm/MemberUpdateForm';
 import Providers from './store/Providers.jsx';
 
+// Importing CSS files for various libraries
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'glightbox/dist/css/glightbox.min.css';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+import '../src/styles/thismonth-swiper-nav.css';
+import '../src/styles/thismonth-swiper-pagination.css';
 
 function App() {
 	return (

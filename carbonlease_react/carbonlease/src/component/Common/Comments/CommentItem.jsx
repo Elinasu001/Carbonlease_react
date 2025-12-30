@@ -30,9 +30,11 @@ const CommentItem = ({ reply, auth, onUpdate, onDelete }) => {
                 onUpdate(reply.id, text, () => setIsEdit(false))
               }
             >
-              저장
+              <i className="bi bi-check-lg"></i> 저장
             </ReplyButton>
-            <ReplyButton onClick={() => setIsEdit(false)}>취소</ReplyButton>
+            <ReplyButton onClick={() => setIsEdit(false)}>
+              <i className="bi bi-x"></i> 취소
+            </ReplyButton>
           </ReplyFooter>
         </>
       ) : (
@@ -44,9 +46,13 @@ const CommentItem = ({ reply, auth, onUpdate, onDelete }) => {
 
             {auth?.nickName === reply.writer && (
               <>
-                <ReplyButton onClick={() => setIsEdit(true)}>수정</ReplyButton>
-                      |
-                <ReplyButton onClick={() => onDelete(reply.id)}>삭제</ReplyButton>
+                <ReplyButton onClick={() => setIsEdit(true)}>
+                  <i className="bi bi-pencil"></i> 수정
+                </ReplyButton>
+                |
+                <ReplyButton onClick={() => onDelete(reply.id)}>
+                  <i className="bi bi-trash"></i> 삭제
+                </ReplyButton>
               </>
             )}
           </ReplyFooter>

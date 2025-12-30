@@ -1,11 +1,12 @@
 import { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import '../../../../styles/thismonth-swiper-nav.css';
-import '../../../../styles/thismonth-swiper-pagination.css';
 import CampaignListItem from '../../../Campaign/Campaigns/components/CampaignListItem';
 import useCampaignList from '../../../Campaign/Campaigns/useCampaignList';
 import { AuthContext } from '../../../Context/AuthContext';
+
+
 
 const CustomNavButton = ({ direction, onClick, className }) => (
     <button
@@ -34,7 +35,8 @@ const ThisMonthCampaign = () => {
     const { auth } = useContext(AuthContext);
     const prevRef = useRef(null);
     const nextRef = useRef(null);
-
+    const navigate = useNavigate();
+    
     useEffect(() => {
         const now = new Date();
         const filtered = campaigns.filter(c => {
@@ -53,24 +55,29 @@ const ThisMonthCampaign = () => {
             <CustomNavButton direction="prev" onClick={() => prevRef.current && prevRef.current.click()} className="custom-swiper-nav custom-swiper-nav-prev" />
             <CustomNavButton direction="next" onClick={() => nextRef.current && nextRef.current.click()} className="custom-swiper-nav custom-swiper-nav-next" />
             <Swiper
-            modules={[Navigation, Pagination]}
-            spaceBetween={24}
-            slidesPerView={1}
-            navigation={{ prevEl: prevRef.current, nextEl: nextRef.current }}
-            pagination={{ clickable: true }}
-            style={{ minHeight: 320 }}
-            onInit={swiper => {
-                swiper.params.navigation.prevEl = prevRef.current;
-                swiper.params.navigation.nextEl = nextRef.current;
-                swiper.navigation.init();
-                swiper.navigation.update();
-            }}
+                modules={[Navigation, Pagination]}
+                spaceBetween={24}
+                slidesPerView={1}
+                navigation={{ prevEl: prevRef.current, nextEl: nextRef.current }}
+                pagination={{ clickable: true }}
+                style={{ minHeight: 320 }}
+                onInit={swiper => {
+                    swiper.params.navigation.prevEl = prevRef.current;
+                    swiper.params.navigation.nextEl = nextRef.current;
+                    swiper.navigation.init();
+                    swiper.navigation.update();
+                }}
             >
             <div ref={prevRef} style={{display:'none'}} />
             <div ref={nextRef} style={{display:'none'}} />
             {thisMonthCampaigns.map(campaign => (
                 <SwiperSlide key={campaign.campaignNo}>
-                <CampaignListItem campaign={campaign} auth={auth} showLikeButton={false} />
+                    <CampaignListItem 
+                    campaign={campaign} 
+                    auth={auth} 
+                    showLikeButton={false}
+                    onCardClick={() => navigate(`/campaigns/detail/${campaign.campaignNo}`)}
+                    />
                 </SwiperSlide>
             ))}
         </Swiper>
