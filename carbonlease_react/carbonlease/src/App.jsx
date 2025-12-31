@@ -39,7 +39,7 @@ import MyPage from './component/Member/MyPage/MyPage';
 import MemberUpdateForm from './component/Member/UpdateForm/MemberUpdateForm';
 import { AuthProvider } from './component/Context/AuthContext';
 import KakaoCallback from './component/Member/Login/KakaoCallback';
-import KakaoEnrollForm from './component/Member/EnrollForm/KaKaoEnrollForm';
+import KakaoEnrollForm from './component/Member/EnrollForm/KakaoEnrollForm';
 import ProtectedRoute from './component/Context/ProtectedRoute';
 
 
