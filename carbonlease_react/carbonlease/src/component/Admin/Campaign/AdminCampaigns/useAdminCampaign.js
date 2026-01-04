@@ -23,9 +23,9 @@ const useAdminCampaign = (onShowToast) => {
     const getCampaigns = async (pageNo, status, keyword) => {
         setLoading(true);
         try {
-            const result = await findAllApi(pageNo, status, keyword);
-            if (result && result.status === 200) {
-                const { campaigns, pageInfo } = result.data.data;
+            const res = await findAllApi(pageNo, status, keyword);
+            if (res && res.status === 200) {
+                const { campaigns, pageInfo } = res.data.data;
                 setCampaigns([...campaigns]);
                 setPageInfo({
                     startPage: pageInfo.startPage,
@@ -48,9 +48,17 @@ const useAdminCampaign = (onShowToast) => {
     const hideCampaign = async (id, callback) => {
         setLoading(true);
         try {
-            const result = await hideByIdApi(id);
-            if (result && result.status === 200) {
-                await getCampaigns(currentPage); // 목록 새로고침
+            const res = await hideByIdApi(id);
+            if (res && res.status === 200) {
+                // await getCampaigns(currentPage); // 응답을 받자마자 목록 전체를 새로고침(getCampaigns) 하지 않고, 메모리에 있는 데이터만 슥 수정 (setCampaigns)
+                setCampaigns(prev =>
+                    prev.map(item =>
+                        // status를 'N'으로, displayStatus를 '숨김'으로 동시에 변경
+                        item.campaignNo === id 
+                            ? { ...item, status: 'N', displayStatus: '숨김' }
+                            : item
+                    )
+                );
                 onShowToast('숨김처리되었습니다!', 'success');
                 if (callback) callback();
             }
@@ -69,9 +77,17 @@ const useAdminCampaign = (onShowToast) => {
     const restoreCampaign = async (id, callback) => {
         setLoading(true);
         try {
-            const result = await restoreByIdApi(id);
-            if (result && result.status === 200) {
-                await getCampaigns(currentPage); // 목록 새로고침
+            const res = await restoreByIdApi(id);
+            if (res && res.status === 200) {
+                // await getCampaigns(currentPage); // 서버에 물어보고 처음부터 다시 다 받아오기
+                setCampaigns(prev =>
+                    prev.map(item =>
+                        //  status를 'Y'로, displayStatus를 '정상'으로 변경
+                        item.campaignNo === id 
+                            ? { ...item, status: 'Y', displayStatus: '정상' }
+                            : item
+                    )
+                );
                 onShowToast('복구되었습니다!', 'success');
                 if (callback) callback();
             }

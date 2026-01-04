@@ -54,7 +54,6 @@ export const updateApi = (id, files, campaign) => {
     // 캠페인 데이터 추가
     Object.entries(campaign).forEach(([key, value]) => {
         if (excludeFields.includes(key)) return;
-        // undefined, null, object(파일 제외)는 추가하지 않음
         if (value === undefined || value === null) return;
         if (typeof value === 'object') return;
         formData.append(key, value);
@@ -70,12 +69,12 @@ export const updateApi = (id, files, campaign) => {
 
 // 캠페인 게시글 숨김 처리 (상태값 N으로 변경)
 export const hideByIdApi = (id) => {
-    return adminCampaignApi.post(`/${id}/hide`);
+    return adminCampaignApi.patch(`/${id}/hide`);
 };
 
 // 캠페인 게시글 복구
 export const restoreByIdApi = (id) => {
-    return adminCampaignApi.post(`/${id}/restore`);
+    return adminCampaignApi.patch(`/${id}/restore`);
 };
 
 // 캠페인 게시글 완전 삭제

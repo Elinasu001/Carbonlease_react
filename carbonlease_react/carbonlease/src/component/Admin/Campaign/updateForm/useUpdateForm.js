@@ -25,93 +25,96 @@ const UpdateForm = (onShowToast, auth) => {
     const [fileNames, setFileNames] = useState({ thumbnail: '', detailImage: '' });
     const [categoryOptions, setCategoryOptions] = useState([]);
 
-    // ===== 카테고리 옵션 불러오기 =====
+    // 1. 카테고리 로드 (초기 1회)
     useEffect(() => {
         getCategoriesApi()
-            .then((result) => {
-                const options = result.data.data.map(c => ({ value: c.categoryNo, label: c.categoryName }));
+            .then((res) => {
+                const options = res.data.data.map(c => ({ value: c.categoryNo, label: c.categoryName }));
                 setCategoryOptions(options);
             })
             .catch(() => setCategoryOptions([]));
     }, []);
 
-    // ===== 기존 캠페인 데이터로 폼 초기화 =====
+    // 2. 초기 데이터 가공 및 셋팅 (데이터 변환 로직을 함수로 분리)
     useEffect(() => {
+        const campaign = location.state;
         if (!campaign) return;
-        let patched = { ...campaign };
-        patched.categoryNo = String(
-            campaign.category && campaign.category.categoryNo !== undefined
-                ? campaign.category.categoryNo
-                : campaign.categoryNo ?? ''
-        );
-        if (Array.isArray(campaign.attachments)) {
-            const thumb = campaign.attachments.find(a => a && a.fileLevel === 0);
-            const detail = campaign.attachments.find(a => a && a.fileLevel === 1);
-            patched.thumbnailUrl = thumb ? thumb.filePath : '';
-            patched.detailImageUrl = detail ? detail.filePath : '';
-        }
-        setFormData(prev => ({ ...prev, ...patched }));
-        setFileNames({
-            thumbnail: patched.thumbnailUrl ? patched.thumbnailUrl.split('/').pop() : '',
-            detailImage: patched.detailImageUrl ? patched.detailImageUrl.split('/').pop() : ''
-        });
-    }, [campaign]);
 
-    // ===== 폼 필드 변경 핸들러 =====
+        const thumb = campaign.attachments?.find(a => a.fileLevel === 0);
+        const detail = campaign.attachments?.find(a => a.fileLevel === 1);
+
+        setFormData(prev => ({
+            ...prev,
+            ...campaign,
+            categoryNo: String(campaign.category?.categoryNo || campaign.categoryNo || ''),
+        }));
+
+        setFileNames({
+            thumbnail: thumb?.filePath?.split('/').pop() || '',
+            detailImage: detail?.filePath?.split('/').pop() || ''
+        });
+    }, [location.state]);
+
+    // 3. 공통 변경 핸들러 : 폼 필드 변경 핸들러
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
         if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
     };
 
-    // ===== 파일 입력 핸들러 =====
+    // 3. 공통 변경 핸들러 : 파일 입력 핸들러
     const handleFileChange = (e) => {
         const { name, files } = e.target;
-        if (!files || !files[0]) return;
+        if (!files?.[0]) return;
+        
+        const type = name === 'thumbnailFile' ? 'thumbnail' : 'detailImage';
         setFormData(prev => ({ ...prev, [name]: files[0] }));
-        const fileType = name === 'thumbnailFile' ? 'thumbnail' : 'detailImage';
-        setFileNames(prev => ({ ...prev, [fileType]: files[0].name }));
-        if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
+        setFileNames(prev => ({ ...prev, [type]: files[0].name }));
     };
 
-    // ===== 폼 유효성 검사 =====
+    // 4. 폼 유효성 검증
     const validate = () => {
         const newErrors = {};
-        if (!formData.campaignTitle.trim()) newErrors.campaignTitle = '제목을 입력해주세요.';
-        if (!formData.categoryNo) newErrors.categoryNo = '카테고리를 선택해주세요.';
-        if (!formData.campaignContent.trim()) newErrors.campaignContent = '내용을 입력해주세요.';
-        if (!formData.startDate) newErrors.startDate = '시작일을 선택해주세요.';
-        if (!formData.endDate) newErrors.endDate = '종료일을 선택해주세요.';
-        if (formData.startDate && formData.endDate && formData.startDate > formData.endDate)
-            newErrors.endDate = '종료일은 시작일 이후여야 합니다.';
+        const requiredFields = ['campaignTitle', 'categoryNo', 'campaignContent', 'startDate', 'endDate'];
+        
+        requiredFields.forEach(field => {
+            if (!formData[field]?.toString().trim()) newErrors[field] = '필수 입력 항목입니다.';
+        });
+
+        if (formData.startDate > formData.endDate) newErrors.endDate = '종료일은 시작일 이후여야 합니다.';
+        
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
-    // ===== 폼 제출 핸들러 =====
+    // 5. 제출 로직
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validate()) return;
+
+        
         if (auth && !auth.isAuthenticated) {
             onShowToast('로그인이 필요합니다.', 'error');
             return;
         }
-        const safeThumbnail = formData.thumbnailFile ? formData.thumbnailFile : new Blob([], { type: 'image/*' });
-        const safeDetail = formData.detailImageFile ? formData.detailImageFile : new Blob([], { type: 'image/*' });
+
+        // 빈 파일 처리 최적화
+        const files = [
+            formData.thumbnailFile || new Blob([], { type: 'image/*' }),
+            formData.detailImageFile || new Blob([], { type: 'image/*' })
+        ];
+        
         try {
-            const result = await updateApi(id, [safeThumbnail, safeDetail], formData);
-            if (result && result.status === 200) {
+            const res = await updateApi(id, files, formData);
+            if (res && res.status === 200) {
                 onShowToast('게시글 수정이 완료되었습니다!', 'success');
                 setTimeout(() => navigate('/admin/campaigns'), 800);
             }
         } catch (error) {
-            if (error?.response?.status === 401) {
-                onShowToast('로그인이 필요합니다.', 'error');
-            } else if (error?.response?.status === 403) {
-                onShowToast('권한이 없습니다.', 'error');
-            } else {
-                onShowToast(error?.response?.data?.['error-message'] || '수정에 실패했습니다.', 'error');
-            }
+            onShowToast(
+                error?.response?.data?.["error-message"] || '수정에 실패했습니다.',
+                'error'
+            );
         }
     };
 

@@ -40,10 +40,10 @@ const useCampaignList = (onShowToast, auth) => {
                 params.memberNo = auth.memberNo;
             }
 
-            const result = await findAll(params);
-            if (result.status === 200) {
+            const res = await findAll(params);
+            if (res.status === 200) {
 	             // TOBE:  응답 구조 변경 대응
-                const { campaigns, pageInfo } = result.data.data;
+                const { campaigns, pageInfo } = res.data.data;
                 // TOBE: spread 연산자 불필요 (이미 배열)
                 setCampaigns(campaigns);
                 // setCampaigns([...campaigns]);

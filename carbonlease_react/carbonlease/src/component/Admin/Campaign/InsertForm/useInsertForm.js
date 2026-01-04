@@ -107,6 +107,7 @@ const useInsertForm = (onShowToast) => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (!validate()) return;
+
 		const campaign = {
 			campaignTitle: formData.campaignTitle,
 			categoryNo: formData.categoryNo,
@@ -114,9 +115,13 @@ const useInsertForm = (onShowToast) => {
 			startDate: formData.startDate,
 			endDate: formData.endDate,
 		};
-		const files = [formData.thumbnailFile, formData.detailImageFile].filter(Boolean);
+
+		// 파일 배열 생성 (순서가 중요: 0은 썸네일, 1은 상세이미지)
+    	const files = [formData.thumbnailFile, formData.detailImageFile];
+
 		try {
 			const result = await saveApi(campaign, files);
+
 			if (result && result.status === 201) {
 				onShowToast('게시글 등록이 완료되었습니다!', 'success');
 				setTimeout(() => {
@@ -124,16 +129,10 @@ const useInsertForm = (onShowToast) => {
 				}, 800);
 			}
 		} catch (error) {
-			if (error?.response?.status === 401) {
-				onShowToast('로그인이 필요합니다.', 'error');
-			} else if (error?.response?.status === 403) {
-				onShowToast('권한이 없습니다.', 'error');
-			} else {
-				onShowToast(
-					error?.response?.data?.["error-message"] || '등록에 실패했습니다.',
-					'error'
-				);
-			}
+			onShowToast(
+                error?.response?.data?.["error-message"] || '등록에 실패했습니다.',
+                'error'
+            );
 		}
 	};
 
