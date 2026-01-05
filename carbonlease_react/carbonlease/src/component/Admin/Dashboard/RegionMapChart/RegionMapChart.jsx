@@ -14,13 +14,14 @@ const RegionMapChart = ({ onShowToast }) => {
         const fetchRegionStats = async () => {
             setLoading(true);
             try {
-                const result = await getUsersRegionActivityStats();
-                setRegionStats(result.data.data);
-            } catch (error) {
-                onShowToast(
-                    error?.response?.data?.["error-message"] || '지역별 데이터 조회 실패',
-                    'error'
-                );
+                const res = await getUsersRegionActivityStats();
+                if(res.status === 200) {
+                    console.log(res?.data?.message);
+                    console.log('지역별 커뮤니티 활동량 :', res.data.data);
+                    setRegionStats(res.data.data);
+                }
+            } catch (err) {
+                onShowToast(err?.response?.data?.message || '지역별 데이터 조회 실패', 'error');
             } finally {
                 setLoading(false);
             }

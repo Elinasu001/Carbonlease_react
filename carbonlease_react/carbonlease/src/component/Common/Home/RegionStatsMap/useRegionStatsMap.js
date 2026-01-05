@@ -24,16 +24,14 @@ const useRegionStatsMap = (onShowToast) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log('API 호출!');
-                const result = await getRegionStats();
-                // ResponseData 구조 대응
-                const raw = result.data?.data ?? result.data ?? result;
-                setRegionData(formatRegionStatsForMap(raw));
-            } catch (error) {
-                onShowToast(
-                    error?.response?.data?.['error-message'] || '지역 통계 데이터를 불러오지 못했습니다.',
-                    'error'
-                );
+                const res = await getRegionStats();
+                if (res && res.status === 200) {
+                    // ResponseData 구조 대응
+                    const raw = res.data.data;
+                    setRegionData(formatRegionStatsForMap(raw));
+                }
+            } catch (err) {
+                onShowToast(err?.response?.data?.message || '지역 통계 데이터를 불러오지 못했습니다.','error');
             } finally {
                 setLoading(false);
             }

@@ -107,14 +107,13 @@ const UpdateForm = (onShowToast, auth) => {
         try {
             const res = await updateApi(id, files, formData);
             if (res && res.status === 200) {
-                onShowToast('게시글 수정이 완료되었습니다!', 'success');
+                console.log(res?.data?.message);
+                console.log('캠페인 수정 응답 데이터:', res.data.data);
+                onShowToast(res?.data?.message || '게시글 수정이 완료되었습니다!', 'success');
                 setTimeout(() => navigate('/admin/campaigns'), 800);
             }
-        } catch (error) {
-            onShowToast(
-                error?.response?.data?.["error-message"] || '수정에 실패했습니다.',
-                'error'
-            );
+        } catch (err) {
+            onShowToast(err?.res?.data?.message || '게시글 수정에 실패했습니다.', 'error');
         }
     };
 

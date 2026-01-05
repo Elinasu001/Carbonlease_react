@@ -37,9 +37,9 @@ export function useLikeToggle({ onShowToast, auth, updateLike }) {
                     }
                 }, 0);
             }
-        } catch (error) {
+        } catch (err) {
             onShowToast(
-                error?.response?.data?.message || '좋아요 처리에 실패했습니다.',
+                err?.response?.data?.message || '좋아요 처리에 실패했습니다.',
                 'error'
             );
         }

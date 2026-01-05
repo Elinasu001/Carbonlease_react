@@ -5,19 +5,20 @@ import { useLikeStore } from '../../../store/likeStore.jsx';
 
 const useCampaignDetail = (id, onShowToast, auth) => {
     // ===== 전역 좋아요 상태 =====
-    const { likeState, updateLike } = useLikeStore();
+    //const { likeState, updateLike } = useLikeStore();
 
     // ===== 로컬 상태 =====
     const [campaign, setCampaign] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
-    // ===== campaign 값 변경 시 로그 =====
-    useEffect(() => {
-        if (campaign) {
-            console.log('상세 campaign:', campaign);
-        }
-    }, [campaign]);
+    const updateLike = (campaignNo, isLiked) => {
+        setCampaign(prev =>
+            prev && prev.campaignNo === campaignNo
+                ? { ...prev, isLiked }
+                : prev
+        );
+    };
 
     // ===== 캠페인 ID 변경 시 상세 정보 다시 불러오기 =====
     useEffect(() => {
@@ -32,21 +33,22 @@ const useCampaignDetail = (id, onShowToast, auth) => {
     // ===== 캠페인 상세 정보 불러오기 =====
     const fetchCampaignDetail = async (campaignNo) => {
         setLoading(true);
-        setError(false);
+        setError(null);
         try {
             const res = await findDetailByNo(campaignNo, auth?.memberNo);
             if (res.status === 200) {
+                console.log(res?.data?.message);
+                console.log('캠페인 상세 응답 데이터:', res.data.data);
                 const campaignData = res.data.data;
                 setCampaign({ ...campaignData });
                 setLoading(false);
             }
-        } catch (error) {
+        } catch (err) {
             setError(true);
             setLoading(false);
-            onShowToast(
-                error?.response?.data?.message || "캠페인 정보를 불러오지 못했습니다.",
-                "error"
-            );
+            onShowToast(err?.response?.data?.message || "캠페인 정보를 불러오지 못했습니다.",'error');
+        } finally {
+            setLoading(false);
         }
     };
 

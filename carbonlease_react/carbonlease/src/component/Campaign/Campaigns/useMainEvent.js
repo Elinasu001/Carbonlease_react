@@ -15,12 +15,16 @@ const useMainEvent = (onShowToast) => {
         console.log('이벤트 로드 시작');
         setLoading(true);
         try {
-            const result = await fetchMainEvent();
-            console.log('이벤트 로드 성공:', result.data.data);
-            setEvent(result.data.data);
-        } catch (error) {
-            console.error(' 이벤트 로드 실패:', error);
-            onShowToast?.('이벤트 정보를 불러오지 못했습니다.', 'error');
+            const res = await fetchMainEvent();
+            if(res.status == 200){
+                console.log(res?.data?.message);
+                console.log('이벤트 로드 성공:', res.data.data);
+                setEvent(res.data.data);
+            }
+            
+        } catch (err) {
+            const message = err.res.data.message;
+            onShowToast(message || '이벤트 정보를 불러오지 못했습니다.', 'error');
         } finally {
             setLoading(false);
         }
@@ -35,19 +39,20 @@ const useMainEvent = (onShowToast) => {
 
     // ===== 참여하기 =====
     const handleParticipate = async () => {
+
         if (!auth?.isAuthenticated) {
             onShowToast?.('로그인이 필요합니다.', 'error');
             return;
         }
+
         if (!event) return;
-        console.log(' 참여 시도:', event.eventId);
+        //console.log(' 참여 시도:', event.eventId);
         try {
-            await participateEvent(event.eventId);
-            console.log(' 참여 성공');
-            onShowToast?.('참여 완료!', 'success');
-        } catch (error) {
-            console.error(' 참여 실패:', error);
-            onShowToast?.('이미 참여한 이벤트입니다.', 'error');
+            const res = await participateEvent(event.eventId);
+            onShowToast(res?.data?.message, 'success');
+        } catch (err) {
+            //console.error(' 참여 실패:', err);
+            onShowToast(err?.res?.data?.message || '이미 참여한 이벤트입니다.', 'error');
         }
     };
     

@@ -63,11 +63,11 @@ const AdminCampaigns = () => {
         setCurrentPage(1); // mount 시 무조건 1페이지로 리셋
     }, []);
 
-    console.log('currentPage:', currentPage);
-    console.log('pageInfo:', pageInfo);
-    console.log('campaigns:', campaigns);
-    console.log('캠페인 총 개수(전체):', pageInfo.listCount);
-    console.log('캠페인 총 개수(현재 페이지):', campaigns.length);
+    // console.log('currentPage:', currentPage);
+    // console.log('pageInfo:', pageInfo);
+    // console.log('campaigns:', campaigns);
+    // console.log('캠페인 총 개수(전체):', pageInfo.listCount);
+    // console.log('캠페인 총 개수(현재 페이지):', campaigns.length);
     
     // 수정 핸들러
     const handleEdit = (campaign) => {

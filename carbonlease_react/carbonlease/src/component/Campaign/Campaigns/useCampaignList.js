@@ -4,7 +4,7 @@ import { useLikeToggle } from '../../../hooks/useLikeToggle.js';
 import { useLikeStore } from '../../../store/likeStore.jsx';
 
 const useCampaignList = (onShowToast, auth) => {
-    const { likeState, updateLike } = useLikeStore();
+    //const { likeState, updateLike: storeUpdateLike } = useLikeStore();
     const [campaigns, setCampaigns] = useState([]);
     const [loading, setLoading] = useState(false);  // TOBE 초기값 false
     const [error, setError] = useState(null);
@@ -14,6 +14,15 @@ const useCampaignList = (onShowToast, auth) => {
         endPage: 1,
         totalPage: 1
     });
+
+    // 캠페인 리스트에서 좋아요 상태 변경 함수
+    const updateLike = (campaignNo, isLiked) => {
+        setCampaigns(prev =>
+            prev.map(c =>
+                c.campaignNo === campaignNo ? { ...c, isLiked } : c
+            )
+        );
+    };
     
     // mount 시 무조건 1회 실행_최신 데이터 보장
     // 1.무한 루프 발생 2. 의존성 배열 누락
@@ -41,7 +50,12 @@ const useCampaignList = (onShowToast, auth) => {
             }
 
             const res = await findAll(params);
+            
             if (res.status === 200) {
+
+                console.log(res?.data?.message);
+                console.log('캠페인 목록 응답 데이터:', res.data.data);
+                
 	             // TOBE:  응답 구조 변경 대응
                 const { campaigns, pageInfo } = res.data.data;
                 // TOBE: spread 연산자 불필요 (이미 배열)
@@ -55,11 +69,8 @@ const useCampaignList = (onShowToast, auth) => {
             }
 
         } catch (err) {
-            setError(err);
-            onShowToast(
-                err?.response?.data?.message || '캠페인 목록을 불러오지 못했습니다.',
-                'error'
-            );
+            setError(true);
+            onShowToast(err?.res?.data?.message || '캠페인 목록을 불러오지 못했습니다.', 'error');
         } finally {
             setLoading(false);
         }
@@ -69,6 +80,7 @@ const useCampaignList = (onShowToast, auth) => {
     useEffect(() => {
         getCampaigns(currentPage); // 숫자 전달
     }, [currentPage]); // urrentPage 변경 시 자동 실행(새로고침) , getCampaigns 보류
+
 
     // 공통 좋아요 토글 훅 사용
     const handleLikeToggle = useLikeToggle({

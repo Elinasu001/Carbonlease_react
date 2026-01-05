@@ -10,9 +10,6 @@ import {
 } from '../../../../Common/DataTable/DataTable.styled';
 
 const AdminCampaignList = ({ campaigns, onEdit, onHide, onDelete, onRestore }) => {
-    // campaigns 데이터 구조 전체를 확인
-    console.log('캠페인 데이터 구조:', campaigns);
-    
     const columns = [
         {
             header: '순번',

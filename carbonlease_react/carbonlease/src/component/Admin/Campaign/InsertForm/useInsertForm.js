@@ -120,19 +120,17 @@ const useInsertForm = (onShowToast) => {
     	const files = [formData.thumbnailFile, formData.detailImageFile];
 
 		try {
-			const result = await saveApi(campaign, files);
-
-			if (result && result.status === 201) {
-				onShowToast('게시글 등록이 완료되었습니다!', 'success');
+			const res = await saveApi(campaign, files);
+			if (res && res.status === 200) {
+				console.log(res?.data?.message);
+				console.log('캠페인 등록 응답 데이터:', res.data.data);
+				onShowToast(res?.data?.message || '게시글 등록이 완료되었습니다121212!', 'success');
 				setTimeout(() => {
 					navigate('/admin/campaigns');
 				}, 800);
 			}
 		} catch (error) {
-			onShowToast(
-                error?.response?.data?.["error-message"] || '등록에 실패했습니다.',
-                'error'
-            );
+			onShowToast(error?.response?.data.message || '등록에 실패했습니다.', 'error');
 		}
 	};
 

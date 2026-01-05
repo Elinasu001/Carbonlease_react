@@ -28,20 +28,18 @@ export function useLikeToggle({ onShowToast, auth, updateLike }) {
             const res = await toggleLike(campaignNo);
             if (res && res.status === 200) {
                 const isLiked = res.data.data.isLiked;
+                const message = res.data.message;
                 updateLike(campaignNo, isLiked);
                 setTimeout(() => {
                     if (isLiked) {
-                        onShowToast('이 캠페인에 공감해주셨어요!');
+                        onShowToast(message || '이 캠페인에 공감해주셨어요!');
                     } else {
-                        onShowToast('참여를 취소했어요. 언제든 다시 함께해주세요!');
+                        onShowToast(message || '참여를 취소했어요. 언제든 다시 함께해주세요!');
                     }
                 }, 0);
             }
-        } catch (error) {
-            onShowToast(
-                error?.response?.data?.message || '좋아요 처리에 실패했습니다.',
-                'error'
-            );
+        } catch (err) {
+            onShowToast(err?.response?.data?.message || '좋아요 처리에 실패했습니다.','error');
         }
     }
 }

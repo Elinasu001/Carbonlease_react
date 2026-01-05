@@ -59,14 +59,15 @@ const useDoughnutChart = (onShowToast) => {
     const getChartData = async () => {
         setLoading(true);
         try {
-            const result = await getUsersAllBoardsCount();
-            const stats = result.data.data;
-            setChartData(convertStatsToChartData(stats));
-        } catch (error) {
-            onShowToast(
-                error?.response?.data?.["error-message"] || '도넛 차트 데이터 조회 실패',
-                'error'
-            );
+            const res = await getUsersAllBoardsCount();
+            const stats = res.data.data;
+            if(stats !== 200) {
+                console.log('전체 게시글 : 도넛 차트 통계 데이터:', stats);
+                console.log(res?.data?.message);
+                setChartData(convertStatsToChartData(stats));
+            }
+        } catch (err) {
+            onShowToast(err?.response?.data?.messsage || '도넛 차트 데이터 조회 실패', 'error');
         } finally {
             setLoading(false);
         }

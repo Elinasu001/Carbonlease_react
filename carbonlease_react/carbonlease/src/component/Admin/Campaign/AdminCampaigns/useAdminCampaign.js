@@ -25,6 +25,8 @@ const useAdminCampaign = (onShowToast) => {
         try {
             const res = await findAllApi(pageNo, status, keyword);
             if (res && res.status === 200) {
+                console.log(res?.data?.message);
+                console.log('캠페인 목록 응답 데이터:', res.data.data);
                 const { campaigns, pageInfo } = res.data.data;
                 setCampaigns([...campaigns]);
                 setPageInfo({
@@ -33,11 +35,8 @@ const useAdminCampaign = (onShowToast) => {
                     totalPage: pageInfo.maxPage
                 });
             }
-        } catch (error) {
-            onShowToast(
-                error?.response?.data?.["error-message"] || '캠페인 목록을 불러오지 못했습니다.',
-                'error'
-            );
+        } catch (err) {
+            onShowToast(err?.response?.data?.message || '캠페인 목록을 불러오지 못했습니다.', 'error');
         } finally {
             setLoading(false);
         }
@@ -51,6 +50,8 @@ const useAdminCampaign = (onShowToast) => {
             const res = await hideByIdApi(id);
             if (res && res.status === 200) {
                 // await getCampaigns(currentPage); // 응답을 받자마자 목록 전체를 새로고침(getCampaigns) 하지 않고, 메모리에 있는 데이터만 슥 수정 (setCampaigns)
+                console.log(res?.data?.message);
+                console.log('캠페인 숨김 응답 데이터:', res.data.data);
                 setCampaigns(prev =>
                     prev.map(item =>
                         // status를 'N'으로, displayStatus를 '숨김'으로 동시에 변경
@@ -59,14 +60,11 @@ const useAdminCampaign = (onShowToast) => {
                             : item
                     )
                 );
-                onShowToast('숨김처리되었습니다!', 'success');
+                onShowToast(res?.data?.message || '숨김처리되었습니다!', 'success');
                 if (callback) callback();
             }
         } catch (error) {
-            onShowToast(
-                error?.response?.data?.["error-message"] || '숨김처리에 실패했습니다.',
-                'error'
-            );
+            onShowToast(error?.response?.data?.message || '숨김처리에 실패했습니다.', 'error');
         } finally {
             setLoading(false);
         }
@@ -106,17 +104,16 @@ const useAdminCampaign = (onShowToast) => {
     const deleteCampaign = async (id, callback) => {
         setLoading(true);
         try {
-            const result = await deleteByIdApi(id);
-            if (result.status === 200 || result.status === 204) {
+            const res = await deleteByIdApi(id);
+            if (res.status === 200 || res.status === 204) {
+                console.log(res?.data?.message);
+                console.log('캠페인 삭제 응답 데이터:', res.data);
                 await getCampaigns(currentPage); // 목록 새로고침
-                onShowToast('완전 삭제되었습니다.', 'success');
+                onShowToast(res?.data?.message || '게시글이 삭제되었습니다.', 'success');
                 if (callback) callback();
             }
-        } catch (error) {
-            onShowToast(
-                error?.response?.data?.["error-message"] || '삭제에 실패했습니다.',
-                'error'
-            );
+        } catch (err) {
+            onShowToast(err?.response?.data?.message || '삭제에 실패했습니다.', 'error');
         } finally {
             setLoading(false);
         }
