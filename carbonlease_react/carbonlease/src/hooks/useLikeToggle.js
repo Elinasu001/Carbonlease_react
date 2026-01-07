@@ -32,9 +32,11 @@ export function useLikeToggle({ onShowToast, auth, updateLike }) {
                 updateLike(campaignNo, isLiked);
                 setTimeout(() => {
                     if (isLiked) {
-                        onShowToast(message || '이 캠페인에 공감해주셨어요!');
+                        console.log(message);
+                        onShowToast('이 캠페인에 공감해주셨어요!');
                     } else {
-                        onShowToast(message || '참여를 취소했어요. 언제든 다시 함께해주세요!');
+                        console.log(message);
+                        onShowToast('참여를 취소했어요. 언제든 다시 함께해주세요!');
                     }
                 }, 0);
             }

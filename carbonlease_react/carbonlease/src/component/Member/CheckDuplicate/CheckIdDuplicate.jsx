@@ -37,6 +37,7 @@ const CheckIdDuplicate = (props) => {
             // console.error(error);
             if(error.response && error.response.status === 409){
                 console.log(error.response?.data?.message);
+                console.log(error.response?.data);
                 setCheckAlertVariant('warning');
                 setCheckAlertMsg('이미 사용중인 아이디입니다.');
                 setShowCheckAlert(true);
