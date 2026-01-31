@@ -50,8 +50,8 @@ const useAdminCampaign = (onShowToast) => {
             const res = await hideByIdApi(id);
             if (res && res.status === 200) {
                 // await getCampaigns(currentPage); // 응답을 받자마자 목록 전체를 새로고침(getCampaigns) 하지 않고, 메모리에 있는 데이터만 슥 수정 (setCampaigns)
-                console.log(res?.data?.message);
-                console.log('캠페인 숨김 응답 데이터:', res.data.data);
+                //console.log(res?.data?.message);
+                //console.log('캠페인 숨김 응답 데이터:', res.data.data);
                 setCampaigns(prev =>
                     prev.map(item =>
                         // status를 'N'으로, displayStatus를 '숨김'으로 동시에 변경

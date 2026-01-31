@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { findAll, toggleLike } from '../../../api/campaign/campaignApi';
 import { useLikeToggle } from '../../../hooks/useLikeToggle.js';
-import { useLikeStore } from '../../../store/likeStore.jsx';
 
 const useCampaignList = (onShowToast, auth) => {
     //const { likeState, updateLike: storeUpdateLike } = useLikeStore();
@@ -79,7 +78,7 @@ const useCampaignList = (onShowToast, auth) => {
     // 페이지 변경 시 목록 불러오기
     useEffect(() => {
         getCampaigns(currentPage); // 숫자 전달
-    }, [currentPage]); // urrentPage 변경 시 자동 실행(새로고침) , getCampaigns 보류
+    }, [currentPage, getCampaigns]); // urrentPage 변경 시 자동 실행(새로고침) , getCampaigns 보류
 
 
     // 공통 좋아요 토글 훅 사용

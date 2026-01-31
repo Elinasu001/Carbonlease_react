@@ -12,7 +12,7 @@ const useMainEvent = (onShowToast) => {
 
     // ===== 이벤트 로딩 =====
     const loadEvent = async () => {
-        console.log('이벤트 로드 시작');
+        //console.log('이벤트 로드 시작');
         setLoading(true);
         try {
             const res = await fetchMainEvent();
